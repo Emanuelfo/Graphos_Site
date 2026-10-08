@@ -44,7 +44,6 @@
     if (reduced.matches) svgTweens.forEach((t) => t.progress(1).kill());
   });
   if (!window.gsap) return;
-  gsap.registerPlugin(ScrollTrigger);
   const mm = gsap.matchMedia();
   mm.add("(prefers-reduced-motion: no-preference)", () => {
     const home = document.body.dataset.page === "home";
@@ -54,7 +53,7 @@
         .from(".hero .eyebrow", { y: 12, opacity: 0, duration: 0.6 }, 0.05)
         .from(
           ".line-mask>span",
-          { yPercent: 110, rotate: 2, duration: 0.95, stagger: 0.12 },
+          { yPercent: 110, duration: 0.8, stagger: 0.08 },
           0.1,
         )
         .from(
@@ -62,26 +61,11 @@
           { y: 18, opacity: 0, duration: 0.7, stagger: 0.1 },
           0.4,
         )
-        .from(
-          ".hero-lab",
-          { y: 36, rotation: 6, opacity: 0, duration: 1.1 },
-          0.15,
-        )
+        .from(".hero-lab", { opacity: 0, duration: 0.8 }, 0.15)
         .from(
           ".journey-links a",
           { y: 12, opacity: 0, stagger: 0.065, duration: 0.6 },
           0.5,
-        );
-      gsap.utils
-        .toArray("[data-reveal]")
-        .forEach((el) =>
-          gsap.from(el, {
-            y: 32,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 94%", once: true },
-          }),
         );
     } else {
       gsap
@@ -99,32 +83,8 @@
         );
     }
   });
-  mm.add(
-    "(min-width: 1025px) and (prefers-reduced-motion: no-preference)",
-    () => {
-      if (document.body.dataset.page !== "home") return;
-      gsap.fromTo(
-        ".research-image img",
-        { scale: 1.16, yPercent: -4 },
-        {
-          scale: 1.16,
-          yPercent: 4,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".example-feature",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        },
-      );
-    },
-  );
   window.addEventListener("pagehide", () => {
     mm.revert();
     svgTweens.forEach((t) => t.kill());
-  });
-  window.addEventListener("pageshow", (e) => {
-    if (e.persisted) ScrollTrigger.refresh();
   });
 })(window.Graphos);

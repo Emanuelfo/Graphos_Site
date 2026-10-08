@@ -111,7 +111,7 @@ window.Graphos = window.Graphos || {};
   };
   G.knight = (x, y, s, color) => {
     const w = color === "W";
-    return `<use href="#kn" class="k" x="${x}" y="${y}" width="${s}" height="${s}" fill="${w ? "#F5EEF2" : "#16090f"}" stroke="${w ? "#16090f" : "#F5EEF2"}" stroke-width="${s / 12}" paint-order="stroke" stroke-linejoin="round"/>`;
+    return `<use href="#kn" class="k" x="${x}" y="${y}" width="${s}" height="${s}" fill="${w ? "#F4F4EF" : "#252621"}" stroke="${w ? "#252621" : "#F4F4EF"}" stroke-width="${s / 12}" paint-order="stroke" stroke-linejoin="round"/>`;
   };
   /* Se não há estrutura, troca a área de trabalho por um aviso. */
   G.requireStructure = () => {
@@ -145,7 +145,7 @@ window.Graphos = window.Graphos || {};
             (s, k) =>
               `<a class="st${k === idx ? " on" : ""}" href="${s.href}"${k === idx ? ' aria-current="step"' : ""}><span class="step-no" aria-hidden="true">${String(k + 1).padStart(2, "0")}</span><span>${s.nome}</span></a>`,
           ).join("");
-    host.innerHTML = `<a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="top"><a class="brand" href="index.html" aria-label="Graphos, início"><img src="assets/logo.png" width="40" height="40" alt=""><b>Graphos</b></a><span class="brand-note">Laboratório de grafos</span><nav class="steps" id="main-nav" aria-label="${page === "home" ? "Seções" : "Etapas da investigação"}">${nav}</nav><div class="acts"><button type="button" class="icon-button" id="theme-toggle" aria-label="Alternar tema"></button><button type="button" class="sm" id="load-example">Carregar exemplo ${G.icon("arrow-up-right")}</button><button type="button" class="icon-button menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">${G.icon("list")}</button></div></header>`;
+    host.innerHTML = `<a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="top"><a class="brand" href="index.html" aria-label="Graphos, início"><img src="assets/logo.png" width="40" height="40" alt=""><b>Graphos</b></a><span class="brand-note">Teoria dos grafos<br>Math en Jeans</span><nav class="steps" id="main-nav" aria-label="${page === "home" ? "Seções" : "Etapas da investigação"}">${nav}</nav><div class="acts"><button type="button" class="icon-button" id="theme-toggle" aria-label="Alternar tema"></button><button type="button" class="sm" id="load-example">Abrir exemplo ${G.icon("arrow-up-right")}</button><button type="button" class="icon-button menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">${G.icon("list")}</button></div></header>`;
     document.body.insertAdjacentHTML("afterbegin", KN);
     $("#load-example").addEventListener("click", () =>
       G.loadExample(G.examples[0].id),
@@ -160,7 +160,7 @@ window.Graphos = window.Graphos || {};
       );
       document
         .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", dark ? "#17171b" : "#f6f5f7");
+        ?.setAttribute("content", dark ? "#20211f" : "#f4f4ef");
     };
     toggle.addEventListener("click", () => {
       const theme =
@@ -236,30 +236,26 @@ window.Graphos = window.Graphos || {};
     });
     if (idx >= 0) {
       host.classList.add("lab-chrome");
-      $("#main-nav").insertAdjacentHTML(
-        "afterbegin",
-        '<span class="rail-label">Sua investigação</span>',
-      );
-      const panels = {
-        estrutura: "Desenhe o problema",
-        regras: "Entenda o movimento",
-        grafo: "Explore as conexões",
-        geometria: "Mude o ponto de vista",
-        analise: "Encontre relações",
-        solucao: "Do problema à solução",
-      };
-      $(".panel")?.insertAdjacentHTML(
-        "afterbegin",
-        `<div class="panel-heading"><span>${panels[page]}</span>${G.icon(page === "estrutura" ? "squares-four" : page === "solucao" ? "play" : "graph")}</div>`,
-      );
       $(".shead").insertAdjacentHTML(
         "beforeend",
         `<div class="project-meta"><span class="inv"></span><span class="save-label">Salvo neste navegador</span></div>`,
       );
       $(".shead h1").insertAdjacentHTML(
         "beforebegin",
-        `<p class="eyebrow">Investigação <span class="mono">${String(idx + 1).padStart(2, "0")} / 06</span></p>`,
+        `<p class="eyebrow">Caderno de investigação <span class="mono">${String(idx + 1).padStart(2, "0")} / 06</span></p>`,
       );
+      $(".shead").insertAdjacentHTML(
+        "beforeend",
+        `<span class="chapter-number" aria-hidden="true">${String(idx + 1).padStart(2, "0")}</span>`,
+      );
+      document
+        .querySelectorAll(".ph h2")
+        .forEach((heading, i) =>
+          heading.insertAdjacentHTML(
+            "beforebegin",
+            `<span class="figure-number" aria-hidden="true">Fig. ${String(i + 1).padStart(2, "0")}</span>`,
+          ),
+        );
       const syncProject = () => {
         const p = G.project;
         $(".inv").textContent =
@@ -283,6 +279,11 @@ window.Graphos = window.Graphos || {};
       b.innerHTML = G.icon(
         { in: "plus", out: "minus", fit: "corners-out" }[b.dataset.zoom],
       );
+    });
+    document.querySelectorAll(".card").forEach((card) => {
+      const zoom = card.querySelector(".zb");
+      const tools = card.querySelector(".tools");
+      if (zoom && tools) tools.prepend(zoom);
     });
     G.icons();
   }
@@ -397,7 +398,7 @@ window.Graphos = window.Graphos || {};
         if (n) n.focus();
       });
     });
-    const box = svg.closest(".cv");
+    const box = svg.closest(".card") || svg.closest(".cv");
     if (box)
       box.querySelectorAll("[data-zoom]").forEach((b) =>
         b.addEventListener("click", () => {

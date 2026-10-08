@@ -1,79 +1,77 @@
-# Transformação visual do Graphos
+# Revisão visual do Graphos
 
-Data: 8 de outubro de 2026.
+8 de outubro de 2026.
 
-## Diagnóstico e direção
+## O diagnóstico
 
-Redesign profundo de um laboratório educativo. A leitura do projeto é de uma ferramenta para estudantes e pesquisadores, com linguagem gráfica precisa, tátil e exploratória. Direção: atelier matemático, usando os próprios grafos como linguagem visual.
+O Graphos é uma ferramenta educativa nascida de uma pesquisa Math en Jeans sobre os Problemas de Guarini. O projeto original tinha pouca hierarquia, desenhos e controles desproporcionais, navegação sem nomes no celular e uma reprodução que redesenhava as peças diretamente no destino. Havia também um link para uma seção ausente e um listener associado a um elemento inexistente.
 
-Parâmetros criativos: DESIGN_VARIANCE 8, MOTION_INTENSITY 7, VISUAL_DENSITY 4 na apresentação; densidade maior nos controles matemáticos. CSS próprio sobre a arquitetura existente. A skill design-taste-frontend foi aplicada à apresentação, tipografia, temas e movimento; o produto preserva suas tabelas, métricas e fluxos especializados. gpt-taste não estava instalada.
+A primeira direção desta transformação também precisou ser revista. Os cartões arredondados, a palavra destacada em rosa, os slogans, a ilustração CGI e as superfícies com brilho aproximavam o site de um template de produto. A mudança solicitada pelo usuário foi incorporada à implementação inteira.
 
-A auditoria inicial incluiu leitura de todos os HTML, CSS e scripts e inspeção renderizada das sete páginas, incluindo a solução do exemplo. Encontrados:
+## A direção final
 
-- Home quase limitada à marca, sem demonstrar o funcionamento da ferramenta.
-- Navegação para `#modos` sem seção correspondente e listener para `#hero-example` inexistente.
-- Textos das etapas ocultos em celulares, prejudicando a navegação.
-- Canvas desproporcional, métricas apertadas e painéis com rolagem interna.
-- Predomínio de um único plano visual, com poucos níveis de destaque.
-- Movimento quase restrito à introdução da marca; peças eram redesenhadas diretamente nas posições finais.
-- Na solução, reconstrução dos controles a cada passo fazia o foco de teclado se perder.
+Um caderno de investigação matemática. A aparência é orientada pelas figuras e pelo conteúdo da pesquisa: linhas de composição, legendas numeradas, diagramas calculados e uma hierarquia editorial. EB Garamond foi escolhida para os títulos pela ligação com a tradição de composição de textos matemáticos; Manrope organiza as operações da ferramenta. Ambas são locais.
 
-## Comparação crítica
+O fundo claro, os tons de tinta e o tabuleiro verde acinzentado formam a base. O rosa fica reservado à seleção, aos caminhos e à correspondência entre elementos. A versão escura usa as mesmas relações de contraste.
 
-Notas editoriais subjetivas, baseadas na inspeção visual; não são métricas de desempenho ou resultados de um teste com usuários.
+A skill instalada design-taste-frontend foi usada na apresentação e na revisão crítica. gpt-taste não estava instalada. Parâmetros finais: DESIGN_VARIANCE 7, MOTION_INTENSITY 5, VISUAL_DENSITY 5; os controles especializados mantêm maior densidade.
 
-| Critério            | Antes | Depois |
-| ------------------- | ----: | -----: |
-| Identidade visual   |     5 |      8 |
-| Originalidade       |     3 |      7 |
-| Composição e layout |     4 |      8 |
-| Tipografia          |     5 |      8 |
-| Cores e contraste   |     5 |      8 |
-| Animações           |     2 |      8 |
-| Microinterações     |     3 |      8 |
-| Consistência visual |     6 |      8 |
-| Navegação           |     4 |      8 |
-| Acabamento          |     4 |      8 |
+## Comparação editorial
 
-O ganho principal é funcional e visual: a ferramenta passa a apresentar um processo de investigação, com uma bancada reconhecível, controles separados dos desenhos e uma reprodução que explica o deslocamento. A identidade continua ligada ao rosa e ao cavalo, mas agora usa Space Grotesk e Manrope locais, superfícies frias e versões claras e escuras coerentes.
+Notas subjetivas da inspeção; não são métricas de desempenho ou uma avaliação com usuários. A preferência visual final pertence ao usuário.
 
-A revisão após o primeiro resultado aprofundou a estrutura: navegação lateral no desktop, superfícies de desenho com iluminação discreta e a Solução em uma área ampla, com transporte junto dos desenhos e dados detalhados abaixo. No celular, tabuleiro e grafo podem ser alternados, mantendo o mesmo movimento e o acesso a ambos.
+| Critério            | Original | Revisão final |
+| ------------------- | -------: | ------------: |
+| Identidade visual   |        5 |             8 |
+| Originalidade       |        3 |             7 |
+| Composição e layout |        4 |             8 |
+| Tipografia          |        5 |             8 |
+| Cores e contraste   |        5 |             8 |
+| Animações           |        2 |             8 |
+| Microinterações     |        3 |             7 |
+| Consistência visual |        6 |             8 |
+| Navegação           |        4 |             8 |
+| Acabamento          |        4 |             8 |
 
-## Movimento
+O principal ganho está na relação entre conteúdo e forma: a abertura apresenta o problema real e permite explorar seu grafo; o exemplo é uma figura do próprio motor matemático; as páginas de trabalho compartilham índice, legendas e controles. A solução possui dois desenhos sincronizados e uma sequência de movimentos legível abaixo.
 
-- Introdução coordenada com máscaras tipográficas, sequência de entrada e demonstração funcional.
-- Transformação de tabuleiro em grafo circular com preservação de vértices e arestas.
-- Revelações de conteúdo e parallax contido na ilustração editorial.
-- Transições entre grade, círculo e forças, com continuidade espacial.
-- Player persistente: linha do tempo, controle por teclado, três velocidades, reprodução, pausa, reinício e passos individuais.
-- Uma única progressão temporal move o cavalo no tabuleiro e seu marcador no grafo. O estado final é mantido, sem repetição automática.
-- Transições entre páginas como melhoria progressiva nos navegadores compatíveis.
-- `prefers-reduced-motion` desativa entradas, transformações, parallax e deslocamentos animados. As operações continuam disponíveis sem animação.
+## Implementação e movimento
 
-GSAP foi escolhido para a coordenação das timelines; a configuração responsiva segue a [documentação oficial de matchMedia](<https://gsap.com/docs/v3/GSAP/gsap.matchMedia()/>). [ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/) é usado apenas para apresentação e não altera a rolagem do laboratório.
+- Todas as sete páginas revisadas, preservando as rotas e o estado `graphos.projeto`.
+- Abertura reconstruída; entradas para os dois modos, exemplo e texto da pesquisa preservados.
+- Ilustração CGI, cartões decorativos, brilhos, sombras e blocos de métricas em cartões retirados.
+- Navegação horizontal por etapas no desktop e menu com nomes completos no celular.
+- Zoom transferido para fora das figuras para não encobrir casas e peças.
+- Transição funcional entre tabuleiro e grafo circular com as mesmas 12 casas e 14 conexões.
+- GSAP coordena a entrada inicial, a reorganização de vértices e arestas e o player. Não há animações decorativas de rolagem.
+- Player persistente com linha do tempo, três velocidades, teclado, pausa, reinício e movimentos individuais.
+- Um relógio move a peça no tabuleiro e o marcador no grafo; o último movimento encerra a reprodução e conserva o estado final.
+- No celular, as duas figuras podem ser alternadas sem mudar o índice da sequência.
+- `prefers-reduced-motion` interrompe os deslocamentos animados e mantém as operações disponíveis.
+
+A orquestração usa [GSAP](https://gsap.com/docs/v3/); as condições de movimento seguem [matchMedia](<https://gsap.com/docs/v3/GSAP/gsap.matchMedia()/>). ScrollTrigger e a fonte anterior foram removidos por não serem necessários à direção final.
 
 ## Validação
 
-- Oito testes automatizados passaram: adjacência simétrica, movimentos em L, propriedades do grafo, caminho mínimo, layouts, solução válida mínima de 16 movimentos, limites do solucionador e invalidação/persistência.
-- Sintaxe de todos os scripts, referências locais dos HTML e IDs verificados.
-- Sete rotas verificadas em 1440 × 900, 768 × 1024 e 390 × 844. Nenhum transbordamento horizontal de documento ou cabeçalho nesses 21 cenários.
-- Temas claro e escuro inspecionados em navegador.
-- Edição de casas, restauração por teclado, configuração textual e erro de dimensão inválida exercitados.
-- Regras e adjacências conferidas em A1; caminho A1 → B3 → C1 → D3 confirmado com distância 3.
-- Grade, círculo, forças, visibilidade de arestas e cruzamentos verificados.
-- Downloads SVG, PNG, CSV, JSON e TXT concluídos pelo navegador.
-- O player novo completou a troca: 16/16, reprodução parada, quatro peças nas posições corretas e nenhum marcador temporário restante.
-- Navegação de menu móvel, Escape e linha do tempo por teclado verificados.
-- A cópia de QA usa a porta 4174 para não interferir nos dados da investigação aberta na porta 4173.
+- Oito testes automatizados passaram: movimentos, adjacência, topologia, propriedades, caminhos mínimos, layouts, busca de uma troca mínima de 16 movimentos, casos impossíveis, limites e invalidação do estado.
+- Sintaxe, referências locais dos HTML e IDs verificados.
+- Sete rotas conferidas em 1440 × 900, 768 × 1024 e 390 × 844. Nenhum transbordamento horizontal de documento ou componente principal nesses 21 cenários.
+- Temas claro e escuro inspecionados no navegador Chromium integrado.
+- Edição de casas e restauração por teclado, entrada textual, dimensões inválidas, adjacência de A1 e caminho mínimo A1 → B3 → C1 → D3 exercitados.
+- Grade, círculo, forças e opções de visibilidade conferidos.
+- Exportações SVG, PNG, CSV, JSON e TXT realizadas pelo navegador.
+- Nova entrada da home carrega o exemplo. Zoom e ajuste à tela verificados após a reorganização dos controles.
+- A troca completou 16/16, com reprodução parada, posições finais corretas e nenhum marcador temporário restante.
+- O modo de caminho mínimo também concluiu 3/3, com o cavalo em D3, reprodução parada e nenhum marcador temporário restante.
+- Menu móvel, Escape, troca de figuras e linha do tempo pelo teclado verificados.
+- QA executado na porta 4174 para preservar a investigação do usuário na porta 4173.
 
-## Limitações da verificação
+## Limites
 
-A inspeção foi feita no navegador integrado Chromium. Não houve teste em dispositivos físicos, Safari ou Firefox. Não há resultado de Lighthouse ou medição formal de Core Web Vitals: a interface de navegador disponível não expõe essa auditoria. A redução de movimento foi revisada no código; não houve emulação da preferência do sistema operacional. Grafos muito densos ainda dependem do zoom para leitura e continuam sujeitos ao custo dos algoritmos originais.
+Não houve teste em dispositivos físicos, Safari ou Firefox, nem emulação da preferência de redução de movimento do sistema. O código dessa preferência foi revisado. A ferramenta de navegador disponível não expõe Lighthouse: não há medição formal de Core Web Vitals. Grafos densos continuam dependendo de zoom e sujeitos ao custo dos algoritmos originais.
 
-## Arte editorial
+## Recuperação e evidências
 
-`assets/guarini-study.png` foi criada com a ferramenta integrada imagegen. É uma ilustração conceitual, enquanto todos os desenhos interativos são calculados pelo motor original.
+O original está em `afa11a1` e `codex/before-visual-transformation`. A primeira direção está em `b262b9c` e `codex/graphos-first-direction`. A implementação atual está na branch `codex/graphos-visual-transformation`.
 
-Prompt utilizado: “Editorial research image for Graphos, a Portuguese educational graph theory laboratory about Guarini's knight swapping puzzle. Sophisticated photorealistic CGI still life, square composition. Four sculptural chess knights, two satin ivory ceramic and two deep graphite ceramic, standing at opposite ends of a small 3-column by 4-row chessboard. Matte blush pink and muted dusty rose alternating tiles, thin slab on a very pale pink studio tabletop. Three-quarter overhead product photograph, long soft shadows, tactile materials, clean background, generous breathing room. Monochrome pink, ivory and charcoal only. No text, lettering, UI, arrows, floating elements or watermark. Conceptual artwork, not an instructional diagram.”
-
-Capturas antes/depois estão na pasta `Graphos_Site-review`, ao lado do checkout, para manter os arquivos de QA fora dos recursos publicados.
+Capturas antes/depois ficam na pasta `Graphos_Site-review`, ao lado do checkout. As imagens da revisão final têm o prefixo `editorial-`.

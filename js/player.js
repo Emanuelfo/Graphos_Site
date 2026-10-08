@@ -131,12 +131,12 @@
           : "Destino alcançado."
         : last
           ? `${last.c === "W" ? "Branco" : "Preto"}: ${last.f} → ${last.t}`
-          : "Cada movimento conta.";
+          : "Posição inicial";
       G.$("#move-detail").textContent = done
         ? `${n} movimentos. A solução mínima está completa.`
         : index
           ? `Movimento ${index} de ${n}${timer ? " · Reproduzindo" : ""}`
-          : "Reproduza ou percorra a sequência no seu ritmo.";
+          : `Sequência mínima de ${n} movimentos`;
       G.$("#timeline").value = String(index);
       G.$("#timeline").setAttribute(
         "aria-valuetext",

@@ -31,8 +31,8 @@ npm test
 - `js/estrutura.js`, `regras.js`, `grafo.js`, `geometria.js`, `analise.js`: ferramentas e algoritmos.
 - `js/solucao.js`: busca exata; `js/player.js`: reprodução sincronizada e linha do tempo.
 - `js/home.js`: demonstração interativa usando as mesmas regras do laboratório.
-- `js/motion.js`: entradas, revelações e transições geométricas.
-- `css/style.css`: tokens de temas, componentes e bancada; `css/responsive.css`: adaptações de layout.
+- `js/motion.js`: entrada tipográfica e continuidade entre representações geométricas.
+- `css/style.css`: temas, figuras e controles do caderno; `css/responsive.css`: adaptações de layout.
 - `assets/licenses`: créditos e condições das dependências.
 
 O projeto continua usando `graphos.projeto` no localStorage. A preferência visual usa uma chave separada, `graphos.theme`. Todas as rotas originais foram mantidas.
@@ -42,6 +42,7 @@ O solucionador continua executando no navegador com limite de 400 mil estados. C
 ## Recuperação
 
 Estado original: commit `afa11a1`, também preservado em `codex/before-visual-transformation`.
+Primeira direção visual: commit `b262b9c`, preservado em `codex/graphos-first-direction`.
 Implementação: branch `codex/graphos-visual-transformation`.
 
 Consulte [a avaliação visual e a validação](docs/visual-review.md).

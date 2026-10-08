@@ -7,19 +7,28 @@
   G.$("#ex-list").innerHTML = G.examples
     .map(
       (e) =>
-        `<article><h3>Problema dos Cavalos<br><span class="muted-word">Tabuleiro 3 × 4</span></h3><p>${e.descricao}</p><div class="example-facts"><div><strong>12</strong><span>casas no tabuleiro</span></div><div><strong>4</strong><span>cavalos em jogo</span></div></div><button type="button" class="btn p" data-ex="${e.id}">Carregar exemplo ${G.icon("arrow-up-right")}</button></article>`,
+        `<article><h3>Problema dos Cavalos<br><span class="muted-word">Tabuleiro 4 × 3</span></h3><p>${e.descricao}</p><div class="example-facts"><div><strong>12</strong><span>casas</span></div><div><strong>14</strong><span>conexões</span></div><div><strong>4</strong><span>cavalos</span></div></div><button type="button" class="btn p" data-ex="${e.id}">Abrir este exemplo ${G.icon("arrow-right")}</button></article>`,
     )
     .join("");
   G.$("#ex-list").addEventListener("click", (e) => {
     const b = e.target.closest("[data-ex]");
     if (b) G.loadExample(b.dataset.ex);
   });
+  G.$("#start-example").addEventListener("click", () => G.loadExample(ex.id));
   G.$("#journey-links").innerHTML = G.STEPS.map(
     (s, i) =>
       `<a href="${s.href}"><span>${String(i + 1).padStart(2, "0")}</span>${s.nome}</a>`,
   ).join("");
   const svg = G.$("#hero-graph"),
     reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  G.board.render(G.$("#study-board"), sample, { pieces: G.pieceMap(sample) });
+  G.$("#study-board")
+    .querySelectorAll("[tabindex]")
+    .forEach((cell) => {
+      cell.removeAttribute("tabindex");
+      cell.removeAttribute("role");
+      cell.removeAttribute("aria-label");
+    });
   const board = {},
     circular = {},
     current = {};
@@ -27,7 +36,7 @@
     board[id] = { x: 192 + (i % 3) * 88, y: 98 + Math.floor(i / 3) * 88 };
     const a = (i / graph.V.length) * Math.PI * 2 - Math.PI / 2;
     circular[id] = { x: 280 + 177 * Math.cos(a), y: 230 + 177 * Math.sin(a) };
-    current[id] = { ...board[id] };
+    current[id] = { ...circular[id] };
   });
   const pieces = G.pieceMap(sample);
   svg.innerHTML =
@@ -44,12 +53,12 @@
     "</g>" +
     graph.V.map(
       (id) =>
-        `<g class="demo-node" data-node="${id}" tabindex="0" role="button" aria-label="Casa ${id}, ${graph.adj[id].length} conexões" aria-pressed="false"><circle class="node-disc" r="23"/><text y="4">${id}</text>${pieces[id] ? `<text class="node-knight ${pieces[id] === "B" ? "black" : ""}" y="-30">${pieces[id] === "W" ? "♘" : "♞"}</text>` : ""}</g>`,
+        `<g class="demo-node" data-node="${id}" tabindex="0" role="button" aria-label="Casa ${id}, ${graph.adj[id].length} conexões" aria-pressed="false"><circle class="node-disc" r="23"/><text y="4">${id}</text>${pieces[id] ? G.knight(-16, -56, 32, pieces[id]) : ""}</g>`,
     ).join("");
   const nodes = [...svg.querySelectorAll("[data-node]")],
     edges = [...svg.querySelectorAll(".demo-edge")];
   let selected = "A1",
-    mode = "board",
+    mode = "graph",
     tl;
   function paint() {
     nodes.forEach((n) => {
@@ -88,7 +97,8 @@
         : "Cada casa é um vértice. Toque para ver suas conexões.";
   }
   selected = null;
-  select("A1", false);
+  select("A1");
+  svg.querySelector(".demo-tiles").style.opacity = "0";
   paint();
   function transform(view) {
     mode = view;
@@ -101,8 +111,8 @@
       );
     G.$("#demo-caption").textContent =
       view === "graph"
-        ? "A forma muda. As 12 casas e 14 conexões continuam as mesmas."
-        : "Cada casa é um vértice. Toque para ver suas conexões.";
+        ? "12 vértices, 14 arestas. Selecione uma casa para examinar as conexões."
+        : "Cada salto possível liga duas casas. Selecione uma casa para ver os destinos.";
     const tiles = svg.querySelector(".demo-tiles");
     if (!window.gsap || reduced.matches) {
       graph.V.forEach((id) => Object.assign(current[id], target[id]));
