@@ -25,10 +25,8 @@
             <div>
                 <h1><span class="word">Graphos</span>
                 </h1>
-                <p class="sub">Cada casa vira um vértice, cada movimento uma aresta. Investigue a estrutura do problema.
-                </p>
-                <div class="row"><a class="btn p lg" href="#modos">Iniciar uma investigação</a><button type="button"
-                        class="lg" id="hero-example">Carregar exemplo</button></div>
+                <p class="sub">Dos Problemas de Guarini à Teoria dos Grafos</p>
+                <div class="row"><a class="btn p lg" href="estrutura.html">Iniciar uma investigação</a></div>
             </div>
             <div class="art"><svg class="scaf" viewBox="0 0 6250 6250" aria-hidden="true">
                     <line class="se s1" pathLength="1" x1="1370" y1="3133" x2="4804" y2="1717" />
@@ -40,23 +38,6 @@
                     alt="Logo do Graphos: um cavalo de xadrez sobre três vértices conectados por arestas"></div>
         </section>
 
-        <section class="band" id="modos">
-            <div>
-                <h2>Investigações</h2>
-                <div class="modes">
-                    <a class="mode" href="estrutura.html?modo=tabuleiro">
-                        <h3>Tabuleiro</h3>
-                        <p>Crie tabuleiros regulares ou irregulares e transforme seus movimentos em grafos.</p>
-                        <span>Começar</span>
-                    </a>
-                    <a class="mode" href="estrutura.html?modo=cavalos">
-                        <h3>Problema dos Cavalos</h3>
-                        <p>Explore caminhos e trocas de cavalos através da teoria dos grafos.</p><span>Começar</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
         <section class="band" id="exemplos">
             <div>
                 <h2>Exemplos</h2>
@@ -64,36 +45,20 @@
             </div>
         </section>
 
-        <section class="band" id="metodologia">
+        <section class="band" id="pesquisa">
             <div>
-                <h2>Metodologia da Pesquisa</h2>
-                <p class="lead">Como transformamos o Desafio de Guarini e a troca de cavalos numa investigação visual e rigorosa por meio da Teoria dos Grafos.</p>
-                
-                <div class="modes" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));">
-                    <article class="mode" style="cursor: default;">
-                        <h3>1. Modelação por Grafos</h3>
-                        <p>Cada casa ativa transforma-se num vértice e cada movimento válido do cavalo numa aresta. Casas removidas em tabuleiros irregulares isolam o grafo para revelar a sua estrutura real.</p>
-                    </article>
-
-                    <article class="mode" style="cursor: default;">
-                        <h3>2. Distâncias Mínimas</h3>
-                        <p>Calculamos os caminhos mais curtos individuais para cada peça. A soma dessas distâncias estabelece o limite inferior teórico de movimentos necessários.</p>
-                    </article>
-
-                    <article class="mode" style="cursor: default;">
-                        <h3>3. Paridade e Conflitos</h3>
-                        <p>Analisamos a paridade do tabuleiro e os vértices de articulação (gargalos). Provamos matematicamente a necessidade de desvios quando dois cavalos tentam ocupar a mesma rota.</p>
-                    </article>
-
-                    <article class="mode" style="cursor: default;">
-                        <h3>4. Simplificação Geométrica</h3>
-                        <p>Redisponibilizamos o grafo em formatos circulares para expor ciclos ocultos, reduzindo a complexidade espacial e validando a sequência exata de jogadas sem bloqueios.</p>
-                    </article>
-                </div>
-            </div>
+                <h2>A pesquisa</h2>
+                <p class="lead">Nossa pesquisa parte dos Problemas de Guarini, problemas matemáticos propostos em 1512 pelo matemático italiano Paolo Guarini di Forli, envolvendo a troca de posições entre cavalos em um tabuleiro. <br>
+                    <br> A partir desse desafio, investigamos como encontrar o menor número possível de movimentos para realizar a troca. Para isso, utilizamos a Teoria dos Grafos, transformando cada casa do tabuleiro em um vértice e cada movimento possível do cavalo em uma aresta. <br>
+                    <br> Com essa representação, analisamos os caminhos mínimos, os conflitos entre os movimentos e a paridade do tabuleiro para entender não apenas como encontrar uma solução, mas também como justificar que ela é a melhor possível. <br>
+                    <br> Depois, aplicamos essa abordagem a um tabuleiro irregular, investigando como a mudança na estrutura das casas altera os caminhos e as possibilidades de movimento.
+                    <br> O Graphos nasceu dessa investigação para transformar esses conceitos em uma experiência visual e interativa, facilitando a exploração dos grafos e dos caminhos encontrados durante a pesquisa.
+                    </p>   
         </section>
+
     </main>
-    <footer class="foot">Graphos · nascido de um trabalho Math en Jeans sobre representação geométrica de grafos.
+    <footer class="foot">© 2026 Graphos. Todos os direitos reservados.
+        Uma investigação matemática a partir dos Problemas de Guarini e da Teoria dos Grafos.
     </footer>
     <script src="js/main.js"></script>
     <script src="js/exemplos.js"></script>
