@@ -1,4 +1,4 @@
-/* Graphos — grafo: vértices, arestas e adjacências geradas a partir da estrutura + regra. */
+/* Graphos / grafo: vértices, arestas e adjacências geradas a partir da estrutura + regra. */
 (function (G) {
   let cache = { key: '', graph: null };
 
@@ -64,7 +64,7 @@
       });
       G.$('#bcap').textContent = `G = (${g.V.length}, ${g.E.length})`;
       G.$('#adj').innerHTML = `<tr><th>Vértice</th><th>Grau</th><th>Vizinhos</th></tr>` +
-        g.V.map((v) => `<tr data-id="${v}" class="${v === sel ? 'cur' : ''}"><td>${v}</td><td>${g.adj[v].length}</td><td>${g.adj[v].join(', ') || '—'}</td></tr>`).join('');
+        g.V.map((v) => `<tr data-id="${v}" class="${v === sel ? 'cur' : ''}"><td>${v}</td><td>${g.adj[v].length}</td><td>${g.adj[v].join(', ') || '-'}</td></tr>`).join('');
     }
     function summary() {
       const comps = G.graph.components(g), iso = g.V.filter((v) => !g.adj[v].length);

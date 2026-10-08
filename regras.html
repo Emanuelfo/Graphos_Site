@@ -1,69 +1,108 @@
 <!doctype html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="color-scheme" content="dark">
-    <meta name="description" content="Graphos — etapa 02: regras que geram as conexões.">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Graphos / etapa 02: regras que geram as conexões."
+    />
     <title>Regras - Graphos</title>
-    <link rel="icon" href="assets/logo.png" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-</head>
+      rel="preload"
+      href="assets/fonts/space-grotesk-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
 
-<body data-page="regras">
+  <body data-page="regras">
     <div id="chrome"></div>
-    <main class="wrap">
-        <header class="shead">
-            <div>
-                <h1>Regras</h1>
-                <p>Defina as relações ou movimentos possíveis. Se A → B é permitido, A e B ficam conectados no grafo.
-                </p>
-            </div>
-        </header>
-        <div class="work">
-            <div class="viz one">
-                <section class="card">
-                    <div class="ph">
-                        <h2>Estrutura e regra</h2><span class="mut" id="bcap"></span>
-                    </div>
-                    <div class="cv"><svg id="bsvg" class="v" role="img"
-                            aria-label="Estrutura com a regra aplicada"></svg>
-                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
-                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
-                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
-                    </div>
-                    <div class="tools"><span class="sp"></span><button type="button" class="g sm"
-                            data-export="bsvg:svg">SVG</button><button type="button" class="g sm"
-                            data-export="bsvg:png">PNG</button></div>
-                </section>
-            </div>
-            <aside class="panel" aria-label="Controles da etapa">
-                <h4>Regra ativa</h4>
-                <h3 id="rule-name" style="font-size:22px;font-weight:800"></h3>
-                <p class="mut" id="rule-desc" style="margin-top:6px"></p>
-                <div class="row" style="align-items:flex-start;gap:20px;margin-top:16px">
-                    <div id="rule-preview"></div>
-                    <table class="list" id="rule-offsets" style="width:auto"></table>
-                </div>
-                <h4>Casa → casas ligadas</h4>
-                <p id="sel-info"></p>
-                <p class="gl"><b>Regra</b>Define quais pares de elementos se relacionam. É independente de como o grafo
-                    será desenhado.</p>
-            </aside>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <h1>Regras</h1>
+          <p>
+            Defina as relações ou movimentos possíveis. Se A → B é permitido, A
+            e B ficam conectados no grafo.
+          </p>
         </div>
-        <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
+      </header>
+      <div class="work">
+        <div class="viz one">
+          <section class="card">
+            <div class="ph">
+              <h2>Estrutura e regra</h2>
+              <span class="mut" id="bcap"></span>
+            </div>
+            <div class="cv">
+              <svg
+                id="bsvg"
+                class="v"
+                role="group"
+                aria-label="Estrutura com a regra aplicada"
+              ></svg>
+              <div class="zb">
+                <button type="button" data-zoom="in" aria-label="Aproximar">
+                  +</button
+                ><button type="button" data-zoom="out" aria-label="Afastar">
+                  −</button
+                ><button
+                  type="button"
+                  data-zoom="fit"
+                  aria-label="Ajustar à tela"
+                >
+                  ⤢
+                </button>
+              </div>
+            </div>
+            <div class="tools">
+              <span class="sp"></span
+              ><button type="button" class="g sm" data-export="bsvg:svg">
+                SVG</button
+              ><button type="button" class="g sm" data-export="bsvg:png">
+                PNG
+              </button>
+            </div>
+          </section>
+        </div>
+        <aside class="panel" aria-label="Controles da etapa">
+          <h4>Regra ativa</h4>
+          <h3 id="rule-name" style="font-size: 22px; font-weight: 800"></h3>
+          <p class="mut" id="rule-desc" style="margin-top: 6px"></p>
+          <div
+            class="row"
+            style="align-items: flex-start; gap: 20px; margin-top: 16px"
+          >
+            <div id="rule-preview"></div>
+            <table class="list" id="rule-offsets" style="width: auto"></table>
+          </div>
+          <h4>Casa → casas ligadas</h4>
+          <p id="sel-info"></p>
+          <p class="gl">
+            <b>Regra</b>Define quais pares de elementos se relacionam. É
+            independente de como o grafo será desenhado.
+          </p>
+        </aside>
+      </div>
+      <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
     </main>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/ScrollTrigger.min.js"></script>
+    <script src="js/icons.js"></script>
     <script src="js/main.js"></script>
     <script src="js/exemplos.js"></script>
     <script src="js/estrutura.js"></script>
     <script src="js/regras.js"></script>
-</body>
-
+    <script src="js/motion.js"></script>
+  </body>
 </html>

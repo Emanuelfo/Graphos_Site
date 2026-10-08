@@ -1,4 +1,4 @@
-/* Graphos — regras: definem quais elementos da estrutura se relacionam.
+/* Graphos / regras: definem quais elementos da estrutura se relacionam.
    A regra não conhece a representação visual; só diz quem se conecta com quem. */
 (function (G) {
   G.rules = {
@@ -53,7 +53,7 @@
     let h = '';
     for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++) {
       const on = hit.has(`${r},${c}`), mid = r === 2 && c === 2;
-      h += `<rect x="${c * C}" y="${r * C}" width="${C}" height="${C}" fill="${mid ? '#E847AB' : on ? '#6853AD' : 'none'}" stroke="#2e2029"/>`;
+      h += `<rect x="${c * C}" y="${r * C}" width="${C}" height="${C}" fill="${mid ? 'var(--ac)' : on ? 'var(--pur2)' : 'none'}" stroke="var(--line)"/>`;
     }
     return `<svg viewBox="-1 -1 ${5 * C + 2} ${5 * C + 2}" width="150" role="img" aria-label="Casas alcançadas pelo movimento">${h}</svg>`;
   }

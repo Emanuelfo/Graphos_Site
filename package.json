@@ -1,0 +1,28 @@
+{
+  "name": "graphos_site",
+  "version": "1.0.0",
+  "description": "Laboratório interativo de teoria dos grafos",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "vendor": "node scripts/vendor.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Emanuelfo/Graphos_Site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/Emanuelfo/Graphos_Site/issues"
+  },
+  "homepage": "https://github.com/Emanuelfo/Graphos_Site#readme",
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@phosphor-icons/core": "^2.1.1",
+    "gsap": "^3.15.0"
+  },
+  "private": true
+}

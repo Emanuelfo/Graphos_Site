@@ -1,4 +1,4 @@
-/* Graphos — análise: propriedades matemáticas do grafo e caminho mínimo. */
+/* Graphos / análise: propriedades matemáticas do grafo e caminho mínimo. */
 (function (G) {
   /* Grau, componentes, ciclos independentes (μ = m − n + c), distâncias e diâmetro. */
   G.analyze = (g) => {
@@ -43,7 +43,7 @@
     G.$('#json').addEventListener('click', () => G.download('analise.json', JSON.stringify({ vertices: A.n, arestas: A.m, componentes: A.comps, ciclos_independentes: A.cycles, grau_min: A.dmin, grau_max: A.dmax, grau_medio: A.davg, diametro: A.conn ? A.diam : null, graus: Object.fromEntries(g.V.map((v) => [v, g.adj[v].length])) }, null, 1)));
 
     /* Origem e destino → caminho mínimo (persistido: usado na etapa Solução). */
-    const opts = (cur) => '<option value="">—</option>' + g.V.map((v) => `<option${cur === v ? ' selected' : ''}>${v}</option>`).join('');
+    const opts = (cur) => '<option value="">-</option>' + g.V.map((v) => `<option${cur === v ? ' selected' : ''}>${v}</option>`).join('');
     const pathNow = () => (p.origin && p.dest && g.adj[p.origin] && g.adj[p.dest] ? G.graph.path(g, p.origin, p.dest) : null);
     function draw() {
       const path = pathNow(), nb = sel ? g.adj[sel] : [];
@@ -59,7 +59,7 @@
       G.$('#path-res').innerHTML = !p.origin || !p.dest ? '<span class="mut">Escolha origem e destino para ver o caminho mínimo.</span>'
         : path ? `<b>Distância: ${path.length - 1} ${path.length === 2 ? 'aresta' : 'arestas'}</b><br>${path.join(' → ')}`
           : '<span class="warn">Não há caminho: os vértices estão em componentes diferentes.</span>';
-      G.$('#sel-info').innerHTML = sel ? `<b>${sel}</b> · grau ${g.adj[sel].length}<br>Vizinhos: ${g.adj[sel].join(', ') || '—'}` : '';
+      G.$('#sel-info').innerHTML = sel ? `<b>${sel}</b> · grau ${g.adj[sel].length}<br>Vizinhos: ${g.adj[sel].join(', ') || '-'}` : '';
     }
     ['origin', 'dest'].forEach((k) => {
       const el = G.$('#' + k); el.innerHTML = opts(p[k]);

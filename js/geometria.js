@@ -1,4 +1,4 @@
-/* Graphos — geometria: posições dos vértices, disposições e desenho do grafo.
+/* Graphos / geometria: posições dos vértices, disposições e desenho do grafo.
    As posições são independentes das conexões: mover um vértice nunca altera o grafo. */
 (function (G) {
   const SIZE = 600, PAD = 50;
@@ -26,7 +26,7 @@
       order.forEach((v, i) => (P[v] = [300 + 250 * Math.cos(2 * Math.PI * i / n - Math.PI / 2), 300 + 250 * Math.sin(2 * Math.PI * i / n - Math.PI / 2)]));
       return P;
     },
-    /* Forças: vértices se repelem, arestas atraem (Fruchterman–Reingold). */
+    /* Forças: vértices se repelem, arestas atraem (Fruchterman-Reingold). */
     forca(g, p) {
       const R = rng(p.seed * 7919 + 13), n = g.V.length, P = {};
       if (!n) return P;
@@ -103,11 +103,14 @@
     /* opções: cls(id), edgeCls(a,b), pieces, crossings, classOf(id) */
     render(svg, p, g, o = {}) {
       const P = p.positions, cls = o.cls || (() => ''), pieces = o.pieces || {};
+      const fit = G.geometry.fit(P), scale = Math.max(.1, Math.min((svg.clientWidth - 44) / fit[2], (svg.clientHeight - 44) / fit[3]));
+      const radius = g.V.length < 40 ? Math.min(32, Math.max(23, 12 / scale)) : 23;
+      const font = g.V.length < 40 ? Math.min(24, Math.max(16, 10 / scale)) : 16;
       let h = g.E.map(([a, b]) => `<line class="e${o.edgeCls ? o.edgeCls(a, b) : ''}" x1="${P[a][0]}" y1="${P[a][1]}" x2="${P[b][0]}" y2="${P[b][1]}"/>`).join('');
       for (const v of g.V) {
         const [x, y] = P[v], k = pieces[v];
         h += `<g class="cell n ${k || ''}${cls(v)}${o.classOf ? o.classOf(v) : ''}" data-id="${v}" tabindex="0" role="button" aria-label="Vértice ${v}">` +
-          `<circle cx="${x}" cy="${y}" r="18"/><text x="${x}" y="${y + 4}">${v}</text>${k ? G.knight(x + 4, y - 30, 24, k) : ''}</g>`;
+          `<circle cx="${x}" cy="${y}" r="${radius}"/><text x="${x}" y="${y + font * .33}" style="font-size:${font}px">${v}</text>${k ? G.knight(x + 8, y - radius - 16, 28, k).replace('<use ', `<use data-piece="${v}" `) : ''}</g>`;
       }
       if (o.crossings) h += o.crossings.map(([x, y]) => `<circle class="x" cx="${x}" cy="${y}" r="5"/>`).join('');
       svg.innerHTML = h;
@@ -137,9 +140,9 @@
       G.$('#bcap').textContent = `${p.structure.rows}×${p.structure.cols} · ${p.structure.active.length} casas`;
       G.$('#gcap').textContent = `G = (${g.V.length}, ${g.E.length})`;
       G.$('#metrics').innerHTML = `<div><dt>Cruzamentos</dt><dd class="ac">${X.length}</dd></div><div><dt>Componentes</dt><dd>${comps.length}</dd></div><div><dt>Disposição</dt><dd style="font-size:18px;line-height:2">${({ grade: 'Grade', circulo: 'Círculo', forca: 'Forças' })[p.layout] || 'Manual'}</dd></div>`;
-      document.querySelectorAll('#layouts button').forEach((b) => b.classList.toggle('on', b.dataset.layout === p.layout));
+      document.querySelectorAll('#layouts button').forEach((b) => { b.classList.toggle('on', b.dataset.layout === p.layout); b.setAttribute('aria-pressed', String(b.dataset.layout === p.layout)); });
       G.$('#sel-info').innerHTML = sel
-        ? `<b>${sel}</b> · grau ${g.adj[sel].length}<br>Vizinhos: ${g.adj[sel].join(', ') || '—'}`
+        ? `<b>${sel}</b> · grau ${g.adj[sel].length}<br>Vizinhos: ${g.adj[sel].join(', ') || '-'}`
         : '<span class="mut">Toque num vértice (ou casa) para destacar suas conexões.</span>';
     }
     const tap = (id) => { if (g.adj[id]) { sel = sel === id ? null : id; draw(); } };
@@ -151,9 +154,10 @@
     });
     G.$('#layouts').addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b) return;
-      G.geometry.apply(p, g, b.dataset.layout); gvp.fit(); draw();
+      G.geometry.apply(p, g, b.dataset.layout); gvp.fit();
+      if (G.morphSvg) G.morphSvg(gsvg, draw); else draw();
     });
-    G.$('#reshuffle').addEventListener('click', () => { p.seed++; G.geometry.apply(p, g, 'forca'); gvp.fit(); draw(); });
+    G.$('#reshuffle').addEventListener('click', () => { p.seed++; G.geometry.apply(p, g, 'forca'); gvp.fit(); if (G.morphSvg) G.morphSvg(gsvg, draw); else draw(); });
     ['showE', 'showX', 'showC'].forEach((id) => G.$('#' + id).addEventListener('change', draw));
     G.correspondence();
     draw();

@@ -1,4 +1,4 @@
-/* Graphos — estrutura: tabuleiro (renderização compartilhada) e editor da etapa 01. */
+/* Graphos / estrutura: tabuleiro (renderização compartilhada) e editor da etapa 01. */
 (function (G) {
   const C = 50; // lado de uma casa no sistema de coordenadas do SVG
 
@@ -18,7 +18,7 @@
         svg.innerHTML = lo.join('') + hi.join('') + nodes.join('');
         return;
       }
-      let cells = '', dots = '', pcs = '';
+      let cells = '', dots = '', pcs = '', outlines = '';
       for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
         const id = G.cellId(r, c), on = act.has(id);
         xy[id] = G.board.center(r, c);
@@ -26,11 +26,12 @@
           `<rect x="${c * C}" y="${r * C}" width="${C}" height="${C}" class="${on ? ((r + c) % 2 ? 'dk' : 'lt') : 'void'}"/>` +
           (on ? `<text class="id" x="${c * C + 4}" y="${r * C + 11}">${id}</text>` : '') + '</g>';
         if (on && o.vertices) dots += `<circle class="vx" cx="${xy[id][0]}" cy="${xy[id][1]}" r="4.5"/>`;
-        if (pieces[id]) pcs += G.knight(c * C + C * 0.1, r * C + C * 0.06, C * 0.8, pieces[id]);
+        if (on && /\b(sel|nb|pth)\b/.test(cls(id))) outlines += `<g class="${cls(id)}" aria-hidden="true" pointer-events="none"><rect x="${c*C+1.5}" y="${r*C+1.5}" width="${C-3}" height="${C-3}" fill="none" rx="1"/></g>`;
+        if (pieces[id]) pcs += G.knight(c * C + C * 0.1, r * C + C * 0.06, C * 0.8, pieces[id]).replace('<use ', `<use data-piece="${id}" `);
       }
       const edges = (o.edges || []).map(([a, b]) =>
         `<line class="e${o.edgeCls ? o.edgeCls(a, b) : ''}" x1="${xy[a][0]}" y1="${xy[a][1]}" x2="${xy[b][0]}" y2="${xy[b][1]}"/>`).join('');
-      svg.innerHTML = cells + edges + dots + pcs;
+      svg.innerHTML = cells + edges + dots + pcs + outlines;
     },
   };
 
@@ -47,8 +48,8 @@
     function update() {
       const knights = p.kind === 'cavalos';
       if (!knights) tool = 'cells';
-      document.querySelectorAll('#kind button').forEach((b) => b.classList.toggle('on', b.dataset.kind === p.kind));
-      document.querySelectorAll('#tools button').forEach((b) => b.classList.toggle('on', b.dataset.tool === tool));
+      document.querySelectorAll('#kind button').forEach((b) => { b.classList.toggle('on', b.dataset.kind === p.kind); b.setAttribute('aria-pressed', String(b.dataset.kind === p.kind)); });
+      document.querySelectorAll('#tools button').forEach((b) => { b.classList.toggle('on', b.dataset.tool === tool); b.setAttribute('aria-pressed', String(b.dataset.tool === tool)); });
       G.$('#pieces').hidden = !knights;
       G.$('#rows').value = p.structure.rows; G.$('#cols').value = p.structure.cols;
       G.$('#count').textContent = `♘ ${p.pieces.W.length} brancos · ♞ ${p.pieces.B.length} pretos`;
@@ -126,7 +127,7 @@
     G.$('#cfg-apply').addEventListener('click', () => fromText(G.$('#cfg').value));
     G.$('#cfg-save').addEventListener('click', () => G.download('estrutura.txt', toText()));
     G.$('#reset').addEventListener('click', () => { setDim(p.structure.rows, p.structure.cols); G.toast('Estrutura redefinida.'); });
-    if (p.exampleId) G.toast('Exemplo carregado: Problema dos Cavalos — Tabuleiro 3×4.');
+    if (p.exampleId) G.toast('Exemplo carregado: Problema dos Cavalos / Tabuleiro 3×4.');
     update();
   }
 

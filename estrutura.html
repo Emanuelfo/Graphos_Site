@@ -1,93 +1,195 @@
 <!doctype html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="color-scheme" content="dark">
-    <meta name="description" content="Graphos — etapa 01: defina a estrutura do problema.">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Graphos / etapa 01: defina a estrutura do problema."
+    />
     <title>Estrutura - Graphos</title>
-    <link rel="icon" href="assets/logo.png" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-</head>
+      rel="preload"
+      href="assets/fonts/space-grotesk-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
 
-<body data-page="estrutura">
+  <body data-page="estrutura">
     <div id="chrome"></div>
-    <main class="wrap">
-        <header class="shead">
-            <div>
-                <h1>Estrutura</h1>
-                <p>Defina o espaço ou o conjunto de elementos. Aqui, um tabuleiro regular ou irregular.</p>
-            </div>
-        </header>
-        <div class="work">
-            <div class="viz one">
-                <section class="card">
-                    <div class="ph">
-                        <h2>Tabuleiro</h2><span class="mut" id="bcap"></span>
-                    </div>
-                    <div class="cv"><svg id="bsvg" class="v" role="img" aria-label="Tabuleiro"></svg>
-                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
-                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
-                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
-                    </div>
-                    <div class="tools"><span class="sp"></span><button type="button" class="g sm"
-                            data-export="bsvg:svg">SVG</button><button type="button" class="g sm"
-                            data-export="bsvg:png">PNG</button></div>
-                </section>
-            </div>
-            <aside class="panel" aria-label="Controles da etapa">
-                <h4>Tipo de investigação</h4>
-                <div class="seg" id="kind"><button type="button" data-kind="tabuleiro">Tabuleiro</button><button
-                        type="button" data-kind="cavalos">Problema dos Cavalos</button></div>
-                <h4>Dimensões</h4>
-                <div class="dim"><label>Linhas<input id="rows" type="number" inputmode="numeric" min="1"
-                            max="20"></label><label>Colunas<input id="cols" type="number" inputmode="numeric" min="1"
-                            max="20"></label></div>
-                <button type="button" class="p wide" id="mk">Criar tabuleiro</button>
-                <p class="mut" style="margin-top:10px">Depois, toque nas casas para ativá-las ou removê-las: tabuleiros
-                    irregulares também valem.</p>
-                <div id="pieces" hidden>
-                    <h4>Cavalos</h4>
-                    <div class="seg" id="tools"><button type="button" data-tool="cells">Casas</button><button
-                            type="button" data-tool="W">♘ Branco</button><button type="button" data-tool="B">♞
-                            Preto</button></div>
-                    <p class="mut" id="count" style="margin-top:10px"></p>
-                    <p class="mut">Na troca, os brancos terminam nas casas iniciais dos pretos e vice-versa.</p>
-                    <div class="row"><button type="button" class="d sm" id="clear-pieces">Remover cavalos</button></div>
-                </div>
-                <p class="gl"><b>Estrutura</b>O espaço ou conjunto de elementos do problema. Aqui, as casas do
-                    tabuleiro.</p>
-                <details>
-                    <summary>Mais opções</summary>
-                    <h4>Tabuleiro aleatório</h4>
-                    <div class="dim"><label>Linhas<input id="rr" type="number" inputmode="numeric"
-                                value="5"></label><label>Colunas<input id="rc" type="number" inputmode="numeric"
-                                value="5"></label><label>% removidas<input id="rp" type="number" inputmode="numeric"
-                                value="20"></label><label>Cavalos por cor<input id="rk" type="number"
-                                inputmode="numeric" value="2"></label></div>
-                    <button type="button" id="gen">Gerar aleatório</button>
-                    <h4>Configuração em texto</h4>
-                    <p class="mut"># casa · . ausente · W/B cavalo. Uma linha por fileira.</p>
-                    <textarea id="cfg" spellcheck="false" aria-label="Configuração em texto"></textarea>
-                    <div class="row"><button type="button" class="sm" id="cfg-show">Mostrar atual</button><button
-                            type="button" class="sm" id="cfg-apply">Aplicar</button><button type="button" class="sm"
-                            id="cfg-save">Baixar</button></div>
-                    <div class="row"><button type="button" class="d sm" id="reset">Redefinir estrutura</button></div>
-                </details>
-            </aside>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <h1>Estrutura</h1>
+          <p>
+            Defina o espaço ou o conjunto de elementos. Aqui, um tabuleiro
+            regular ou irregular.
+          </p>
         </div>
-        <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
+      </header>
+      <div class="work">
+        <div class="viz one">
+          <section class="card">
+            <div class="ph">
+              <h2>Tabuleiro</h2>
+              <span class="mut" id="bcap"></span>
+            </div>
+            <div class="cv">
+              <svg
+                id="bsvg"
+                class="v"
+                role="group"
+                aria-label="Tabuleiro"
+              ></svg>
+              <div class="zb">
+                <button type="button" data-zoom="in" aria-label="Aproximar">
+                  +</button
+                ><button type="button" data-zoom="out" aria-label="Afastar">
+                  −</button
+                ><button
+                  type="button"
+                  data-zoom="fit"
+                  aria-label="Ajustar à tela"
+                >
+                  ⤢
+                </button>
+              </div>
+            </div>
+            <div class="tools">
+              <span class="sp"></span
+              ><button type="button" class="g sm" data-export="bsvg:svg">
+                SVG</button
+              ><button type="button" class="g sm" data-export="bsvg:png">
+                PNG
+              </button>
+            </div>
+          </section>
+        </div>
+        <aside class="panel" aria-label="Controles da etapa">
+          <h4>Tipo de investigação</h4>
+          <div class="seg" id="kind">
+            <button type="button" data-kind="tabuleiro">Tabuleiro</button
+            ><button type="button" data-kind="cavalos">
+              Problema dos Cavalos
+            </button>
+          </div>
+          <h4>Dimensões</h4>
+          <div class="dim">
+            <label
+              >Linhas<input
+                id="rows"
+                type="number"
+                inputmode="numeric"
+                min="1"
+                max="20" /></label
+            ><label
+              >Colunas<input
+                id="cols"
+                type="number"
+                inputmode="numeric"
+                min="1"
+                max="20"
+            /></label>
+          </div>
+          <button type="button" class="p wide" id="mk">Criar tabuleiro</button>
+          <p class="mut" style="margin-top: 10px">
+            Depois, toque nas casas para ativá-las ou removê-las: tabuleiros
+            irregulares também valem.
+          </p>
+          <div id="pieces" hidden>
+            <h4>Cavalos</h4>
+            <div class="seg" id="tools">
+              <button type="button" data-tool="cells">Casas</button
+              ><button type="button" data-tool="W">♘ Branco</button
+              ><button type="button" data-tool="B">♞ Preto</button>
+            </div>
+            <p class="mut" id="count" style="margin-top: 10px"></p>
+            <p class="mut">
+              Na troca, os brancos terminam nas casas iniciais dos pretos e
+              vice-versa.
+            </p>
+            <div class="row">
+              <button type="button" class="d sm" id="clear-pieces">
+                Remover cavalos
+              </button>
+            </div>
+          </div>
+          <p class="gl">
+            <b>Estrutura</b>O espaço ou conjunto de elementos do problema. Aqui,
+            as casas do tabuleiro.
+          </p>
+          <details>
+            <summary>Mais opções</summary>
+            <h4>Tabuleiro aleatório</h4>
+            <div class="dim">
+              <label
+                >Linhas<input
+                  id="rr"
+                  type="number"
+                  inputmode="numeric"
+                  value="5" /></label
+              ><label
+                >Colunas<input
+                  id="rc"
+                  type="number"
+                  inputmode="numeric"
+                  value="5" /></label
+              ><label
+                >% removidas<input
+                  id="rp"
+                  type="number"
+                  inputmode="numeric"
+                  value="20" /></label
+              ><label
+                >Cavalos por cor<input
+                  id="rk"
+                  type="number"
+                  inputmode="numeric"
+                  value="2"
+              /></label>
+            </div>
+            <button type="button" id="gen">Gerar aleatório</button>
+            <h4>Configuração em texto</h4>
+            <p class="mut">
+              # casa · . ausente · W/B cavalo. Uma linha por fileira.
+            </p>
+            <textarea
+              id="cfg"
+              spellcheck="false"
+              aria-label="Configuração em texto"
+            ></textarea>
+            <div class="row">
+              <button type="button" class="sm" id="cfg-show">
+                Mostrar atual</button
+              ><button type="button" class="sm" id="cfg-apply">Aplicar</button
+              ><button type="button" class="sm" id="cfg-save">Baixar</button>
+            </div>
+            <div class="row">
+              <button type="button" class="d sm" id="reset">
+                Redefinir estrutura
+              </button>
+            </div>
+          </details>
+        </aside>
+      </div>
+      <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
     </main>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/ScrollTrigger.min.js"></script>
+    <script src="js/icons.js"></script>
     <script src="js/main.js"></script>
     <script src="js/exemplos.js"></script>
     <script src="js/estrutura.js"></script>
-</body>
-
+    <script src="js/motion.js"></script>
+  </body>
 </html>

@@ -1,0 +1,2 @@
+GSAP, Copyright GreenSock. Standard license: https://gsap.com/standard-license/
+Original copyright notices are preserved in the distributed files.

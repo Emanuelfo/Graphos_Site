@@ -1,9 +1,9 @@
-/* Graphos — exemplos prontos. Para adicionar um exemplo, inclua um item em Graphos.examples. */
+/* Graphos / exemplos prontos. Para adicionar um exemplo, inclua um item em Graphos.examples. */
 (function (G) {
   G.examples = [
     {
       id: 'cavalos-3x4',
-      titulo: 'Problema dos Cavalos — Tabuleiro 3×4',
+      titulo: 'Problema dos Cavalos / Tabuleiro 3×4',
       descricao: 'Dois cavalos brancos e dois pretos trocam de lugar em um tabuleiro de 4 linhas e 3 colunas. Investigação do trabalho Math en Jeans.',
       /* Devolve um projeto completo: estrutura, regra, peças, origem/destino. */
       build() {
