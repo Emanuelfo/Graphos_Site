@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Graphos — etapa 03: vértices e arestas gerados pelas regras.">
+    <title>Grafo - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body data-page="grafo">
+    <div id="chrome"></div>
+    <main class="wrap">
+        <header class="shead">
+            <div>
+                <h1>Grafo</h1>
+                <p>Transforme as relações em vértices e arestas. A estrutura permanece visível por baixo do grafo.</p>
+            </div>
+        </header>
+        <div class="work">
+            <div class="viz one">
+                <section class="card">
+                    <div class="ph">
+                        <h2>Grafo</h2><span class="mut" id="bcap"></span>
+                    </div>
+                    <div class="cv"><svg id="bsvg" class="v" role="img" aria-label="Grafo sobre a estrutura"></svg>
+                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
+                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
+                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
+                    </div>
+                    <div class="tools"><span class="sp"></span><button type="button" class="g sm"
+                            data-export="bsvg:svg">SVG</button><button type="button" class="g sm"
+                            data-export="bsvg:png">PNG</button></div>
+                </section>
+            </div>
+            <aside class="panel" aria-label="Controles da etapa">
+                <h4>Grafo</h4>
+                <p id="gsum"></p>
+                <p class="mut" style="margin-top:10px">Toque num vértice para ver suas conexões.</p>
+                <h4>Lista de adjacência</h4>
+                <div class="matrix" style="max-height:340px">
+                    <table class="list" id="adj"></table>
+                </div>
+            </aside>
+        </div>
+        <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+</body>
+
+</html>

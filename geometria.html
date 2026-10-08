@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Graphos — etapa 04: representação geométrica do grafo.">
+    <title>Geometria - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body data-page="geometria">
+    <div id="chrome"></div>
+    <main class="wrap">
+        <header class="shead">
+            <div>
+                <h1>Geometria</h1>
+                <p>Explore diferentes representações espaciais do mesmo grafo e observe cruzamentos, ciclos e
+                    componentes.</p>
+            </div>
+        </header>
+        <div class="work">
+            <div class="viz">
+                <section class="card">
+                    <div class="ph">
+                        <h2>Estrutura</h2><span class="mut" id="bcap"></span>
+                    </div>
+                    <div class="cv"><svg id="bsvg" class="v" role="img" aria-label="Estrutura"></svg>
+                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
+                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
+                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
+                    </div>
+                    <div class="tools"><label><input type="checkbox" id="showE" checked> arestas</label><label><input
+                                type="checkbox" id="corr" checked> correspondência</label><span
+                            class="sp"></span><button type="button" class="g sm"
+                            data-export="bsvg:svg">SVG</button><button type="button" class="g sm"
+                            data-export="bsvg:png">PNG</button></div>
+                </section>
+                <section class="card">
+                    <div class="ph">
+                        <h2>Representação geométrica</h2><span class="mut" id="gcap"></span>
+                    </div>
+                    <div class="cv"><svg id="gsvg" class="v" role="img"
+                            aria-label="Representação geométrica do grafo"></svg>
+                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
+                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
+                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
+                    </div>
+                    <div class="tools"><label><input type="checkbox" id="showX" checked>
+                            cruzamentos</label><label><input type="checkbox" id="showC" checked>
+                            componentes</label><span class="sp"></span><button type="button" class="g sm"
+                            data-export="gsvg:svg">SVG</button><button type="button" class="g sm"
+                            data-export="gsvg:png">PNG</button></div>
+                </section>
+            </div>
+            <aside class="panel" aria-label="Controles da etapa">
+                <h4>Disposição</h4>
+                <div class="seg" id="layouts"><button type="button" data-layout="grade">Grade</button><button
+                        type="button" data-layout="circulo">Círculo</button><button type="button"
+                        data-layout="forca">Forças</button></div>
+                <div class="row"><button type="button" class="p" id="reshuffle">Nova disposição por forças</button>
+                </div>
+                <p class="mut">Arraste os vértices para reposicioná-los. Mover um vértice não altera o grafo: A1
+                    continua ligado aos mesmos vizinhos.</p>
+                <h4>Leitura</h4>
+                <dl class="kv" id="metrics"></dl>
+                <p id="sel-info"></p>
+                <p class="gl"><b>Representação geométrica</b>O mesmo grafo pode ser desenhado de muitas formas. Menos
+                    cruzamentos costumam revelar ciclos e gargalos.</p>
+            </aside>
+        </div>
+        <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/geometria.js"></script>
+</body>
+
+</html>

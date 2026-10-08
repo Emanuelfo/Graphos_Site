@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Graphos — etapa 05: propriedades matemáticas do grafo.">
+    <title>Análise - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body data-page="analise">
+    <div id="chrome"></div>
+    <main class="wrap">
+        <header class="shead">
+            <div>
+                <h1>Análise</h1>
+                <p>Investigue caminhos, ciclos, graus e distâncias do grafo.</p>
+            </div>
+        </header>
+        <div class="work">
+            <div class="viz one">
+                <section class="card">
+                    <div class="ph">
+                        <h2>Grafo</h2><span class="mut" id="gcap"></span>
+                    </div>
+                    <div class="cv"><svg id="gsvg" class="v" role="img" aria-label="Grafo com caminho destacado"></svg>
+                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
+                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
+                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
+                    </div>
+                    <div class="tools"><span class="sp"></span><button type="button" class="g sm"
+                            data-export="gsvg:svg">SVG</button><button type="button" class="g sm"
+                            data-export="gsvg:png">PNG</button></div>
+                </section>
+            </div>
+            <aside class="panel" aria-label="Controles da etapa">
+                <h4>Propriedades</h4>
+                <dl class="kv" id="stats"></dl>
+                <p id="cycles-note"></p>
+                <p id="conn-note"></p>
+                <p class="mut" id="rule-note"></p>
+                <p class="gl"><b>Ciclo</b>Caminho que volta ao vértice de partida. Ciclos independentes: m − n +
+                    componentes.</p>
+                <h4>Distribuição dos graus</h4>
+                <div class="bars" id="hist"></div>
+                <p class="mut">Vértices de maior grau aparecem com contorno rosa no grafo.</p>
+                <h4>Caminho mínimo</h4>
+                <div class="dim"><label>Origem<select id="origin"></select></label><label>Destino<select
+                            id="dest"></select></label></div>
+                <p id="path-res"></p>
+                <p id="sel-info" class="mut"></p>
+                <p class="gl"><b>Caminho</b>Sequência de vértices conectados. A distância é o número de arestas
+                    percorridas.</p>
+                <details>
+                    <summary>Matriz de adjacência</summary>
+                    <div class="matrix" id="matrix"></div>
+                    <div class="row"><button type="button" class="sm" id="csv">CSV</button><button type="button"
+                            class="sm" id="json">Exportar análise (JSON)</button></div>
+                </details>
+            </aside>
+        </div>
+        <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/geometria.js"></script>
+    <script src="js/analise.js"></script>
+</body>
+
+</html>

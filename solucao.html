@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Graphos — etapa 06: solução passo a passo.">
+    <title>Solução - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body data-page="solucao">
+    <div id="chrome"></div>
+    <main class="wrap">
+        <header class="shead">
+            <div>
+                <h1>Solução</h1>
+                <p>Encontre e visualize uma solução, passo a passo, na estrutura e na representação geométrica.</p>
+            </div>
+        </header>
+        <div class="work">
+            <div class="viz">
+                <section class="card">
+                    <div class="ph">
+                        <h2>Estrutura</h2><span class="mut" id="bcap"></span>
+                    </div>
+                    <div class="cv"><svg id="bsvg" class="v" role="img" aria-label="Estrutura com as peças"></svg>
+                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
+                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
+                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
+                    </div>
+                    <div class="tools"><span class="sp"></span><button type="button" class="g sm"
+                            data-export="bsvg:svg">SVG</button><button type="button" class="g sm"
+                            data-export="bsvg:png">PNG</button></div>
+                </section>
+                <section class="card">
+                    <div class="ph">
+                        <h2>Representação geométrica</h2><span class="mut" id="gcap"></span>
+                    </div>
+                    <div class="cv"><svg id="gsvg" class="v" role="img" aria-label="Grafo com as peças"></svg>
+                        <div class="zb"><button type="button" data-zoom="in" aria-label="Aproximar">+</button><button
+                                type="button" data-zoom="out" aria-label="Afastar">−</button><button type="button"
+                                data-zoom="fit" aria-label="Ajustar à tela">⤢</button></div>
+                    </div>
+                    <div class="tools"><label><input type="checkbox" id="corr" checked> correspondência</label><span
+                            class="sp"></span><button type="button" class="g sm"
+                            data-export="gsvg:svg">SVG</button><button type="button" class="g sm"
+                            data-export="gsvg:png">PNG</button></div>
+                </section>
+            </div>
+            <aside class="panel" aria-label="Controles da etapa">
+                <h4 id="sol-title"></h4>
+                <div id="sol"></div>
+                <p class="gl"><b>Solução</b>Sequência de movimentos que leva o problema do estado inicial ao final. Cada
+                    passo é uma aresta do grafo.</p>
+            </aside>
+        </div>
+        <nav class="pager" id="pager" aria-label="Navegar entre etapas"></nav>
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/geometria.js"></script>
+    <script src="js/solucao.js"></script>
+</body>
+
+</html>
