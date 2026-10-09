@@ -12,4 +12,16 @@
       : matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
+  let motion;
+  try {
+    motion = localStorage.getItem("graphos.motion");
+  } catch {
+    /* private browsing */
+  }
+  document.documentElement.dataset.motion =
+    motion === "full" || motion === "reduce"
+      ? motion
+      : matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "reduce"
+        : "full";
 })();

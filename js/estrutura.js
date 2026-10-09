@@ -127,7 +127,6 @@
     G.$('#cfg-apply').addEventListener('click', () => fromText(G.$('#cfg').value));
     G.$('#cfg-save').addEventListener('click', () => G.download('estrutura.txt', toText()));
     G.$('#reset').addEventListener('click', () => { setDim(p.structure.rows, p.structure.cols); G.toast('Estrutura redefinida.'); });
-    if (p.exampleId) G.toast('Exemplo carregado: Problema dos Cavalos / Tabuleiro 3×4.');
     update();
   }
 

@@ -1,77 +1,80 @@
-# Revisão visual do Graphos
+# Graphos: revisão gráfica e cinética
 
 8 de outubro de 2026.
 
-## O diagnóstico
+## Diagnóstico da versão anterior
 
-O Graphos é uma ferramenta educativa nascida de uma pesquisa Math en Jeans sobre os Problemas de Guarini. O projeto original tinha pouca hierarquia, desenhos e controles desproporcionais, navegação sem nomes no celular e uma reprodução que redesenhava as peças diretamente no destino. Havia também um link para uma seção ausente e um listener associado a um elemento inexistente.
+As sete páginas foram renderizadas antes das alterações. A direção editorial anterior era legível, mas repetia títulos serifados, figuras em caixas e painéis com a mesma proporção. A home mantinha uma sucessão previsível de seções. A animação concentrava-se na entrada e na troca de representação; a rolagem pouco explicava a investigação. Os grandes números de capítulo ocupavam espaço sem ajudar a trabalhar.
 
-A primeira direção desta transformação também precisou ser revista. Os cartões arredondados, a palavra destacada em rosa, os slogans, a ilustração CGI e as superfícies com brilho aproximavam o site de um template de produto. A mudança solicitada pelo usuário foi incorporada à implementação inteira.
+O propósito real é um laboratório de investigação matemática ligado a Math en Jeans. Portanto, a identidade precisa nascer dos cavalos, casas, relações e caminhos calculados, sem imagens de tecnologia fictícia ou linguagem de um produto comercial.
 
-## A direção final
+## Direção implementada
 
-Um caderno de investigação matemática. A aparência é orientada pelas figuras e pelo conteúdo da pesquisa: linhas de composição, legendas numeradas, diagramas calculados e uma hierarquia editorial. EB Garamond foi escolhida para os títulos pela ligação com a tradição de composição de textos matemáticos; Manrope organiza as operações da ferramenta. Ambas são locais.
+Uma composição gráfica e cinética. Manrope em pesos fortes, tinta e branco, coral para ações e caminhos. A geometria do próprio problema cria as imagens: um tabuleiro em perspectiva, os mesmos vértices em círculo e um caminho mínimo reorganizado espacialmente. Não são redes aleatórias.
 
-O fundo claro, os tons de tinta e o tabuleiro verde acinzentado formam a base. O rosa fica reservado à seleção, aos caminhos e à correspondência entre elementos. A versão escura usa as mesmas relações de contraste.
+A apresentação utiliza composições distintas: abertura monumental, figura persistente com narrativa de rolagem, dois estudos assimétricos, exemplo interativo, índice de seis perspectivas, texto da pesquisa e assinatura tipográfica. As ferramentas mantêm uma organização operacional consistente, com títulos compactos e navegação em uma linha no desktop.
 
-A skill instalada design-taste-frontend foi usada na apresentação e na revisão crítica. gpt-taste não estava instalada. Parâmetros finais: DESIGN_VARIANCE 7, MOTION_INTENSITY 5, VISUAL_DENSITY 5; os controles especializados mantêm maior densidade.
+A skill instalada `design-taste-frontend` orientou a auditoria e a revisão. `gpt-taste` não estava instalada. Dials: DESIGN_VARIANCE 8, MOTION_INTENSITY 8, VISUAL_DENSITY 4 na apresentação e 8 nas ferramentas. A matemática fornece a identidade; a densidade das ferramentas justifica tabelas e controles.
 
-## Comparação editorial
+## Comparação crítica
 
-Notas subjetivas da inspeção; não são métricas de desempenho ou uma avaliação com usuários. A preferência visual final pertence ao usuário.
+Notas subjetivas da inspeção, sem pesquisa com usuários ou pretensão de avaliar o preço do trabalho. A coluna anterior corresponde ao commit `effd525`.
 
-| Critério            | Original | Revisão final |
-| ------------------- | -------: | ------------: |
-| Identidade visual   |        5 |             8 |
-| Originalidade       |        3 |             7 |
-| Composição e layout |        4 |             8 |
-| Tipografia          |        5 |             8 |
-| Cores e contraste   |        5 |             8 |
-| Animações           |        2 |             8 |
-| Microinterações     |        3 |             7 |
-| Consistência visual |        6 |             8 |
-| Navegação           |        4 |             8 |
-| Acabamento          |        4 |             8 |
+| Critério            | Anterior | Atual |
+| ------------------- | -------: | ----: |
+| Identidade visual   |        6 |   8,5 |
+| Originalidade       |        5 |     8 |
+| Composição e layout |        6 |   8,5 |
+| Tipografia          |        7 |   8,5 |
+| Cores e contraste   |        7 |   8,5 |
+| Animações           |        4 |   8,5 |
+| Microinterações     |        5 |     8 |
+| Consistência visual |        8 |   8,5 |
+| Navegação           |        8 |   8,5 |
+| Acabamento          |        6 |   8,5 |
 
-O principal ganho está na relação entre conteúdo e forma: a abertura apresenta o problema real e permite explorar seu grafo; o exemplo é uma figura do próprio motor matemático; as páginas de trabalho compartilham índice, legendas e controles. A solução possui dois desenhos sincronizados e uma sequência de movimentos legível abaixo.
+O ganho principal é a relação entre movimento e conteúdo: a transformação explica que mudar o desenho não muda as relações. A experiência tem maior ritmo e personalidade. As páginas de trabalho continuam mais sóbrias para permitir edição e análise; grafos grandes permanecem sujeitos à densidade inerente ao problema e exigem zoom.
 
-## Implementação e movimento
+## Transformações e movimento
 
-- Todas as sete páginas revisadas, preservando as rotas e o estado `graphos.projeto`.
-- Abertura reconstruída; entradas para os dois modos, exemplo e texto da pesquisa preservados.
-- Ilustração CGI, cartões decorativos, brilhos, sombras e blocos de métricas em cartões retirados.
-- Navegação horizontal por etapas no desktop e menu com nomes completos no celular.
-- Zoom transferido para fora das figuras para não encobrir casas e peças.
-- Transição funcional entre tabuleiro e grafo circular com as mesmas 12 casas e 14 conexões.
-- GSAP coordena a entrada inicial, a reorganização de vértices e arestas e o player. Não há animações decorativas de rolagem.
-- Player persistente com linha do tempo, três velocidades, teclado, pausa, reinício e movimentos individuais.
-- Um relógio move a peça no tabuleiro e o marcador no grafo; o último movimento encerra a reprodução e conserva o estado final.
-- No celular, as duas figuras podem ser alternadas sem mudar o índice da sequência.
-- `prefers-reduced-motion` interrompe os deslocamentos animados e mantém as operações disponíveis.
+- Home reconstruída, mantendo os dois modos, o exemplo original e o conteúdo da pesquisa.
+- Tabuleiro SVG em perspectiva, profundidade, quatro cavalos e coordenadas; as peças usam o símbolo original.
+- Transformação tabuleiro ↔ grafo com um relógio GSAP e 12 vértices/14 arestas do motor matemático existente.
+- Seleção por toque e teclado destaca os saltos possíveis; A1 se liga a B3 e C2.
+- ScrollTrigger coordena estrutura, conexões e caminho A1 → B3 → C1 → D3. A figura acompanha a leitura com CSS sticky e rolagem normal.
+- Entrada tipográfica com máscaras, sequência de revelações e encerramento com letras coreografadas no rodapé.
+- Controles e links respondem ao hover, foco, pressão e seleção sem movimentos contínuos decorativos.
+- Seis ferramentas com navegação compacta, novo sistema de cor e títulos, dados monoespaçados e figuras com controles externos.
+- Player preservado: movimento sincronizado no tabuleiro e grafo, velocidade, linha do tempo, pausa, reinício e troca de visualização no celular. O término apresenta estado estável e uma linha de conclusão, sem reposicionar a página.
+- Contornos dos cavalos ajustados para manter leitura nas figuras menores e no tema escuro.
+- Fontes e bibliotecas locais. ScrollTrigger usa o GSAP já instalado; nenhuma nova biblioteca de interface foi adicionada. A fonte serifada sem uso foi retirada.
 
-A orquestração usa [GSAP](https://gsap.com/docs/v3/); as condições de movimento seguem [matchMedia](<https://gsap.com/docs/v3/GSAP/gsap.matchMedia()/>). ScrollTrigger e a fonte anterior foram removidos por não serem necessários à direção final.
+`prefers-reduced-motion` é o padrão. O novo controle no cabeçalho permite uma escolha explícita, persistida em `graphos.motion`, independente dos dados `graphos.projeto`. A redução remove timelines e revela o caminho completo, com capítulos compactos e ações disponíveis. A preferência do sistema continua sendo acompanhada enquanto não há escolha explícita no site.
 
-## Validação
+## Validação desta revisão
 
-- Oito testes automatizados passaram: movimentos, adjacência, topologia, propriedades, caminhos mínimos, layouts, busca de uma troca mínima de 16 movimentos, casos impossíveis, limites e invalidação do estado.
-- Sintaxe, referências locais dos HTML e IDs verificados.
-- Sete rotas conferidas em 1440 × 900, 768 × 1024 e 390 × 844. Nenhum transbordamento horizontal de documento ou componente principal nesses 21 cenários.
-- Temas claro e escuro inspecionados no navegador Chromium integrado.
-- Edição de casas e restauração por teclado, entrada textual, dimensões inválidas, adjacência de A1 e caminho mínimo A1 → B3 → C1 → D3 exercitados.
-- Grade, círculo, forças e opções de visibilidade conferidos.
-- Exportações SVG, PNG, CSV, JSON e TXT realizadas pelo navegador.
-- Nova entrada da home carrega o exemplo. Zoom e ajuste à tela verificados após a reorganização dos controles.
-- A troca completou 16/16, com reprodução parada, posições finais corretas e nenhum marcador temporário restante.
-- O modo de caminho mínimo também concluiu 3/3, com o cavalo em D3, reprodução parada e nenhum marcador temporário restante.
-- Menu móvel, Escape, troca de figuras e linha do tempo pelo teclado verificados.
-- QA executado na porta 4174 para preservar a investigação do usuário na porta 4173.
+- `npm run check`: scripts válidos, referências locais presentes, sem IDs HTML duplicados.
+- `npm test`: oito testes passaram. Abrangem topologia, movimentos legais, BFS, propriedades, disposições, troca mínima de 16 movimentos, limites, posições impossíveis e invalidação do estado.
+- Sete rotas em 1440 × 900, 768 × 1024 e 390 × 844: 21 cenários sem transbordamento horizontal do documento ou componentes principais.
+- Narrativa animada inspecionada durante a rolagem em desktop e celular. Versão reduzida também renderizada e exercitada pelo controle do site.
+- Temas claro e escuro inspecionados. Contraste calculado nos pares essenciais: CTA claro 5,49:1; texto secundário claro 5,19:1; coordenadas claras 5,48:1; CTA escuro 7,75:1; texto secundário escuro 7,45:1; coordenadas escuras 5,79:1. Não é uma auditoria automatizada completa de acessibilidade.
+- Edição de A2 por Enter: 12 → 11 → 12 casas; dimensão zero rejeitada com feedback; adjacência de A1 confirmada como B3/C2.
+- Círculo e forças exercitados; 12 nós e 14 arestas preservados. Exportações SVG e PNG realizadas pelo navegador.
+- Movimento do player observado em curso nas duas figuras. O último movimento terminou em 16/16: reprodução parada, quatro peças nas posições trocadas e nenhum marcador temporário restante.
+- Menu móvel e Escape, alternância entre tabuleiro/grafo e linha do tempo por teclado exercitados. Pesquisa expandida e links de seções conferidos.
+- QA na porta 4174 para preservar a investigação do usuário na porta 4173.
 
-## Limites
+As outras exportações e fluxos já haviam sido exercitados na revisão anterior; seus algoritmos e contratos foram mantidos. Não houve mudança no backend.
 
-Não houve teste em dispositivos físicos, Safari ou Firefox, nem emulação da preferência de redução de movimento do sistema. O código dessa preferência foi revisado. A ferramenta de navegador disponível não expõe Lighthouse: não há medição formal de Core Web Vitals. Grafos densos continuam dependendo de zoom e sujeitos ao custo dos algoritmos originais.
+## Limites da validação
+
+Navegador Chromium integrado, sem testes em aparelhos físicos, Safari ou Firefox. Não houve medição formal com Lighthouse/Core Web Vitals. A preferência reduzida do navegador e a escolha explícita de movimento completo foram testadas; não foi alterada a configuração do sistema operacional. O solucionador mantém seu limite original de 400 mil estados.
 
 ## Recuperação e evidências
 
-O original está em `afa11a1` e `codex/before-visual-transformation`. A primeira direção está em `b262b9c` e `codex/graphos-first-direction`. A implementação atual está na branch `codex/graphos-visual-transformation`.
+- Original: `afa11a1`, branch `codex/before-visual-transformation`.
+- Primeira direção: `b262b9c`, branch `codex/graphos-first-direction`.
+- Direção editorial: `effd525`, branch `codex/before-kinetic-revamp`, criada antes desta revisão.
+- Implementação: `codex/graphos-visual-transformation`.
 
-Capturas antes/depois ficam na pasta `Graphos_Site-review`, ao lado do checkout. As imagens da revisão final têm o prefixo `editorial-`.
+As capturas ficam em `Graphos_Site-review`, ao lado do checkout. As evidências desta revisão usam o prefixo `kinetic-`; as anteriores usam `editorial-`. Os arquivos do projeto permanecem no Explorador de Arquivos dentro de `Graphos_Site`.

@@ -8,7 +8,7 @@
       bsvg = G.$("#bsvg"),
       gsvg = G.$("#gsvg");
     G.geometry.ensure(p, g);
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    const reduced = G.reducedMotion;
     let index = 0,
       timer = null,
       animation = null,

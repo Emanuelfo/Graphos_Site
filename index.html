@@ -7,20 +7,13 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f4f4ef" />
+    <meta name="theme-color" content="#f5f5f2" />
     <meta
       name="description"
-      content="Uma investigação dos Problemas de Guarini: construa tabuleiros, explore grafos e encontre a menor sequência de movimentos."
+      content="Um pequeno problema de xadrez. Um universo de conexões. Construa tabuleiros, explore grafos e encontre caminhos mínimos."
     />
-    <title>Graphos — Caderno de investigação</title>
+    <title>Graphos | Um laboratório de conexões</title>
     <link rel="icon" href="assets/logo.png" type="image/png" />
-    <link
-      rel="preload"
-      href="assets/fonts/eb-garamond-latin.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
     <link
       rel="preload"
       href="assets/fonts/manrope-latin.woff2"
@@ -30,6 +23,7 @@
     />
     <script src="js/theme.js"></script>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
     <link rel="stylesheet" href="css/responsive.css" />
   </head>
   <body data-page="home">
@@ -37,49 +31,46 @@
     <main id="conteudo">
       <section class="hero shell" id="inicio">
         <div class="hero-copy">
-          <p class="eyebrow">Os Problemas de Guarini / 1512</p>
+          <p class="eyebrow">Um laboratório de teoria dos grafos</p>
           <h1>
-            <span class="line-mask"><span>Quatro cavalos.</span></span
-            ><span class="line-mask"><span>Uma troca</span></span
-            ><span class="line-mask"><span>de lugar.</span></span>
+            <span class="line-mask"><span>Quatro</span></span
+            ><span class="line-mask"
+              ><span>cavalos<span class="accent-period">.</span></span></span
+            >
           </h1>
           <p class="hero-intro">
-            Como trocar as posições de dois cavalos brancos e dois pretos com o
-            menor número de movimentos?
+            Dois brancos. Dois pretos.<br />Qual é o menor caminho para trocar
+            seus lugares?
           </p>
           <div class="hero-actions">
             <button type="button" class="btn p lg" id="start-example">
-              Investigar o problema
-              <span data-icon="arrow-right"></span></button
-            ><a class="text-link" href="#pesquisa">Sobre a pesquisa</a>
+              Resolver o problema
+              <span data-icon="arrow-up-right"></span></button
+            ><a class="text-link" href="#conexoes"
+              >Entender as conexões <span data-icon="arrow-right"></span
+            ></a>
           </div>
-          <p class="hero-note">
-            <span>01 —</span> Cada casa é um vértice.<br /><span>02 —</span>
-            Cada salto é uma aresta.
-          </p>
         </div>
         <figure class="hero-lab">
-          <figcaption class="demo-top">
-            <span
-              ><span class="figure-number">Fig. 01</span> Um tabuleiro, duas
-              representações</span
-            ><span class="mono">|V| = 12 · |E| = 14</span>
-          </figcaption>
           <svg
             id="hero-graph"
-            viewBox="0 0 560 460"
+            viewBox="0 0 800 520"
             role="group"
-            aria-label="Demonstração interativa: tabuleiro e grafo dos movimentos do cavalo"
+            aria-label="Tabuleiro em perspectiva. Selecione uma casa ou transforme o tabuleiro em grafo."
           ></svg>
+          <figcaption class="demo-top">
+            <span>Problema de Guarini <span class="mono">4 × 3</span></span
+            ><span class="mono">12 casas · 14 conexões</span>
+          </figcaption>
           <div class="demo-bottom">
             <div
               class="seg"
               id="demo-modes"
               aria-label="Representação da demonstração"
             >
-              <button type="button" data-view="board" aria-pressed="false">
+              <button type="button" data-view="board" aria-pressed="true">
                 Tabuleiro</button
-              ><button type="button" data-view="graph" aria-pressed="true">
+              ><button type="button" data-view="graph" aria-pressed="false">
                 Grafo
               </button>
             </div>
@@ -87,42 +78,105 @@
               type="button"
               class="demo-replay"
               id="demo-play"
-              aria-label="Animar transformação do tabuleiro em grafo"
+              aria-label="Animar transformação entre tabuleiro e grafo"
             >
               <span data-icon="arrow-right"></span>
             </button>
           </div>
           <p class="demo-caption" id="demo-caption" aria-live="polite">
-            Selecione uma casa para examinar seus movimentos.
+            Selecione uma casa. Descubra onde o cavalo pode chegar.
           </p>
         </figure>
       </section>
-      <section class="journey shell" aria-label="Etapas da investigação">
-        <div class="journey-intro"><p>Índice do caderno</p></div>
-        <div class="journey-links" id="journey-links"></div>
+      <section
+        class="connections shell"
+        id="conexoes"
+        aria-labelledby="connections-title"
+      >
+        <div class="connections-heading">
+          <h2 id="connections-title">
+            O que parece xadrez<br />é uma rede de relações.
+          </h2>
+        </div>
+        <div class="story-layout">
+          <figure class="story-figure">
+            <svg
+              id="story-graph"
+              viewBox="0 0 800 520"
+              role="img"
+              aria-label="O tabuleiro se transforma em um grafo de 12 vértices e 14 arestas. Um caminho mínimo de A1 a D3 passa por B3 e C1, em três movimentos."
+            ></svg>
+            <figcaption>
+              <span id="story-state">A estrutura</span>
+              <div class="story-progress" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </div>
+            </figcaption>
+          </figure>
+          <div class="story-chapters">
+            <article class="story-chapter">
+              <span class="story-formula">V = {A1, A2, …, D3}</span>
+              <h3>Primeiro,<br />o espaço.</h3>
+              <p>
+                Doze casas. Quatro cavalos. As posições definem o problema. Cada
+                casa será um vértice do grafo.
+              </p>
+              <a class="text-link" href="estrutura.html"
+                >Editar a estrutura <span data-icon="arrow-up-right"></span
+              ></a>
+            </article>
+            <article class="story-chapter">
+              <span class="story-formula">G = (V, E)</span>
+              <h3>Depois,<br />as conexões.</h3>
+              <p>
+                Um salto em L liga duas casas. O tabuleiro desaparece, mas essas
+                relações continuam: são as arestas.
+              </p>
+              <a class="text-link" href="grafo.html"
+                >Explorar o grafo <span data-icon="arrow-up-right"></span
+              ></a>
+            </article>
+            <article class="story-chapter">
+              <span class="story-formula">d(A1, D3) = 3</span>
+              <h3>E então,<br />o caminho.</h3>
+              <p>
+                A1 → B3 → C1 → D3. Três saltos para chegar ao outro lado. Um
+                caminho mínimo entre essas duas casas.
+              </p>
+              <a class="text-link" href="analise.html"
+                >Investigar caminhos <span data-icon="arrow-up-right"></span
+              ></a>
+            </article>
+          </div>
+        </div>
       </section>
       <section class="investigations shell section-space" id="modos">
         <div class="section-title">
-          <p class="eyebrow">Começar uma investigação</p>
-          <h2>O que você quer estudar?</h2>
+          <h2>Agora, faça<br />suas próprias perguntas.</h2>
         </div>
         <div class="mode-grid">
-          <a class="mode" href="estrutura.html?modo=tabuleiro"
-            ><span class="mode-index">01</span>
-            <h3>A estrutura do tabuleiro</h3>
+          <a class="mode mode-structure" href="estrutura.html?modo=tabuleiro"
+            ><span class="mode-index">Investigar a estrutura</span>
+            <h3>E se uma casa<br />deixar de existir?</h3>
+            <svg id="mode-board" viewBox="0 0 280 240" aria-hidden="true"></svg>
             <p>
-              Crie um tabuleiro regular ou remova casas. Observe o que muda nos
-              caminhos, graus e conexões do grafo.
+              Crie um tabuleiro irregular e descubra como uma mudança no espaço
+              transforma os caminhos possíveis.
             </p>
             <span class="mode-link"
               >Criar tabuleiro <span data-icon="arrow-up-right"></span></span
           ></a>
-          <a class="mode" href="estrutura.html?modo=cavalos"
-            ><span class="mode-index">02</span>
-            <h3>A troca dos cavalos</h3>
+          <a class="mode mode-knights" href="estrutura.html?modo=cavalos"
+            ><span class="mode-index">Investigar os movimentos</span>
+            <h3>Quatro peças.<br />Quantas possibilidades?</h3>
+            <svg
+              id="mode-knights"
+              viewBox="0 0 300 180"
+              aria-hidden="true"
+            ></svg>
             <p>
-              Posicione as peças e encontre uma sequência mínima que troque os
-              cavalos brancos e pretos de lugar.
+              Posicione os cavalos e encontre uma sequência mínima para trocar
+              os brancos e pretos de lugar.
             </p>
             <span class="mode-link"
               >Posicionar cavalos <span data-icon="arrow-up-right"></span></span
@@ -130,33 +184,32 @@
         </div>
       </section>
       <section class="example-section shell section-space" id="exemplos">
-        <div class="section-title">
-          <p class="eyebrow">Um exemplo para explorar</p>
-          <h2>O problema, em doze casas.</h2>
-        </div>
         <div class="example-feature">
           <figure class="study-figure">
-            <svg
+            <span class="study-coordinate">A1 ↔ D3</span
+            ><svg
               id="study-board"
               viewBox="-8 -8 166 216"
               role="img"
               aria-label="Posição inicial: cavalos brancos em A1 e A3; pretos em D1 e D3"
             ></svg>
-            <figcaption>
-              <span class="figure-number">Fig. 02</span> A posição inicial no
-              tabuleiro 4 × 3.
-            </figcaption>
+            <figcaption>A posição inicial no tabuleiro 4 × 3.</figcaption>
           </figure>
           <div class="example-copy" id="ex-list"></div>
         </div>
       </section>
+      <section class="journey shell" aria-label="Etapas da investigação">
+        <div class="journey-intro">
+          <p>Uma investigação.<br />Seis perspectivas.</p>
+        </div>
+        <div class="journey-links" id="journey-links"></div>
+      </section>
       <section class="research-section shell section-space" id="pesquisa">
         <div class="research-heading">
           <p class="eyebrow">Math en Jeans</p>
-          <h2>Do xadrez<br />à teoria dos grafos.</h2>
+          <h2>Uma pergunta<br />de 1512.<br /><span>Novos caminhos.</span></h2>
           <p class="research-signature">
-            Uma pesquisa sobre caminhos mínimos,<br />troca de posições e
-            paridade.
+            Problemas de Guarini · Teoria dos grafos
           </p>
         </div>
         <div class="research-copy">
@@ -175,8 +228,7 @@
           </p>
           <details class="research-details">
             <summary>
-              Ler sobre o desenvolvimento da pesquisa
-              <span data-icon="plus"></span>
+              Ler sobre a pesquisa <span data-icon="plus"></span>
             </summary>
             <p>
               Analisamos os caminhos mínimos, os conflitos entre os movimentos e
@@ -200,11 +252,25 @@
       </section>
     </main>
     <footer class="foot shell">
-      <a class="brand" href="#inicio"><b>Graphos</b></a>
-      <p>Problemas de Guarini · Teoria dos Grafos<br />Math en Jeans</p>
-      <small>© 2026 Graphos.<br />Todos os direitos reservados.</small>
+      <a
+        class="footer-word"
+        href="#inicio"
+        aria-label="Graphos, voltar ao início"
+        ><span class="footer-char">G</span><span class="footer-char">r</span
+        ><span class="footer-char">a</span><span class="footer-char">p</span
+        ><span class="footer-char">h</span><span class="footer-char">o</span
+        ><span class="footer-char">s</span
+        ><span class="footer-char accent-period">.</span></a
+      >
+      <div class="footer-meta">
+        <p>Um laboratório de conexões.<br />Math en Jeans</p>
+        <a class="text-link" href="estrutura.html"
+          >Começar uma investigação <span data-icon="arrow-up-right"></span></a
+        ><small>© 2026 Graphos.<br />Todos os direitos reservados.</small>
+      </div>
     </footer>
     <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/ScrollTrigger.min.js"></script>
     <script src="js/icons.js"></script>
     <script src="js/main.js"></script>
     <script src="js/exemplos.js"></script>

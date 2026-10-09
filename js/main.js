@@ -111,7 +111,7 @@ window.Graphos = window.Graphos || {};
   };
   G.knight = (x, y, s, color) => {
     const w = color === "W";
-    return `<use href="#kn" class="k" x="${x}" y="${y}" width="${s}" height="${s}" fill="${w ? "#F4F4EF" : "#252621"}" stroke="${w ? "#252621" : "#F4F4EF"}" stroke-width="${s / 12}" paint-order="stroke" stroke-linejoin="round"/>`;
+    return `<use href="#kn" class="k" x="${x}" y="${y}" width="${s}" height="${s}" fill="${w ? "#F5F5F2" : "#191919"}" stroke="${w ? "#191919" : "#F5F5F2"}" stroke-width="4" paint-order="stroke" stroke-linejoin="round"/>`;
   };
   /* Se não há estrutura, troca a área de trabalho por um aviso. */
   G.requireStructure = () => {
@@ -145,7 +145,61 @@ window.Graphos = window.Graphos || {};
             (s, k) =>
               `<a class="st${k === idx ? " on" : ""}" href="${s.href}"${k === idx ? ' aria-current="step"' : ""}><span class="step-no" aria-hidden="true">${String(k + 1).padStart(2, "0")}</span><span>${s.nome}</span></a>`,
           ).join("");
-    host.innerHTML = `<a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="top"><a class="brand" href="index.html" aria-label="Graphos, início"><img src="assets/logo.png" width="40" height="40" alt=""><b>Graphos</b></a><span class="brand-note">Teoria dos grafos<br>Math en Jeans</span><nav class="steps" id="main-nav" aria-label="${page === "home" ? "Seções" : "Etapas da investigação"}">${nav}</nav><div class="acts"><button type="button" class="icon-button" id="theme-toggle" aria-label="Alternar tema"></button><button type="button" class="sm" id="load-example">Abrir exemplo ${G.icon("arrow-up-right")}</button><button type="button" class="icon-button menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">${G.icon("list")}</button></div></header>`;
+    host.innerHTML = `<a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="top"><a class="brand" href="index.html" aria-label="Graphos, início"><img src="assets/logo.png" width="40" height="40" alt=""><b>Graphos</b></a><span class="brand-note">Teoria dos grafos<br>Math en Jeans</span><nav class="steps" id="main-nav" aria-label="${page === "home" ? "Seções" : "Etapas da investigação"}">${nav}</nav><div class="acts"><button type="button" class="icon-button" id="motion-toggle" aria-label="Alternar animações"></button><button type="button" class="icon-button" id="theme-toggle" aria-label="Alternar tema"></button><button type="button" class="sm" id="load-example">Abrir exemplo ${G.icon("arrow-up-right")}</button><button type="button" class="icon-button menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">${G.icon("list")}</button></div></header>`;
+    G.reducedMotion = {
+      get matches() {
+        return document.documentElement.dataset.motion === "reduce";
+      },
+      addEventListener(type, handler) {
+        if (type === "change")
+          document.addEventListener("graphos:motion", handler);
+      },
+    };
+    const motionButton = $("#motion-toggle");
+    const syncMotion = () => {
+      const label = G.reducedMotion.matches
+        ? "Ativar animações"
+        : "Reduzir animações";
+      motionButton.innerHTML = G.icon(
+        G.reducedMotion.matches ? "play" : "pause",
+      );
+      motionButton.setAttribute("aria-label", label);
+      motionButton.setAttribute("title", label);
+      motionButton.setAttribute(
+        "aria-pressed",
+        String(!G.reducedMotion.matches),
+      );
+    };
+    motionButton.addEventListener("click", () => {
+      const motion = G.reducedMotion.matches ? "full" : "reduce";
+      document.documentElement.dataset.motion = motion;
+      try {
+        localStorage.setItem("graphos.motion", motion);
+      } catch {
+        /* private browsing */
+      }
+      syncMotion();
+      document.dispatchEvent(new Event("graphos:motion"));
+    });
+    matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
+      "change",
+      (event) => {
+        let saved;
+        try {
+          saved = localStorage.getItem("graphos.motion");
+        } catch {
+          /* private browsing */
+        }
+        if (!saved) {
+          document.documentElement.dataset.motion = event.matches
+            ? "reduce"
+            : "full";
+          syncMotion();
+          document.dispatchEvent(new Event("graphos:motion"));
+        }
+      },
+    );
+    syncMotion();
     document.body.insertAdjacentHTML("afterbegin", KN);
     $("#load-example").addEventListener("click", () =>
       G.loadExample(G.examples[0].id),
@@ -160,7 +214,7 @@ window.Graphos = window.Graphos || {};
       );
       document
         .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", dark ? "#20211f" : "#f4f4ef");
+        ?.setAttribute("content", dark ? "#191919" : "#f5f5f2");
     };
     toggle.addEventListener("click", () => {
       const theme =
@@ -206,7 +260,7 @@ window.Graphos = window.Graphos || {};
       menu.innerHTML = G.icon(open ? "x" : "list");
     });
     $("#main-nav").addEventListener("click", closeMenu);
-    matchMedia("(min-width: 768px)").addEventListener("change", closeMenu);
+    matchMedia("(min-width: 901px)").addEventListener("change", closeMenu);
     document.addEventListener("click", (e) => {
       const a = e.target.closest('a[href^="#"]');
       if (
@@ -223,9 +277,7 @@ window.Graphos = window.Graphos || {};
       e.preventDefault();
       history.pushState(null, "", a.hash);
       target.scrollIntoView({
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
+        behavior: G.reducedMotion.matches ? "instant" : "smooth",
       });
     });
     document.addEventListener("keydown", (e) => {
@@ -242,11 +294,7 @@ window.Graphos = window.Graphos || {};
       );
       $(".shead h1").insertAdjacentHTML(
         "beforebegin",
-        `<p class="eyebrow">Caderno de investigação <span class="mono">${String(idx + 1).padStart(2, "0")} / 06</span></p>`,
-      );
-      $(".shead").insertAdjacentHTML(
-        "beforeend",
-        `<span class="chapter-number" aria-hidden="true">${String(idx + 1).padStart(2, "0")}</span>`,
+        `<p class="eyebrow">Laboratório <span class="mono">${String(idx + 1).padStart(2, "0")} / 06</span></p>`,
       );
       document
         .querySelectorAll(".ph h2")

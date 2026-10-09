@@ -2,7 +2,7 @@ import { mkdir, copyFile, readFile, writeFile } from "node:fs/promises";
 await mkdir("assets/fonts", { recursive: true });
 await mkdir("assets/vendor", { recursive: true });
 await mkdir("assets/licenses", { recursive: true });
-for (const font of ["manrope", "eb-garamond"]) {
+for (const font of ["manrope"]) {
   for (const subset of ["latin", "latin-ext"])
     await copyFile(
       `node_modules/@fontsource-variable/${font}/files/${font}-${subset}-wght-normal.woff2`,
@@ -13,7 +13,7 @@ for (const font of ["manrope", "eb-garamond"]) {
     `assets/licenses/${font}.txt`,
   );
 }
-for (const name of ["gsap"])
+for (const name of ["gsap", "ScrollTrigger"])
   await copyFile(
     `node_modules/gsap/dist/${name}.min.js`,
     `assets/vendor/${name}.min.js`,

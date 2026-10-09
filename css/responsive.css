@@ -1,24 +1,36 @@
-/* The notebook changes reading order at narrow widths; controls retain their labels. */
+/* Explicit changes in composition for tablets and phones. */
 @media (max-width: 1200px) {
+  .lab-chrome #load-example {
+    display: none;
+  }
   .hero {
-    grid-template-columns: 0.9fr 1fr;
-    gap: 36px;
+    grid-template-columns: 0.95fr 1.05fr;
   }
   .hero h1 {
-    font-size: 7vw;
+    font-size: 9.8vw;
   }
   .hero-actions {
-    gap: 16px;
+    gap: 20px;
+  }
+  .hero-actions .text-link {
+    font-size: 11px;
+  }
+  .brand-note {
+    display: none;
+  }
+  .top {
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
   }
   .work {
     grid-template-columns: minmax(0, 1fr) 270px;
-    gap: 25px;
+    gap: 24px;
   }
   .panel {
     padding-left: 22px;
   }
   .viz:not(.one) {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 1fr;
     position: static;
   }
   .viz:not(.one) svg.v {
@@ -33,115 +45,35 @@
   #sol .moves {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .mode {
-    grid-template-columns: 32px 1fr 1fr;
-    gap: 20px;
-  }
-  .mode-link {
-    grid-column: 2/-1;
-    justify-content: space-between;
+  .story-layout {
+    gap: 40px;
   }
   .journey {
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 0.7fr 1.3fr;
   }
   .journey-links {
-    gap: 10px;
-  }
-  .journey-links a {
-    gap: 6px;
-    font-size: 10px;
-  }
-}
-@media (max-width: 1024px) {
-  .top {
     gap: 18px;
   }
-  .brand-note {
-    display: none;
-  }
-  .top {
-    grid-template-columns: auto 1fr auto;
-  }
-  .lab-chrome .top {
-    grid-template-columns: auto 1fr;
-  }
-  .lab-chrome .acts {
-    grid-column: 2;
-  }
-  .hero {
-    gap: 25px;
-    padding-top: 35px;
-  }
-  .demo-top {
-    flex-wrap: wrap;
-    gap: 7px;
-  }
-  .demo-top .mono {
-    margin-left: 61px;
-  }
-  #hero-graph {
-    height: 380px;
-  }
-  .hero-copy {
-    padding-top: 0;
-  }
-  .hero-note {
-    margin-top: 22px;
-  }
-  .shead {
-    padding-right: 90px;
-    gap: 20px;
-  }
-  .shead h1 {
-    font-size: 64px;
-  }
-  .chapter-number {
-    font-size: 88px;
-  }
-  .project-meta {
-    font-size: 9px;
-  }
-  .research-section {
-    gap: 50px;
-  }
-  .player-deck {
-    gap: 0 18px;
-  }
-  .player-caption strong {
-    font-size: 24px;
-  }
-  #sol {
-    grid-template-columns: 230px minmax(0, 1fr);
-    gap: 30px;
+  .journey-links a {
+    gap: 9px;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 900px) {
   html {
-    scroll-padding-top: 90px;
-  }
-  .shell,
-  .wrap {
-    padding-left: 22px;
-    padding-right: 22px;
+    scroll-padding-top: 88px;
   }
   .top,
   .lab-chrome .top {
-    padding: 12px 20px;
-    gap: 10px;
     grid-template-columns: auto 1fr;
-    min-height: 66px;
+    min-height: 70px;
+    padding: 12px 24px;
+    gap: 10px;
   }
-  .brand b {
-    font-size: 31px;
-  }
-  .brand img {
-    height: 24px;
-    width: 24px;
-  }
-  .acts {
+  .acts,
+  .lab-chrome .acts {
     grid-column: 2;
     grid-row: 1;
-    gap: 5px;
+    gap: 4px;
   }
   .acts #load-example {
     display: none;
@@ -154,174 +86,321 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 66px;
+    top: 70px;
     display: none;
     background: var(--bg);
-    padding: 18px 22px 22px;
-    border: 0;
-    border-bottom: 1px solid var(--ink);
-    margin: 0;
-    max-height: calc(100dvh - 66px);
+    padding: 18px 24px 24px;
+    border-bottom: 1px solid var(--line);
+    max-height: calc(100dvh - 70px);
     overflow: auto;
   }
   .menu-open .steps,
   .lab-chrome.menu-open .steps {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 5px 25px;
+    gap: 8px 25px;
   }
   .st,
   .lab-chrome .st {
-    min-height: 50px;
-    font-size: 12px;
+    min-height: 52px;
+    font-size: 13px;
   }
-  .lab-chrome .st::after {
-    right: 0;
+  .hero {
+    min-height: calc(100svh - 70px);
+    max-height: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 35px;
+  }
+  .hero h1 {
+    font-size: 10.5vw;
+  }
+  .hero-intro {
+    font-size: 13px;
+  }
+  .hero-actions .lg {
+    font-size: 11px;
+    padding: 14px 17px;
+  }
+  #hero-graph {
+    height: 330px;
+  }
+  .demo-top {
+    font-size: 10px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .demo-top .mono {
+    margin-left: 0;
+    font-size: 9px;
+  }
+  .demo-bottom .seg {
+    width: 190px;
+  }
+  .story-layout {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 25px;
+  }
+  .story-chapter h3 {
+    font-size: 36px;
+  }
+  .story-chapter p {
+    font-size: 13px;
+  }
+  .story-figure {
+    top: 110px;
+  }
+  #story-graph {
+    height: 360px;
+  }
+  .mode-grid {
+    gap: 6%;
+  }
+  .mode h3 {
+    font-size: 32px;
+  }
+  .mode p {
+    font-size: 13px;
+  }
+  .shead h1 {
+    font-size: 44px;
+  }
+  .project-meta {
+    font-size: 9px;
+  }
+  .player-deck {
+    gap: 0 18px;
+  }
+  .player-caption strong {
+    font-size: 18px;
+  }
+  #sol {
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 30px;
+  }
+  .journey {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+@media (max-width: 767px) {
+  .shell,
+  .wrap {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .brand b {
+    font-size: 26px;
+  }
+  .brand img {
+    width: 22px;
+    height: 22px;
   }
   .hero {
     grid-template-columns: 1fr;
-    gap: 32px;
-    padding-top: 30px;
-    padding-bottom: 32px;
+    padding-top: 29px;
+    padding-bottom: 30px;
+    gap: 0;
+  }
+  .hero .eyebrow {
+    font-size: 11px;
   }
   .hero h1 {
-    font-size: clamp(54px, 13.5vw, 80px);
-    line-height: 0.98;
+    font-size: clamp(70px, 20vw, 128px);
+    line-height: 0.94;
     margin: 23px 0;
   }
   .hero-intro {
     font-size: 13px;
-    max-width: 36em;
   }
   .hero-actions {
-    margin-top: 24px;
+    gap: 18px;
+    margin-top: 22px;
   }
-  .hero-note {
-    margin-top: 26px;
+  .hero-actions .lg {
+    min-height: 48px;
+  }
+  .hero-actions .text-link {
+    font-size: 10px;
+  }
+  .hero-lab {
+    padding-top: 7px;
+  }
+  #hero-graph {
+    height: 240px;
+    width: calc(100% + 32px);
+    margin-left: -16px;
+  }
+  .scene-label {
+    font-size: 24px;
   }
   .demo-top {
     flex-wrap: nowrap;
+    font-size: 10px;
+    padding: 8px 0;
+  }
+  .demo-top > span:last-child {
+    font-size: 8px;
+  }
+  .demo-caption {
     font-size: 9px;
-  }
-  .demo-top .mono {
-    display: none;
-  }
-  .hero-lab {
-    padding-top: 12px;
-  }
-  #hero-graph {
-    height: 340px;
-    margin-top: 0;
+    margin-top: 6px;
+    min-height: 30px;
   }
   .demo-bottom .seg {
     width: 220px;
   }
-  .demo-caption {
-    font-size: 9px;
-    min-height: 31px;
+  .connections {
+    padding-top: 55px;
   }
-  .journey {
+  .connections-heading h2,
+  .section-title h2 {
+    font-size: clamp(34px, 8.9vw, 52px);
+    letter-spacing: -0.05em;
+  }
+  .connections-heading {
+    margin-bottom: 28px;
+  }
+  .story-layout {
     grid-template-columns: 1fr;
-    gap: 15px;
-    padding-top: 18px;
-    padding-bottom: 18px;
+    gap: 0;
   }
-  .journey-links {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px 18px;
+  .story-figure {
+    top: 70px;
+    z-index: 2;
+    padding: 0;
+    background: var(--bg);
   }
-  .journey-links a {
+  #story-graph {
+    height: 250px;
+  }
+  .story-figure figcaption {
     font-size: 10px;
-    min-height: 35px;
+    padding: 9px 0 14px;
+  }
+  .story-chapter {
+    min-height: 60svh;
+    padding: 52px 0;
+    justify-content: center;
+  }
+  .story-chapter h3 {
+    font-size: 40px;
+  }
+  .story-chapter p {
+    font-size: 14px;
+    max-width: 30em;
+  }
+  .story-formula {
+    margin-bottom: 18px;
+  }
+  .story-chapter .text-link {
+    margin-top: 20px;
   }
   .section-space {
-    padding-top: 62px;
+    padding-top: 70px;
   }
   .section-title {
-    margin-bottom: 26px;
+    margin-bottom: 35px;
   }
-  .section-title h2,
-  .research-heading h2 {
-    font-size: 43px;
-    line-height: 1.05;
+  .mode-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
   }
-  .mode {
-    grid-template-columns: 22px minmax(0, 1fr);
-    gap: 15px;
-    padding: 23px 0;
+  .mode-knights {
+    margin-top: 0;
   }
   .mode h3 {
-    font-size: 31px;
+    font-size: 38px;
   }
-  .mode p,
-  .mode-link {
-    grid-column: 2;
+  .mode svg {
+    height: 210px;
+    margin: 10px 0 18px;
   }
-  .mode-link {
-    margin-top: 5px;
-    font-size: 11px;
+  .mode-knights svg {
+    height: 170px;
+    margin: 30px 0;
+  }
+  .mode p {
+    font-size: 14px;
+  }
+  .example-section {
+    margin-top: 10px;
   }
   .example-feature {
     grid-template-columns: 1fr;
     gap: 35px;
-    padding-top: 0;
+  }
+  .study-figure {
+    padding: 25px;
   }
   #study-board {
-    height: 310px;
+    height: 290px;
+    margin: 20px 0;
   }
   .example-copy h3 {
-    font-size: 38px;
+    font-size: 35px;
+  }
+  .example-facts {
+    gap: 45px;
+    margin: 27px 0;
+  }
+  .journey {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 60px;
+  }
+  .journey-intro {
+    font-size: 28px;
+  }
+  .journey-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 25px;
   }
   .research-section {
     grid-template-columns: 1fr;
     gap: 35px;
-    margin-top: 40px;
-    padding-top: 45px;
     padding-bottom: 65px;
   }
-  .research-heading h2 br {
-    display: none;
+  .research-heading h2 {
+    font-size: 44px;
   }
-  .research-signature {
-    margin-top: 20px;
+  .research-copy {
+    padding-top: 0;
   }
   .research-copy .research-lead {
-    font-size: 32px;
+    font-size: 23px;
   }
-  .foot {
+  .footer-word {
+    font-size: 19.5vw;
+    line-height: 1.25;
+  }
+  .footer-meta {
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 20px;
   }
-  .foot .brand {
+  .footer-meta > .text-link {
     width: 100%;
+    order: 3;
   }
-  .foot p,
-  .foot small {
+  .footer-meta p,
+  .footer-meta small {
     font-size: 9px;
   }
   .shead {
     display: block;
-    padding: 25px 66px 23px 0;
+    padding: 25px 0 23px;
     margin-bottom: 22px;
   }
   .shead h1 {
-    font-size: 56px;
-    margin-top: 8px;
+    font-size: 42px;
+    margin-top: 10px;
   }
   .shead p:not(.eyebrow) {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.8;
   }
   .shead .eyebrow {
-    font-size: 9px;
-  }
-  .eyebrow .mono {
-    display: none;
-  }
-  .chapter-number {
-    font-size: 69px;
-    bottom: auto;
-    top: 50px;
+    font-size: 10px;
   }
   .project-meta {
     display: none;
@@ -343,7 +422,7 @@
   }
   .panel {
     border-left: 0;
-    border-top: 1px solid var(--ink);
+    border-top: 1px solid var(--line);
     padding: 22px 0;
   }
   .ph {
@@ -351,20 +430,16 @@
     padding-bottom: 12px;
   }
   .ph h2 {
-    font-size: 10px;
+    font-size: 11px;
   }
-  .ph .mut {
-    font-size: 9px;
-  }
+  .ph .mut,
   .figure-number {
     font-size: 9px;
   }
   .panel p {
     font-size: 13px;
   }
-  .panel h4 {
-    font-size: 12px;
-  }
+  .panel h4,
   .seg button {
     font-size: 12px;
   }
@@ -406,8 +481,11 @@
     display: none;
   }
   body[data-page="solucao"] .viz svg.v {
-    height: clamp(240px, calc(100svh - 560px), 330px);
+    height: clamp(240px, calc(100svh - 540px), 330px);
     padding: 17px;
+  }
+  body[data-page="solucao"] .shead h1 {
+    font-size: 42px;
   }
   body[data-page="solucao"] .pager {
     position: static;
@@ -428,10 +506,10 @@
     gap: 13px;
   }
   .move-counter {
-    font-size: 42px;
+    font-size: 35px;
   }
   .player-caption strong {
-    font-size: 23px;
+    font-size: 18px;
   }
   .player-caption small {
     font-size: 9px;
@@ -459,7 +537,7 @@
     gap: 12px;
   }
   body[data-page="solucao"] #sol-title {
-    font-size: 32px;
+    font-size: 26px;
   }
   #sol {
     grid-template-columns: 1fr;
@@ -471,43 +549,53 @@
   }
 }
 @media (max-width: 380px) {
+  .top,
+  .lab-chrome .top {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .brand {
+    gap: 8px;
+  }
+  .brand b {
+    font-size: 24px;
+  }
+  .brand img {
+    width: 20px;
+    height: 20px;
+  }
   .shell,
   .wrap {
     padding-left: 18px;
     padding-right: 18px;
   }
-  .hero h1 {
-    font-size: 50px;
-  }
   .hero-actions {
-    gap: 18px;
+    gap: 17px;
   }
-  .hero h1 .line-mask:first-child {
-    font-size: 0.94em;
-  }
-  .hero-note {
+  .hero-actions .text-link {
     font-size: 9px;
+    gap: 7px;
+  }
+  .hero-actions .lg {
+    padding: 14px;
+  }
+  .demo-top > span:last-child {
+    font-size: 7.5px;
   }
   .shead h1 {
-    font-size: 50px;
-  }
-  .chapter-number {
-    font-size: 62px;
+    font-size: 38px;
   }
   .player-caption strong {
-    font-size: 21px;
+    font-size: 16px;
   }
   .player-deck .pb {
     gap: 9px;
   }
-  .foot small {
-    text-align: left;
-  }
 }
 @media (pointer: coarse) {
   .zb button {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
   .seg button,
   button,
@@ -520,10 +608,21 @@
 @media (max-height: 560px) and (orientation: landscape) {
   #chrome,
   .viz,
-  .pager {
+  .pager,
+  .story-figure {
     position: static;
+  }
+  .hero {
+    min-height: 0;
   }
   svg.v {
     height: 360px;
   }
+}
+:root[data-motion="reduce"] .story-figure {
+  position: static;
+}
+:root[data-motion="reduce"] .story-chapter {
+  min-height: 0;
+  padding: 30px 0;
 }
