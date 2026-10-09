@@ -6,25 +6,30 @@
   font-display: swap;
 }
 :root {
-  --bg: #f5f5f2;
-  --surface: #fff;
-  --cv: #eeeee9;
-  --ink: #191919;
-  --mut: #63635d;
-  --line: #d3d3cc;
-  --line2: #a0a09a;
-  --ac: #be3a27;
-  --ac2: #98301f;
-  --onac: #fff;
-  --rose: #f3e3de;
-  --rose-ink: #98301f;
-  --pur: #777770;
-  --pur2: #aaa9a2;
-  --warn: #aa322b;
-  --lt: #deded7;
-  --dk: #a7a7a0;
-  --tint: #e8e8e1;
-  --board-label: #30302c;
+  /* Original Graphos pink/lilac palette, adapted for a light canvas. */
+  --bg: #f8f3f7;
+  --surface: #fffafb;
+  --cv: #f0e6ef;
+  --ink: #16090f;
+  --mut: #72606d;
+  --line: #dcced8;
+  --line2: #a18a9b;
+  --ac: #b1347e;
+  --ac2: #922465;
+  --onac: #fffafb;
+  --rose: #f4deeb;
+  --rose-ink: #922465;
+  --pur: #6853ad;
+  --pur2: #b5a5d5;
+  --warn: #9e342b;
+  --lt: #e8ddea;
+  --dk: #c1aec9;
+  --tint: #f0e6ee;
+  --board-label: #301f32;
+  --piece-light: #f5eef2;
+  --piece-dark: #16090f;
+  --piece-outline: #7d6a77;
+  --piece-depth: #7d6a77;
   --shadow: none;
   --display: Manrope, system-ui, sans-serif;
   --body: Manrope, system-ui, sans-serif;
@@ -33,25 +38,26 @@
   color-scheme: light;
 }
 :root[data-theme="dark"] {
-  --bg: #191919;
-  --surface: #252525;
-  --cv: #232323;
-  --ink: #f5f5f2;
-  --mut: #b3b3ab;
-  --line: #454540;
-  --line2: #777771;
-  --ac: #ff8c75;
-  --ac2: #ffa28f;
-  --onac: #191919;
-  --rose: #3a2925;
-  --rose-ink: #ff8c75;
-  --pur: #999990;
-  --pur2: #65655e;
-  --warn: #ffa28f;
-  --lt: #60605a;
-  --dk: #3d3d38;
-  --tint: #30302b;
-  --board-label: #f5f5f2;
+  /* Brand colors from origin/main, retaining the current visual system. */
+  --bg: #0d080f;
+  --surface: #170e15;
+  --cv: #0a060c;
+  --ink: #f5eef2;
+  --mut: #a495a0;
+  --line: #2e2029;
+  --line2: #4a3644;
+  --ac: #e847ab;
+  --ac2: #b1347e;
+  --onac: #16090f;
+  --rose: #2b1322;
+  --rose-ink: #e847ab;
+  --pur: #a794e0;
+  --pur2: #6853ad;
+  --warn: #f28b7d;
+  --lt: #2b1b27;
+  --dk: #1a1018;
+  --tint: #170e15;
+  --board-label: #f5eef2;
   color-scheme: dark;
 }
 * {
@@ -769,7 +775,7 @@ summary {
 .list tr[data-id]:hover,
 .list tr.cur {
   background: var(--rose);
-  color: var(--ac);
+  color: var(--rose-ink);
 }
 .matrix {
   overflow: auto;
@@ -808,7 +814,7 @@ summary {
 }
 .moves .cur {
   background: var(--rose);
-  color: var(--ac);
+  color: var(--rose-ink);
   box-shadow: inset 2px 0 var(--ac);
 }
 .pb {
@@ -924,20 +930,20 @@ summary {
   font-size: 16px;
 }
 .n.W circle {
-  fill: #f5f5f2;
-  stroke: #777771;
+  fill: var(--piece-light);
+  stroke: var(--piece-outline);
   stroke-width: 2;
 }
 .n.W text {
-  fill: #191919;
+  fill: var(--piece-dark);
 }
 .n.B circle {
-  fill: #191919;
+  fill: var(--piece-dark);
   stroke: var(--pur);
   stroke-width: 2;
 }
 .n.B text {
-  fill: #f5f5f2;
+  fill: var(--piece-light);
 }
 .n.hub circle {
   stroke: var(--ac);

@@ -111,7 +111,7 @@ window.Graphos = window.Graphos || {};
   };
   G.knight = (x, y, s, color) => {
     const w = color === "W";
-    return `<use href="#kn" class="k" x="${x}" y="${y}" width="${s}" height="${s}" fill="${w ? "#F5F5F2" : "#191919"}" stroke="${w ? "#191919" : "#F5F5F2"}" stroke-width="4" paint-order="stroke" stroke-linejoin="round"/>`;
+    return `<use href="#kn" class="k" x="${x}" y="${y}" width="${s}" height="${s}" fill="${w ? "var(--piece-light)" : "var(--piece-dark)"}" stroke="${w ? "var(--piece-dark)" : "var(--piece-light)"}" stroke-width="4" paint-order="stroke" stroke-linejoin="round"/>`;
   };
   /* Se não há estrutura, troca a área de trabalho por um aviso. */
   G.requireStructure = () => {
@@ -214,7 +214,12 @@ window.Graphos = window.Graphos || {};
       );
       document
         .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", dark ? "#191919" : "#f5f5f2");
+        ?.setAttribute(
+          "content",
+          getComputedStyle(document.documentElement)
+            .getPropertyValue("--bg")
+            .trim(),
+        );
     };
     toggle.addEventListener("click", () => {
       const theme =

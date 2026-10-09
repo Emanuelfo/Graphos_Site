@@ -78,3 +78,11 @@ Navegador Chromium integrado, sem testes em aparelhos físicos, Safari ou Firefo
 - Implementação: `codex/graphos-visual-transformation`.
 
 As capturas ficam em `Graphos_Site-review`, ao lado do checkout. As evidências desta revisão usam o prefixo `kinetic-`; as anteriores usam `editorial-`. Os arquivos do projeto permanecem no Explorador de Arquivos dentro de `Graphos_Site`.
+
+## Adaptação da paleta: 9 de outubro de 2026
+
+A pedido do usuário, somente as cores foram adaptadas à identidade de `Emanuelfo/Graphos_Site`, consultada em `origin/main:css/style.css`. O tema escuro recupera o fundo `#0D080F`, rosa `#E847AB`, lilás `#A794E0` e os tons de tabuleiro da referência. O tema claro deriva dessa mesma família: fundo `#F8F3F7`, rosa `#B1347E` para leitura e lilás `#6853AD`. Layout, tipografia, animações, algoritmos e dados da investigação permanecem os mesmos.
+
+Superfícies, seleções, caminhos, peças e a cor do navegador seguem os tokens compartilhados. Textos sobre seleções claras usam um rosa mais escuro, sem depender da cor do botão.
+
+Validação específica: home e solução inspecionadas nos dois temas, em 1440 × 900 e 390 × 844, sem transbordamento horizontal; transformação tabuleiro/grafo, passo do player, abas móveis e exportação SVG exercitados na porta 4174. Contrastes calculados: botão claro 5,55:1; botão escuro 5,48:1; texto secundário claro 5,31:1 e escuro 6,98:1; seleção clara 6,20:1 e escura 4,86:1; coordenadas do tabuleiro claras 7,43:1 e escuras 14,27:1. Esses pares não constituem uma auditoria completa de acessibilidade. As capturas desta adaptação usam o prefixo `palette-`.

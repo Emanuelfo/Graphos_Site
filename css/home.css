@@ -186,12 +186,12 @@
   stroke-width: 2;
 }
 .piece-shadow {
-  fill: #191919;
+  fill: var(--piece-dark);
   opacity: 0.16;
 }
 .piece-depth {
-  fill: #777771;
-  stroke: #777771;
+  fill: var(--piece-depth);
+  stroke: var(--piece-depth);
 }
 .scene-piece {
   pointer-events: none;
