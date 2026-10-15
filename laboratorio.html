@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / trilha 04: altere o tabuleiro, formule hipóteses e teste com cálculo real."
+    />
+    <title>Hipóteses - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body class="trail" data-page="laboratorio">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <h1>Hipóteses</h1>
+          <p>
+            Mude o tabuleiro, preveja o resultado e teste sua hipótese. O
+            laboratório calcula de verdade e compara com o que você esperava.
+          </p>
+        </div>
+      </header>
+      <div class="work">
+        <div class="viz one">
+          <section class="card">
+            <div class="ph">
+              <h2>Tabuleiro</h2>
+              <span class="mut" id="bcap"></span>
+            </div>
+            <div class="cv">
+              <svg
+                id="bsvg"
+                class="v"
+                role="group"
+                aria-label="Tabuleiro da troca de cavalos"
+              ></svg>
+              <div class="zb">
+                <button type="button" data-zoom="in" aria-label="Aproximar">
+                  +</button
+                ><button type="button" data-zoom="out" aria-label="Afastar">
+                  −</button
+                ><button
+                  type="button"
+                  data-zoom="fit"
+                  aria-label="Ajustar à tela"
+                >
+                  ⤢
+                </button>
+              </div>
+            </div>
+            <div class="tools">
+              <div class="seg" id="view" aria-label="Representação">
+                <button type="button" data-view="board" aria-pressed="true">
+                  Tabuleiro</button
+                ><button type="button" data-view="graph" aria-pressed="false">
+                  Grafo
+                </button>
+              </div>
+              <span class="sp"></span>
+              
+            </div>
+            <p class="fb info" id="fb" role="status" aria-live="polite"></p>
+          </section>
+        </div>
+        <aside class="panel" aria-label="Laboratório">
+          <div class="seg" id="mode" aria-label="Tipo de pergunta">
+            <button type="button" data-mode="caminho" aria-pressed="true">
+              Caminho de um cavalo</button
+            ><button type="button" data-mode="troca" aria-pressed="false">
+              Troca de cavalos
+            </button>
+          </div>
+          <h4>Montar o tabuleiro</h4>
+          <div class="seg" id="tools" aria-label="Ferramenta"></div>
+          <div class="dim">
+            <label>Linhas<input id="rows" type="number" min="1" max="8" inputmode="numeric" /></label
+            ><label>Colunas<input id="cols" type="number" min="1" max="8" inputmode="numeric" /></label>
+          </div>
+          <div class="row">
+            <button type="button" class="sm" id="mk">Novo tabuleiro</button>
+            <a class="btn g sm" href="estrutura.html">Mais ferramentas</a>
+          </div>
+          <h4>Sua hipótese</h4>
+          <p class="mut" id="ask-text"></p>
+          <div class="ask-row">
+            <input id="pred" type="number" min="0" inputmode="numeric" aria-label="Previsão" autocomplete="off" />
+            <button type="button" class="p sm" id="test">Testar</button>
+          </div>
+          <label class="tools-check"><input type="checkbox" id="imp" /> acho que é impossível</label>
+          <div id="res"></div>
+          <h4>Comparar tabuleiros</h4>
+          <div class="row"><button type="button" class="sm" id="ref">Fixar como referência</button></div>
+          <div id="cmp"></div>
+          <h4>Casas críticas</h4>
+          <label class="tools-check"><input type="checkbox" id="crit" /> pintar o efeito de remover cada casa</label>
+          <p class="mut" id="crit-note"></p>
+          <h4>Perguntas para investigar</h4>
+          <ul class="qs">
+            <li>O que acontece quando uma casa importante é removida?</li>
+            <li>É possível chegar ao destino nessa configuração?</li>
+            <li>Por que um caminho exige mais movimentos que outro?</li>
+            <li>O que mudou no grafo quando o formato do tabuleiro mudou?</li>
+          </ul>
+          <details>
+            <summary>Caderno de hipóteses</summary>
+            <div id="book"></div>
+          </details>
+        </aside>
+      </div>
+      <nav class="pager" id="pager" aria-label="Navegar entre módulos"></nav>
+    </main>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/analise.js"></script>
+    <script src="js/solucao.js"></script>
+    <script src="js/jogo.js"></script>
+    <script src="js/fase.js"></script>
+    <script src="js/laboratorio.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

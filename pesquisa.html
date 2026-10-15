@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / Pesquisa: o problema de troca de cavalos de Guarini investigado com teoria dos grafos: fundamentação, metodologia, argumentos demonstrados, resultados computacionais e limitações."
+    />
+    <title>Pesquisa - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body data-page="pesquisa">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <p class="eyebrow">Área 03 · Investigar</p>
+          <h1>Pesquisa</h1>
+          <p>
+            A investigação de Math en Jeans que deu origem ao Graphos: como
+            trocar cavalos de lugar no menor número de movimentos e como
+            justificar que não existe um caminho menor.
+          </p>
+        </div>
+      </header>
+
+      <div class="res-layout">
+        <nav class="res-toc" aria-label="Seções da pesquisa">
+          <p class="eyebrow">Nesta página</p>
+          <ol>
+            <li><a href="#apresentacao">Apresentação</a></li>
+            <li><a href="#problema">Problema e pergunta</a></li>
+            <li><a href="#fundamentacao">Fundamentação teórica</a></li>
+            <li><a href="#metodologia">Metodologia</a></li>
+            <li><a href="#desenvolvimento">Desenvolvimento</a></li>
+            <li><a href="#argumentos">Demonstrações e argumentos</a></li>
+            <li><a href="#resultados">Resultados</a></li>
+            <li><a href="#limitacoes">Discussão e limitações</a></li>
+            <li><a href="#referencias">Referências</a></li>
+          </ol>
+        </nav>
+
+        <article class="res">
+          <div class="legend" aria-label="Como ler os rótulos">
+            <span><span class="status proved">Demonstrado</span> argumento matemático completo</span>
+            <span><span class="status exp">Verificação computacional</span> calculado pelo Graphos para casos específicos</span>
+            <span><span class="status open">Em aberto</span> ainda não demonstrado nem registrado</span>
+          </div>
+
+          <section id="apresentacao">
+            <p class="eyebrow">01</p>
+            <h2>Apresentação da investigação</h2>
+            <p>
+              Nossa pesquisa parte dos Problemas de Guarini, propostos em 1512
+              pelo matemático italiano Paolo Guarini di Forli, envolvendo a
+              troca de posições entre cavalos em um tabuleiro. Ela foi
+              desenvolvida no contexto do programa Math en Jeans.
+            </p>
+            <p>
+              O Graphos nasceu dessa investigação para transformar esses
+              conceitos em uma experiência visual e interativa, facilitando a
+              exploração dos grafos e dos caminhos encontrados durante a
+              pesquisa.
+            </p>
+            <div class="links">
+              <a class="text-link" href="index.html">Aprender os conceitos na Trilha <span data-icon="arrow-up-right"></span></a>
+              <a class="text-link" href="lab.html">Experimentar no Laboratório <span data-icon="arrow-up-right"></span></a>
+            </div>
+          </section>
+
+          <section id="problema">
+            <p class="eyebrow">02</p>
+            <h2>Problema e pergunta de pesquisa</h2>
+            <p>
+              <b>O problema.</b> Em um tabuleiro 4 × 3, dois cavalos brancos
+              ocupam A1 e A3 e dois cavalos pretos ocupam D1 e D3. Os brancos
+              devem ocupar as casas iniciais dos pretos e os pretos, as dos
+              brancos. Não há capturas, e a ordem das jogadas é livre.
+            </p>
+            <p><b>Perguntas.</b></p>
+            <ul>
+              <li>Qual é o menor número de movimentos que realiza a troca?</li>
+              <li>Como justificar que ele é, de fato, o menor possível, e não apenas o melhor que encontramos?</li>
+              <li>Como a mudança na estrutura do tabuleiro (casas retiradas) altera os caminhos e as possibilidades de movimento?</li>
+            </ul>
+            <div class="links">
+              <a class="text-link" href="troca.html?fase=3.1">Tentar a troca (Trilha, fase 3.1) <span data-icon="arrow-up-right"></span></a>
+              <a class="text-link" href="troca.html?livre=1">Tentar a troca em modo livre <span data-icon="arrow-up-right"></span></a>
+            </div>
+          </section>
+
+          <section id="fundamentacao">
+            <p class="eyebrow">03</p>
+            <h2>Fundamentação teórica</h2>
+            <p>
+              Um <b>grafo</b> é um par <span class="mono">G = (V, E)</span>: um
+              conjunto de <b>vértices</b> e um conjunto de <b>arestas</b>, cada
+              aresta ligando dois vértices. Dois vértices ligados por uma aresta
+              são <b>adjacentes</b>; o <b>grau</b> de um vértice é o número de
+              arestas que saem dele.
+            </p>
+            <p>
+              Um <b>caminho</b> é uma sequência de vértices em que cada um é
+              adjacente ao seguinte; seu comprimento é o número de arestas. A
+              <b>distância</b> entre dois vértices é o menor comprimento entre
+              os caminhos que os ligam. Se não há caminho, os vértices estão em
+              <b>componentes conexas</b> diferentes. A busca em largura calcula
+              distâncias por camadas.
+            </p>
+            <p>
+              <b>O grafo do cavalo.</b> Cada casa do tabuleiro é um vértice.
+              Há uma aresta entre duas casas quando o deslocamento entre elas
+              é (1, 2) ou (2, 1), isto é, um salto em L. Casas retiradas
+              deixam de ser vértices; o salto passa por cima delas, de modo que
+              uma casa ausente não bloqueia o salto, apenas não pode ser
+              destino.
+            </p>
+            <span class="formula">V = casas existentes · E = {{a, b} : deslocamento de a para b é (1,2) ou (2,1)}</span>
+            <div class="links">
+              <a class="text-link" href="index.html?fase=1.2">Vértices e arestas (fases 1.1–1.4) <span data-icon="arrow-up-right"></span></a>
+              <a class="text-link" href="index.html?fase=2.1">Distâncias e caminhos mínimos (fases 2.1–2.3) <span data-icon="arrow-up-right"></span></a>
+            </div>
+          </section>
+
+          <section id="metodologia">
+            <p class="eyebrow">04</p>
+            <h2>Metodologia</h2>
+            <ol class="plain">
+              <li><b>Modelagem.</b> Cada tabuleiro vira o grafo do cavalo descrito acima.</li>
+              <li><b>Distâncias individuais.</b> Para cada cavalo, a busca em largura calcula o caminho mais curto até cada casa de destino.</li>
+              <li><b>Limite inferior.</b> Soma das distâncias individuais, escolhendo o pareamento entre origens e destinos que a minimiza.</li>
+              <li><b>Interferência.</b> Verificação de casas de passagem usadas por mais de um caminho individual, que mostra por que o limite inferior pode não ser atingido.</li>
+              <li><b>Mínimo exato.</b> Busca em largura no espaço de posições: cada estado é o conjunto de casas ocupadas por brancos e por pretos, e cada movimento legal liga dois estados. A primeira vez que o estado final aparece dá o menor número de movimentos.</li>
+              <li><b>Variação da estrutura.</b> Retirada de casas e repetição de todos os cálculos.</li>
+            </ol>
+            <div class="links">
+              <a class="text-link" href="troca.html?livre=1">Calcular no Graphos (Troca de cavalos, etapa Matemática) <span data-icon="arrow-up-right"></span></a>
+              <a class="text-link" href="solucao.html">Ver a sequência mínima passo a passo <span data-icon="arrow-up-right"></span></a>
+            </div>
+          </section>
+
+          <section id="desenvolvimento">
+            <p class="eyebrow">05</p>
+            <h2>Desenvolvimento dos problemas matemáticos</h2>
+            <p>
+              <b>A troca no tabuleiro regular.</b> Cada cavalo, sozinho, chegaria
+              ao seu destino em poucos saltos, mas os quatro cavalos ocupam
+              casas e se atrapalham. Por isso a soma das distâncias individuais
+              limita o total apenas por baixo.
+            </p>
+            <p>
+              <b>Tabuleiros irregulares.</b> A pesquisa aplica a mesma abordagem
+              a tabuleiros com casas retiradas, investigando como a mudança na
+              estrutura altera os caminhos e as possibilidades de movimento. O
+              Graphos inclui os casos: sem B2, sem B1, sem B2 e C2, e A1 sem
+              saída (B3 e C2 retiradas), além dos tabuleiros regulares 3 × 4 e
+              4 × 4.
+            </p>
+            <div class="links">
+              <a class="text-link" href="troca.html?fase=3.4">Investigar tabuleiros irregulares (fase 3.4) <span data-icon="arrow-up-right"></span></a>
+              <a class="text-link" href="estrutura.html?modo=tabuleiro">Criar o seu tabuleiro no Laboratório <span data-icon="arrow-up-right"></span></a>
+            </div>
+          </section>
+
+          <section id="argumentos">
+            <p class="eyebrow">06</p>
+            <h2>Demonstrações e argumentos</h2>
+
+            <p><span class="status proved">Demonstrado</span></p>
+            <p>
+              <b>Lema 1 (o cavalo alterna as cores).</b> Numere linhas e
+              colunas a partir de 0 e pinte a casa (r, c) conforme a
+              paridade de r + c. Um salto altera r + c em ±1 ± 2 ou ±2 ± 1, ou
+              seja, em um número ímpar. Logo cada salto leva o cavalo a uma casa
+              de cor diferente.
+            </p>
+            <p>
+              <b>Proposição 2 (paridade da troca).</b> Em qualquer troca, o
+              número total de movimentos é par. <i>Prova.</i> Seja d o número de
+              cavalos (de ambas as cores) sobre casas escuras. Pelo Lema 1,
+              cada movimento tira um cavalo de uma cor e o põe na outra, então
+              d varia em exatamente 1 unidade. Na posição final, as casas
+              ocupadas são as mesmas da inicial, de modo que d volta ao valor
+              original. Uma variação total de 0, formada por parcelas ±1,
+              exige um número par de parcelas. ∎
+            </p>
+            <p>
+              <b>Proposição 3 (limite inferior).</b> Seja L a menor soma de
+              distâncias individuais, entre os pareamentos que levam cada cavalo
+              branco a uma casa inicial de preto e cada preto a uma casa
+              inicial de branco. Qualquer troca usa pelo menos L movimentos.
+              <i>Prova.</i> Cada cavalo termina em alguma casa de destino e,
+              para chegar lá, faz pelo menos tantos saltos quanto a distância
+              entre origem e destino. A soma dos saltos de todos os cavalos é o
+              total de movimentos, e a escolha de destinos feita pela troca é
+              um dos pareamentos considerados, cuja soma é pelo menos L. ∎
+            </p>
+            <p>
+              <b>Corolário 4.</b> L também é par e, portanto, a diferença entre
+              o mínimo exato e L é sempre par. <i>Prova.</i> Pelo Lema 1, a
+              distância entre duas casas tem a paridade da soma das
+              suas cores. Ao somar sobre todos os cavalos, a cor de cada casa
+              inicial aparece duas vezes: como origem de um cavalo e como
+              destino de outro. Logo L é par. Como o mínimo exato também é
+              par (Proposição 2), a diferença é par. ∎
+            </p>
+            <p>
+              <b>Proposição 5 (impossibilidade por conectividade).</b> Se algum
+              cavalo não tem caminho até nenhuma das casas de destino exigidas,
+              a troca é impossível. É o que ocorre quando A1 fica sem saída:
+              com B3 e C2 retiradas, A1 não tem arestas.
+            </p>
+
+            <p><span class="status exp">Verificação computacional</span></p>
+            <p>
+              <b>Minimalidade em cada caso.</b> Dizer que o mínimo de uma
+              instância é m vem de uma busca exaustiva em largura (descrita na
+              metodologia) sobre todas as posições alcançáveis. Isso prova o
+              mínimo daquela instância, com apoio do computador, mas não
+              estabelece uma fórmula geral.
+            </p>
+            <div class="links">
+              <a class="text-link" href="index.html?fase=3.3">Limite inferior e paridade (fase 3.3) <span data-icon="arrow-up-right"></span></a>
+            </div>
+          </section>
+
+          <section id="resultados">
+            <p class="eyebrow">07</p>
+            <h2>Resultados obtidos</h2>
+            <p><span class="status exp">Verificação computacional</span></p>
+            <p>
+              Valores calculados pelo próprio Graphos (busca exaustiva em
+              largura, regras da troca: sem capturas e ordem livre) para os
+              tabuleiros pré-definidos. Eles podem ser reproduzidos na
+              etapa Matemática da Troca de cavalos.
+            </p>
+            <div style="overflow-x: auto">
+              <table class="list">
+                <tr><th>Tabuleiro</th><th>Casas</th><th>Arestas</th><th>Limite inferior</th><th>Mínimo exato</th></tr>
+                <tr><td>Regular 4 × 3</td><td>12</td><td>14</td><td>12</td><td><b>16</b></td></tr>
+                <tr><td>Sem B2</td><td>11</td><td>12</td><td>12</td><td>16</td></tr>
+                <tr><td>Sem B1</td><td>11</td><td>11</td><td>20</td><td>22</td></tr>
+                <tr><td>Sem B2 e C2</td><td>10</td><td>10</td><td>12</td><td>16</td></tr>
+                <tr><td>A1 sem saída (sem B3 e C2)</td><td>10</td><td>9</td><td>não existe</td><td>sem solução</td></tr>
+                <tr><td>Regular 3 × 4</td><td>12</td><td>14</td><td>8</td><td>10</td></tr>
+                <tr><td>Regular 4 × 4</td><td>16</td><td>24</td><td>8</td><td>8</td></tr>
+              </table>
+            </div>
+            <p>
+              <b>Observações restritas a estes casos.</b> No 4 × 3 regular, o
+              limite inferior é 12 e o mínimo é 16: os cavalos se atrapalham e
+              a diferença (4) é par, como previsto pelo Corolário 4. Retirar B2
+              não alterou o mínimo (16) nem o limite inferior; retirar B1
+              aumentou o mínimo de 16 para 22. No 4 × 4 o mínimo coincide com o
+              limite inferior. Estas são constatações de tabuleiros específicos,
+              não teoremas.
+            </p>
+            <p><span class="status open">Em aberto</span></p>
+            <div class="pending">
+              Resultados gerais (por exemplo, como o mínimo varia em famílias
+              de tabuleiros irregulares) ainda não foram demonstrados nem
+              registrados aqui. Esta seção receberá novos resultados à medida
+              que o grupo os validar.
+            </div>
+          </section>
+
+          <section id="limitacoes">
+            <p class="eyebrow">08</p>
+            <h2>Discussão e limitações</h2>
+            <ul>
+              <li>As buscas rodam no navegador, com limite de 400 mil estados na etapa Solução e de 150 mil nas páginas da Trilha. Ao atingir o limite, o Graphos avisa que o mínimo não foi confirmado.</li>
+              <li>O limite inferior só é calculado até 7 cavalos por cor.</li>
+              <li>Os resultados da tabela valem para as instâncias listadas. Não há aqui fórmula geral nem demonstração para tabuleiros arbitrários.</li>
+              <li>Uma previsão certa no Laboratório ou na Trilha é uma observação, não uma demonstração.</li>
+            </ul>
+          </section>
+        </article>
+      </div>
+    </main>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

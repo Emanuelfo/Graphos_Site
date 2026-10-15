@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / aplicações: como a teoria dos grafos descreve redes de transporte, redes de computadores e redes sociais. Compare trajetos, encontre pontos de falha e escolha caminhos."
+    />
+    <title>Aplicações - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body class="trail" data-page="redes">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <p class="eyebrow">Área 01 · Trilha · Mundo 5</p>
+          <h1>Aplicações</h1>
+          <p>
+            Os mesmos vértices, arestas e caminhos aparecem em mapas de metrô,
+            em redes de computadores e em redes sociais. Compare, teste e
+            descubra o que a matemática mostra nesses casos.
+          </p>
+        </div>
+      </header>
+
+      <div class="work">
+        <div class="viz one">
+          <section
+            class="ctask"
+            id="ctask"
+            aria-label="Objetivo e tarefa da aplicação atual"
+          ></section>
+          <section class="card">
+            <div class="ph">
+              <h2 id="rede-title">Rede</h2>
+              <span class="mut" id="bcap"></span>
+            </div>
+            <div class="cv">
+              <svg
+                id="bsvg"
+                class="v"
+                role="group"
+                aria-label="Rede interativa"
+              ></svg>
+              <div class="zb">
+                <button type="button" data-zoom="in" aria-label="Aproximar">
+                  +</button
+                ><button type="button" data-zoom="out" aria-label="Afastar">
+                  −</button
+                ><button
+                  type="button"
+                  data-zoom="fit"
+                  aria-label="Ajustar à tela"
+                >
+                  ⤢
+                </button>
+              </div>
+            </div>
+            <div class="tools">
+              <span class="tool-note" id="legenda"></span>
+              <span class="sp"></span>
+              <button type="button" class="sm" id="limpar">Limpar</button>
+            </div>
+            <p class="fb info" id="fb" role="status" aria-live="polite"></p>
+          </section>
+        </div>
+        <aside class="panel" aria-label="Aplicações">
+          <h4>Três redes, um mesmo objeto matemático</h4>
+          <ol class="concepts" id="concepts"></ol>
+          <p class="gl">
+            <b>Por que isto é Teoria dos Grafos</b>Em cada exemplo, os
+            <i>vértices</i> são os elementos do sistema (estações, roteadores,
+            pessoas) e as <i>arestas</i> são as ligações diretas entre eles.
+            Perguntas sobre o sistema viram perguntas sobre o grafo: existe
+            caminho? qual é o mais curto? o que acontece se um vértice sair?
+          </p>
+        </aside>
+      </div>
+      <nav class="pager" id="pager" aria-label="Navegar entre módulos"></nav>
+    </main>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/analise.js"></script>
+    <script src="js/solucao.js"></script>
+    <script src="js/jogo.js"></script>
+    <script src="js/fase.js"></script>
+    <script src="js/redes.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / peças como grafos: compare os movimentos da torre, do bispo, da dama, do rei e do cavalo como grafos e descubra por que cada peça gera um grafo diferente."
+    />
+    <title>Peças como grafos - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body class="trail" data-page="pecas">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <p class="eyebrow">Área 01 · Trilha · Mundo 1</p>
+          <h1>Peças como grafos</h1>
+          <p>
+            Cada peça do xadrez define um grafo diferente no mesmo tabuleiro:
+            as casas são os vértices e os movimentos permitidos são as arestas.
+            Troque de peça e compare.
+          </p>
+        </div>
+      </header>
+
+      <div class="work">
+        <div class="viz one">
+          <section
+            class="ctask"
+            id="ctask"
+            aria-label="Objetivo e tarefa"
+          ></section>
+          <section class="card">
+            <div class="ph">
+              <h2 id="pe-title">Movimento</h2>
+              <span class="mut" id="bcap"></span>
+            </div>
+            <div class="cv">
+              <svg
+                id="bsvg"
+                class="v"
+                role="group"
+                aria-label="Tabuleiro interativo com o movimento da peça escolhida"
+              ></svg>
+              <div class="zb">
+                <button type="button" data-zoom="in" aria-label="Aproximar">
+                  +</button
+                ><button type="button" data-zoom="out" aria-label="Afastar">
+                  −</button
+                ><button
+                  type="button"
+                  data-zoom="fit"
+                  aria-label="Ajustar à tela"
+                >
+                  ⤢
+                </button>
+              </div>
+            </div>
+            <div class="tools" role="group" aria-label="Escolher a peça">
+              <div class="seg" id="peca" aria-label="Peça"></div>
+              <span class="sp"></span>
+              <label class="inline"
+                >Tamanho
+                <select id="size" aria-label="Tamanho do tabuleiro">
+                  <option value="4x4">4 × 4</option>
+                  <option value="5x5" selected>5 × 5</option>
+                  <option value="8x8">8 × 8</option>
+                </select></label
+              >            </div>
+            <div class="seg" id="view" aria-label="Representação">
+              <button type="button" data-view="board" aria-pressed="true">
+                Tabuleiro</button
+              ><button type="button" data-view="graph" aria-pressed="false">
+                Grafo
+              </button>
+            </div>
+            <p class="fb info" id="fb" role="status" aria-live="polite"></p>
+          </section>
+        </div>
+        <aside class="panel" aria-label="O que observar">
+          <h4>A mesma casa, grafos diferentes</h4>
+          <dl class="kv pecas-kv" id="pinfo"></dl>
+          <p class="mut" id="pnota"></p>
+          <div class="row">
+            <button type="button" class="sm p" data-check-graus>
+              Comparar graus
+            </button>
+            <button type="button" class="sm" data-check-caminho>
+              Conferir caminho
+            </button>
+          </div>
+          <p class="mut" id="caminho-info"></p>
+          <p class="gl">
+            <b>Por que isto é Teoria dos Grafos</b>O tabuleiro é o mesmo; o que
+            muda é a <i>regra</i> que diz quem se liga a quem. Cada peça produz
+            um grafo com graus, distâncias e componentes diferentes — e é por
+            isso que algumas peças alcançam o tabuleiro inteiro e outras não.
+          </p>
+        </aside>
+      </div>
+      <nav class="pager" id="pager" aria-label="Navegar entre módulos"></nav>
+    </main>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/analise.js"></script>
+    <script src="js/solucao.js"></script>
+    <script src="js/jogo.js"></script>
+    <script src="js/fase.js"></script>
+    <script src="js/pecas.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

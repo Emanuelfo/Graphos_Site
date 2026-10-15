@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / Laboratório: ferramentas interativas de livre exploração para manipular grafos, comparar caminhos, testar movimentos do cavalo e investigar problemas matemáticos."
+    />
+    <title>Laboratório - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+    <body data-page="lab">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <p class="eyebrow">Área 02 · Experimentar</p>
+          <h1>Laboratório</h1>
+          <p>Experimente sem ordem e sem pressão. Aqui nada dá XP.</p>
+        </div>
+      </header>
+
+      <div class="tool-groups">
+        <section class="tool-group" aria-labelledby="g1">
+          <h2 id="g1">Grafos e caminhos</h2>
+          <p>Do tabuleiro ao grafo, e do grafo aos caminhos mínimos.</p>
+          <ul class="tool-grid">
+            <li class="tool">
+              <h3>Explorador de grafos</h3>
+              <p>Um tabuleiro de cavalo como grafo: vértices, arestas, adjacência, caminho e distância.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Descobrir como um tabuleiro se torna uma rede de relações. Escolha o tamanho (4 × 3 a 8 × 8), toque nas casas e alterne entre tabuleiro e grafo.</p></details>
+              <p class="tool-trail" data-trail="1.1,1.2,1.3,1.4,2.1"></p>
+              <div class="tool-actions"><a class="btn p sm" href="explorar.html?livre=1">Abrir o explorador <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+            <li class="tool">
+              <h3>Caminhos mínimos</h3>
+              <p>Leve o cavalo da origem ao destino e compare com o mínimo calculado pela busca em largura.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Comparar trajetos e entender por que um caminho é o mais curto. Escolha um nível ou o modo livre, toque nas casas para mover o cavalo e peça dicas graduais.</p></details>
+              <p class="tool-trail" data-trail="2.2,2.3"></p>
+              <div class="tool-actions"><a class="btn p sm" href="caminhos.html?livre=1">Abrir caminhos <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+          </ul>
+        </section>
+
+        <section class="tool-group" aria-labelledby="g2">
+          <h2 id="g2">Desafios com cavalos</h2>
+          <p>O problema de Guarini e suas variações.</p>
+          <ul class="tool-grid">
+            <li class="tool">
+              <h3>Troca de cavalos</h3>
+              <p>Brancos e pretos trocam de lugar sem capturas. Qual é o menor número de movimentos?</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Resolver a troca e investigar o mínimo, o limite inferior, a paridade e tabuleiros irregulares. Toque num cavalo e depois numa casa destacada. Use as quatro etapas: regras, investigar, matemática e tabuleiros irregulares.</p></details>
+              <p class="tool-trail" data-trail="3.1,3.2,3.3,3.4"></p>
+              <div class="tool-actions"><a class="btn p sm" href="troca.html?livre=1">Abrir a troca <span data-icon="arrow-right"></span></a><a class="text-link" href="pesquisa.html#problema">O problema na Pesquisa <span data-icon="arrow-up-right"></span></a></div>
+            </li>
+
+          </ul>
+        </section>
+
+        <section class="tool-group" aria-labelledby="g3">
+          <h2 id="g3">Hipóteses e combinatória</h2>
+          <p>Prever, testar e contar configurações.</p>
+          <ul class="tool-grid">
+            <li class="tool">
+              <h3>Hipóteses sobre tabuleiros</h3>
+              <p>Mude o tabuleiro, preveja o resultado e teste. O laboratório calcula de verdade e compara.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Formular e testar conjecturas sobre o efeito de alterar um tabuleiro. Altere casas, registre sua previsão, teste e compare com o cálculo.</p></details>
+              <p class="tool-trail" data-trail="4.1,4.2"></p>
+              <div class="tool-actions"><a class="btn p sm" href="laboratorio.html?livre=1">Abrir as hipóteses <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+            <li class="tool">
+              <h3>Combinatória do Xadrez 960</h3>
+              <p>Quantas disposições iniciais existem no Xadrez de Fischer? Conte e confira por enumeração.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Contar configurações por dedução e verificar por enumeração. Monte a contagem passo a passo e confira com a enumeração; cada disposição tem um número de 0 a 959.</p></details>
+              <p class="tool-trail" data-trail="4.3"></p>
+              <div class="tool-actions"><a class="btn p sm" href="combinatoria.html?livre=1">Abrir a combinatória <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+          </ul>
+        </section>
+
+        <section class="tool-group" aria-labelledby="g4">
+          <h2 id="g4">Investigação em seis etapas</h2>
+          <p>
+            A bancada completa do Graphos: defina uma estrutura, as regras, e
+            siga até a solução. O projeto fica salvo neste navegador.
+            <button type="button" class="linkish" id="open-example">Abrir o exemplo dos quatro cavalos</button>
+            para começar já com o problema original.
+          </p>
+          <ul class="tool-grid">
+            <li class="tool">
+              <h3>01 · Estrutura</h3>
+              <p>Defina o espaço ou o conjunto de elementos: um tabuleiro regular ou irregular.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Montar o tabuleiro a investigar. Marque as casas existentes e, no modo cavalos, posicione as peças.</p></details>
+              
+              <div class="tool-actions"><a class="btn p sm" href="estrutura.html">Abrir estrutura <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+            <li class="tool">
+              <h3>02 · Regras</h3>
+              <p>Defina as relações ou movimentos possíveis. Se A → B é permitido, A e B ficam conectados no grafo.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Escolher a regra de movimento. Veja a prévia do movimento e confira as conexões geradas.</p></details>
+              
+              <div class="tool-actions"><a class="btn p sm" href="regras.html">Abrir regras <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+            <li class="tool">
+              <h3>03 · Grafo</h3>
+              <p>Transforme as relações em vértices e arestas. A estrutura permanece visível por baixo.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Visualizar o grafo da estrutura e da regra. Alterne a visualização e arraste vértices para reorganizar.</p></details>
+              
+              <div class="tool-actions"><a class="btn p sm" href="grafo.html">Abrir grafo <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+            <li class="tool">
+              <h3>04 · Geometria</h3>
+              <p>Explore representações espaciais do mesmo grafo e observe cruzamentos, ciclos e componentes.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Perceber que o desenho muda, mas as relações permanecem. Troque o layout (grade, círculo, forças) e compare.</p></details>
+              
+              <div class="tool-actions"><a class="btn p sm" href="geometria.html">Abrir geometria <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+            <li class="tool">
+              <h3>05 · Análise</h3>
+              <p>Investigue caminhos, ciclos, graus e distâncias do grafo.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Medir propriedades do grafo. Escolha origem e destino e observe o caminho e as métricas.</p></details>
+              <p class="tool-trail" data-trail="1.4,2.1,2.2"></p>
+              <div class="tool-actions"><a class="btn p sm" href="analise.html">Abrir análise <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+            <li class="tool">
+              <h3>06 · Solução</h3>
+              <p>Acompanhe a sequência mínima no tabuleiro e no grafo.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Ver a solução exata animada. Use reproduzir, pausar e a linha do tempo.</p></details>
+              <p class="tool-trail" data-trail="3.2"></p>
+              <div class="tool-actions"><a class="btn p sm" href="solucao.html">Abrir solução <span data-icon="arrow-right"></span></a></div>
+            </li>
+
+          </ul>
+        </section>
+
+        <section class="tool-group" aria-labelledby="g5">
+          <h2 id="g5">Aplicações no mundo real</h2>
+          <p>
+            Os mesmos vértices, arestas e caminhos em problemas de ciência e
+            tecnologia: transporte, redes de computadores e redes sociais.
+          </p>
+          <ul class="tool-grid">
+            <li class="tool">
+              <h3>As redes do mundo</h3>
+              <p>Três redes reais para comparar trajetos, encontrar pontos de falha e escolher caminhos por critérios diferentes.</p>
+              <details class="tool-how"><summary>Como usar</summary><p><b>Objetivo:</b> Reconhecer vértices, arestas e caminhos em situações concretas. No metrô, responda quantas arestas tem o trajeto mais curto. Na rede de computadores, simule falhas e ache o dispositivo que separa a rede. Na rede social, compare o trajeto de menor soma com o de ligação mais forte.</p></details>
+              <p class="tool-trail" data-trail="5.1,5.2,5.3"></p>
+              <div class="tool-actions"><a class="btn p sm" href="redes.html?livre=1">Abrir as aplicações <span data-icon="arrow-right"></span></a><a class="text-link" href="pesquisa.html#fundamentacao">Caminhos mínimos na Pesquisa <span data-icon="arrow-up-right"></span></a></div>
+            </li>
+
+          </ul>
+        </section>
+      </div>
+
+      <p class="mut" style="margin-top:48px;max-width:62ch">
+        Quer seguir um caminho guiado, com fases, XP e conquistas?
+        <a href="index.html">Abra a Trilha de Aprendizagem</a>. Quer ver a
+        fundamentação matemática? <a href="pesquisa.html">Leia a Pesquisa</a>.
+      </p>
+    </main>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/lab.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

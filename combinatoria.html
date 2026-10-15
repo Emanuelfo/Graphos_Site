@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / trilha 05: quantas disposições iniciais existem no Xadrez de Fischer? Conte e confira por enumeração."
+    />
+    <title>Combinatória - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body class="trail" data-page="combinatoria">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <h1>Combinatória</h1>
+          <p>
+            No Xadrez de Fischer (Xadrez 960) a primeira fileira é sorteada,
+            com regras. Quantas disposições existem? Descubra contando e depois
+            confira enumerando.
+          </p>
+        </div>
+      </header>
+      <div class="work">
+        <div class="viz one">
+          <section class="card">
+            <div class="ph">
+              <h2>Primeira fileira</h2>
+              <span class="mut" id="step-count"></span>
+            </div>
+            <div class="cv cv-rank">
+              <svg
+                id="rank"
+                class="rank"
+                viewBox="0 0 640 84"
+                role="group"
+                aria-label="Casas da primeira fileira, de a1 a h1"
+              ></svg>
+            </div>
+            <p class="step-help" id="step-help"></p>
+            <div class="formula" id="formula" aria-label="Escolhas por passo"></div>
+            <div class="tools">
+              <button type="button" class="sm" id="undo">Desfazer</button>
+              <button type="button" class="sm" id="restart">Recomeçar</button>
+              <span class="sp"></span>
+              <button type="button" class="sm" id="random">Sortear</button>
+              <label class="inline"
+                >Nº
+                <input id="num" type="number" min="0" max="959" inputmode="numeric" aria-label="Número da disposição, de 0 a 959" /></label
+              ><button type="button" class="sm" id="show-num">Mostrar</button>
+            </div>
+            <p class="fb info" id="fb" role="status" aria-live="polite"></p>
+            <p id="pos-number"></p>
+          </section>
+        </div>
+        <aside class="panel" aria-label="Contagem">
+          <h4>As regras</h4>
+          <p>
+            Brancas e pretas usam a mesma disposição, espelhada. Peões ficam
+            onde sempre ficam. Na primeira fileira:
+          </p>
+          <p>
+            • os dois bispos ficam em casas de cores opostas;<br />• o rei fica
+            entre as duas torres.
+          </p>
+          <p class="mut">
+            Peças do mesmo tipo são iguais: trocar as duas torres de lugar não
+            gera uma disposição nova.
+          </p>
+          <h4>Contar sem listar</h4>
+          <div id="count-chain"></div>
+          <h4>Conferir listando</h4>
+          <p class="mut">
+            O navegador vai gerar todos os arranjos possíveis e testar cada
+            regra, uma por uma.
+          </p>
+          <div class="row">
+            <button type="button" class="p sm" id="enum">Enumerar tudo</button>
+          </div>
+          <div id="enum-out"></div>
+          <p class="gl">
+            <b>Princípio multiplicativo</b>Se uma escolha pode ser feita de
+            <i>a</i> maneiras e, para cada uma, a seguinte de <i>b</i> maneiras,
+            o total é <i>a × b</i>. Assim se conta sem listar.
+          </p>
+        </aside>
+      </div>
+      <nav class="pager" id="pager" aria-label="Navegar entre módulos"></nav>
+    </main>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/analise.js"></script>
+    <script src="js/solucao.js"></script>
+    <script src="js/jogo.js"></script>
+    <script src="js/fase.js"></script>
+    <script src="js/combinatoria.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

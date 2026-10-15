@@ -1,0 +1,723 @@
+/* Explicit changes in composition for tablets and phones. */
+@media (max-width: 1200px) {
+  .lab-chrome #load-example {
+    display: none;
+  }
+  .hero {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+  .hero h1 {
+    font-size: 9.8vw;
+  }
+  .hero-actions {
+    gap: 20px;
+  }
+  .hero-actions .text-link {
+    font-size: 11px;
+  }
+  .brand-note {
+    display: none;
+  }
+  .top {
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+  }
+  .work {
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 24px;
+  }
+  .panel {
+    padding-left: 22px;
+  }
+  .viz:not(.one) {
+    grid-template-columns: 1fr;
+    position: static;
+  }
+  .viz:not(.one) svg.v {
+    height: 390px;
+  }
+  body[data-page="solucao"] .viz {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  body[data-page="solucao"] svg.v {
+    height: 360px;
+  }
+  #sol .moves {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .story-layout {
+    gap: 40px;
+  }
+  .journey {
+    grid-template-columns: 0.7fr 1.3fr;
+  }
+  .journey-links {
+    gap: 18px;
+  }
+  .journey-links a {
+    gap: 9px;
+  }
+}
+@media (max-width: 900px) {
+  html {
+    scroll-padding-top: 76px;
+  }
+  /* Cabeçalho de celular: duas faixas compactas.
+     Marca + ações na primeira; as três áreas do site na segunda, sempre visíveis.
+     Nada de menu escondido: nenhuma seção exige dois toques para ser alcançada. */
+  .top,
+  .lab-chrome .top {
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "brand acts" "nav nav";
+    align-items: center;
+    row-gap: 0;
+    column-gap: 12px;
+    min-height: 0;
+    padding: 6px 20px 8px;
+  }
+  .brand {
+    grid-area: brand;
+  }
+  .brand img {
+    width: 24px;
+    height: 24px;
+  }
+  .brand b {
+    font-size: 24px;
+    letter-spacing: -1px;
+  }
+  .acts,
+  .lab-chrome .acts {
+    grid-area: acts;
+    grid-column: auto;
+    grid-row: auto;
+    gap: 2px;
+  }
+  .acts #load-example {
+    display: none;
+  }
+  .steps,
+  .lab-chrome .steps {
+    grid-area: nav;
+    position: static;
+    display: flex;
+    justify-content: flex-start;
+    gap: 22px;
+    padding: 0;
+    border-bottom: 0;
+    max-height: none;
+    overflow: visible;
+    /* Rótulos curtos (Trilha, Laboratório, Pesquisa) cabem sem rolagem até 320px. */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .steps::-webkit-scrollbar {
+    display: none;
+  }
+  .st,
+  .lab-chrome .st {
+    min-height: var(--tap);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 0;
+    flex: none;
+  }
+  /* A seção atual é marcada por peso, cor e sublinhado — não só por cor. */
+  .st.on {
+    font-weight: 750;
+  }
+  .st.on::after {
+    transform: scaleX(1);
+    height: 3px;
+  }
+  .menu-toggle {
+    display: none;
+  }
+  .hero {
+    min-height: calc(100svh - 70px);
+    max-height: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 35px;
+  }
+  .hero h1 {
+    font-size: 10.5vw;
+  }
+  .hero-intro {
+    font-size: 13px;
+  }
+  .hero-actions .lg {
+    font-size: 11px;
+    padding: 14px 17px;
+  }
+  #hero-graph {
+    height: 330px;
+  }
+  .demo-top {
+    font-size: 10px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .demo-top .mono {
+    margin-left: 0;
+    font-size: 9px;
+  }
+  .demo-bottom .seg {
+    width: 190px;
+  }
+  .story-layout {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 25px;
+  }
+  .story-chapter h3 {
+    font-size: 36px;
+  }
+  .story-chapter p {
+    font-size: 13px;
+  }
+  .story-figure {
+    top: 110px;
+  }
+  #story-graph {
+    height: 360px;
+  }
+  .mode-grid {
+    gap: 6%;
+  }
+  .mode h3 {
+    font-size: 32px;
+  }
+  .mode p {
+    font-size: 13px;
+  }
+  .shead h1 {
+    font-size: 44px;
+  }
+  .project-meta {
+    font-size: 9px;
+  }
+  .player-deck {
+    gap: 0 18px;
+  }
+  .player-caption strong {
+    font-size: 18px;
+  }
+  #sol {
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 30px;
+  }
+  .journey {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+@media (max-width: 767px) {
+  /* Página de atividade no celular: a faixa da fase (js/fase.js marca `has-phase`)
+     já diz onde o estudante está e o que vai aprender. Repetir "Explorar" em corpo
+     42px só empurrava o tabuleiro para fora da tela. Sem faixa de fase, o título
+     da página continua valendo. O progresso vira uma linha compacta. */
+  .has-phase .shead {
+    display: block;
+    padding: 0 0 6px;
+    margin-bottom: 0;
+    border-bottom: 0;
+  }
+  .has-phase .shead .eyebrow,
+  .has-phase .shead > div > h1,
+  .has-phase .shead > div > p:not(.eyebrow) {
+    display: none;
+  }
+  .has-phase .shead .project-meta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    text-align: left;
+    margin: 0;
+    font-size: 10px;
+  }
+  /* O XP e a contagem de fases são o dado útil; o resto fica só para leitores de tela. */
+  .has-phase .shead .project-meta .inv {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .shell,
+  .wrap {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .brand b {
+    font-size: 26px;
+  }
+  .brand img {
+    width: 22px;
+    height: 22px;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 29px;
+    padding-bottom: 30px;
+    gap: 0;
+  }
+  .hero .eyebrow {
+    font-size: 11px;
+  }
+  .hero h1 {
+    font-size: clamp(70px, 20vw, 128px);
+    line-height: 0.94;
+    margin: 23px 0;
+  }
+  .hero-intro {
+    font-size: 13px;
+  }
+  .hero-actions {
+    gap: 18px;
+    margin-top: 22px;
+  }
+  .hero-actions .lg {
+    min-height: 48px;
+  }
+  .hero-actions .text-link {
+    font-size: 10px;
+  }
+  .hero-lab {
+    padding-top: 7px;
+  }
+  #hero-graph {
+    height: 240px;
+    width: calc(100% + 32px);
+    margin-left: -16px;
+  }
+  .scene-label {
+    font-size: 24px;
+  }
+  .demo-top {
+    flex-wrap: nowrap;
+    font-size: 10px;
+    padding: 8px 0;
+  }
+  .demo-top > span:last-child {
+    font-size: 8px;
+  }
+  .demo-caption {
+    font-size: 9px;
+    margin-top: 6px;
+    min-height: 30px;
+  }
+  .demo-bottom .seg {
+    width: 220px;
+  }
+  .connections {
+    padding-top: 55px;
+  }
+  .connections-heading h2,
+  .section-title h2 {
+    font-size: clamp(34px, 8.9vw, 52px);
+    letter-spacing: -0.05em;
+  }
+  .connections-heading {
+    margin-bottom: 28px;
+  }
+  .story-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .story-figure {
+    top: 70px;
+    z-index: 2;
+    padding: 0;
+    background: var(--bg);
+  }
+  #story-graph {
+    height: 250px;
+  }
+  .story-figure figcaption {
+    font-size: 10px;
+    padding: 9px 0 14px;
+  }
+  .story-chapter {
+    min-height: 60svh;
+    padding: 52px 0;
+    justify-content: center;
+  }
+  .story-chapter h3 {
+    font-size: 40px;
+  }
+  .story-chapter p {
+    font-size: 14px;
+    max-width: 30em;
+  }
+  .story-formula {
+    margin-bottom: 18px;
+  }
+  .story-chapter .text-link {
+    margin-top: 20px;
+  }
+  .section-space {
+    padding-top: 70px;
+  }
+  .section-title {
+    margin-bottom: 35px;
+  }
+  .mode-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+  .mode-knights {
+    margin-top: 0;
+  }
+  .mode h3 {
+    font-size: 38px;
+  }
+  .mode svg {
+    height: 210px;
+    margin: 10px 0 18px;
+  }
+  .mode-knights svg {
+    height: 170px;
+    margin: 30px 0;
+  }
+  .mode p {
+    font-size: 14px;
+  }
+  .example-section {
+    margin-top: 10px;
+  }
+  .example-feature {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .study-figure {
+    padding: 25px;
+  }
+  #study-board {
+    height: 290px;
+    margin: 20px 0;
+  }
+  .example-copy h3 {
+    font-size: 35px;
+  }
+  .example-facts {
+    gap: 45px;
+    margin: 27px 0;
+  }
+  .journey {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 60px;
+  }
+  .journey-intro {
+    font-size: 28px;
+  }
+  .journey-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 25px;
+  }
+  .research-section {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-bottom: 65px;
+  }
+  .research-heading h2 {
+    font-size: 44px;
+  }
+  .research-copy {
+    padding-top: 0;
+  }
+  .research-copy .research-lead {
+    font-size: 23px;
+  }
+  .footer-word {
+    font-size: 19.5vw;
+    line-height: 1.25;
+  }
+  .footer-meta {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-meta > .text-link {
+    width: 100%;
+    order: 3;
+  }
+  .footer-meta p,
+  .footer-meta small {
+    font-size: 9px;
+  }
+  .shead {
+    display: block;
+    padding: 25px 0 23px;
+    margin-bottom: 22px;
+  }
+  .shead h1 {
+    font-size: 42px;
+    margin-top: 10px;
+  }
+  /* A trilha no celular é uma tela de jogo: o título de abertura cede espaço
+     para o mapa, que é o que o estudante precisa ver e tocar. */
+  .jornada-page .j-hero h1 {
+    font-size: 27px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 2px 0 6px;
+  }
+  .jornada-page .j-hero .eyebrow {
+    font-size: 9px;
+  }
+  .jornada-page .j-hero p:not(.eyebrow) {
+    font-size: 12.5px;
+  }
+  .shead p:not(.eyebrow) {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .shead .eyebrow {
+    font-size: 10px;
+  }
+  .project-meta {
+    display: none;
+  }
+  .work {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .viz {
+    position: static;
+  }
+  .viz:not(.one) {
+    grid-template-columns: 1fr;
+  }
+  svg.v,
+  .viz:not(.one) svg.v {
+    height: 360px;
+    padding: 20px;
+  }
+  .panel {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 22px 0;
+  }
+  .ph {
+    gap: 9px;
+    padding-bottom: 12px;
+  }
+  .ph h2 {
+    font-size: 11px;
+  }
+  .ph .mut,
+  .figure-number {
+    font-size: 9px;
+  }
+  .panel p {
+    font-size: 13px;
+  }
+  .panel h4,
+  .seg button {
+    font-size: 12px;
+  }
+  .gl {
+    font-size: 12px !important;
+  }
+  .pager {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    background: var(--bg);
+    padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px));
+    margin-top: 18px;
+    /* Rótulos longos ("Troca de cavalos") não podem forçar a página a ficar mais
+       larga que a tela: a linha quebra e o botão encolhe até caber. */
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  /* Como a barra de navegação fica presa no rodapé, o conteúdo precisa de espaço
+     para não ficar por baixo dela quando a página é curta. */
+  body[data-page] .wrap,
+  body[data-page] .shell {
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+  .pager .btn {
+    font-size: 11px;
+    padding: 11px 13px;
+    min-width: 0;
+    white-space: normal;
+    max-width: 100%;
+  }
+  /* O botão de avançar fica com o espaço que sobra; o de voltar não estica. */
+  .pager .btn.p {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+  }
+  .pager-note {
+    display: none;
+  }
+  #msg {
+    bottom: 90px;
+  }
+  .solution-view-tabs {
+    display: grid;
+    grid-column: 1/-1;
+    margin-bottom: 14px;
+  }
+  .viz[data-mobile-scene="board"] > [data-scene="graph"],
+  .viz[data-mobile-scene="graph"] > [data-scene="board"] {
+    display: none;
+  }
+  body[data-page="solucao"] .viz {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  body[data-page="solucao"] .card .ph {
+    display: none;
+  }
+  body[data-page="solucao"] .viz svg.v {
+    height: clamp(240px, calc(100svh - 540px), 330px);
+    padding: 17px;
+  }
+  body[data-page="solucao"] .shead h1 {
+    font-size: 42px;
+  }
+  body[data-page="solucao"] .pager {
+    position: static;
+  }
+  .player-deck {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+    padding-top: 18px;
+    margin-top: 12px;
+  }
+  .player-heading {
+    grid-column: 1;
+    grid-row: 1;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .player-caption {
+    gap: 13px;
+  }
+  .move-counter {
+    font-size: 35px;
+  }
+  .player-caption strong {
+    font-size: 18px;
+  }
+  .player-caption small {
+    font-size: 9px;
+    line-height: 1.6;
+  }
+  .player-speed {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    font-size: 9px;
+  }
+  .player-speed select {
+    min-height: 32px;
+    font-size: 10px;
+  }
+  .player-deck .timeline {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 5px 0;
+  }
+  .player-deck .pb {
+    grid-column: 1;
+    grid-row: 3;
+    justify-content: center;
+    gap: 12px;
+  }
+  body[data-page="solucao"] #sol-title {
+    font-size: 26px;
+  }
+  #sol {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  #sol .moves {
+    grid-template-columns: 1fr;
+    max-height: 380px;
+  }
+}
+@media (max-width: 380px) {
+  .top,
+  .lab-chrome .top {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .brand {
+    gap: 8px;
+  }
+  .brand b {
+    font-size: 24px;
+  }
+  .brand img {
+    width: 20px;
+    height: 20px;
+  }
+  .shell,
+  .wrap {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .hero-actions {
+    gap: 17px;
+  }
+  .hero-actions .text-link {
+    font-size: 9px;
+    gap: 7px;
+  }
+  .hero-actions .lg {
+    padding: 14px;
+  }
+  .demo-top > span:last-child {
+    font-size: 7.5px;
+  }
+  .shead h1 {
+    font-size: 38px;
+  }
+  .player-caption strong {
+    font-size: 16px;
+  }
+  .player-deck .pb {
+    gap: 9px;
+  }
+}
+@media (pointer: coarse) {
+  .zb button {
+    width: 44px;
+    height: 44px;
+  }
+  .seg button,
+  button,
+  .btn,
+  input,
+  select {
+    min-height: 44px;
+  }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  #chrome,
+  .viz,
+  .pager,
+  .story-figure {
+    position: static;
+  }
+  .hero {
+    min-height: 0;
+  }
+  svg.v {
+    height: 360px;
+  }
+}
+:root[data-motion="reduce"] .story-figure {
+  position: static;
+}
+:root[data-motion="reduce"] .story-chapter {
+  min-height: 0;
+  padding: 30px 0;
+}

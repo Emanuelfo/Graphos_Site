@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / trilha 01: descubra como um tabuleiro de xadrez se torna um grafo, começando pelo cavalo."
+    />
+    <title>Explorar - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body class="trail" data-page="explorar">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="shead">
+        <div>
+          <h1>Explorar</h1>
+          <p>
+            Um tabuleiro é uma rede de relações. Toque nas casas e descubra como
+            os saltos do cavalo as conectam.
+          </p>
+        </div>
+      </header>
+      <div class="work">
+        <div class="viz one">
+          <section class="ctask" id="ctask" aria-label="Conceito e tarefa da etapa atual"></section>
+          <section class="card">
+            <div class="ph">
+              <h2>Tabuleiro do cavalo</h2>
+              <span class="mut" id="bcap"></span>
+            </div>
+            <div class="cv">
+              <svg
+                id="bsvg"
+                class="v"
+                role="group"
+                aria-label="Tabuleiro interativo do cavalo"
+              ></svg>
+              <div class="zb">
+                <button type="button" data-zoom="in" aria-label="Aproximar">
+                  +</button
+                ><button type="button" data-zoom="out" aria-label="Afastar">
+                  −</button
+                ><button
+                  type="button"
+                  data-zoom="fit"
+                  aria-label="Ajustar à tela"
+                >
+                  ⤢
+                </button>
+              </div>
+            </div>
+            <div class="tools">
+              <div class="seg" id="view" aria-label="Representação">
+                <button type="button" data-view="board" aria-pressed="true">
+                  Tabuleiro</button
+                ><button type="button" data-view="graph" aria-pressed="false">
+                  Grafo
+                </button>
+              </div>
+              <span class="sp"></span>
+              <label class="inline"
+                >Tamanho
+                <select id="size" aria-label="Tamanho do tabuleiro">
+                  <option value="4x3">4 × 3</option>
+                  <option value="5x5" selected>5 × 5</option>
+                  <option value="6x6">6 × 6</option>
+                  <option value="8x8">8 × 8</option>
+                </select></label
+              >
+            </div>
+            <p class="fb info" id="fb" role="status" aria-live="polite"></p>
+          </section>
+        </div>
+        <aside class="panel" aria-label="Conceitos">
+          <h4>Cinco ideias, uma de cada vez</h4>
+          <ol class="concepts" id="concepts"></ol>
+          <p class="gl">
+            <b>Grafo</b>Um conjunto de vértices (pontos) e arestas (ligações
+            entre dois vértices). Aqui, os vértices são as casas e as arestas
+            são os saltos do cavalo.
+          </p>
+        </aside>
+      </div>
+      <nav class="pager" id="pager" aria-label="Navegar entre módulos"></nav>
+    </main>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/exemplos.js"></script>
+    <script src="js/regras.js"></script>
+    <script src="js/estrutura.js"></script>
+    <script src="js/grafo.js"></script>
+    <script src="js/analise.js"></script>
+    <script src="js/solucao.js"></script>
+    <script src="js/jogo.js"></script>
+    <script src="js/fase.js"></script>
+    <script src="js/explorar.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

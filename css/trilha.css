@@ -1,0 +1,717 @@
+/* Graphos / trilha de aprendizagem. Reutiliza os tokens e componentes de style.css:
+   mesma paleta, Manrope, cantos retos, filetes e rótulos monoespaçados. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* O exemplo do laboratório de seis etapas não pertence à trilha. */
+.trail-chrome #load-example {
+  display: none;
+}
+
+/* ---------- Retorno ao estudante ----------
+   O estado nunca é comunicado só pela cor: cada variante traz um sinal textual
+   ("Correto", "Ainda não", "Informação") lido por leitores de tela e visível na tela. */
+.fb {
+  position: relative;
+  margin: var(--sp-3) 0 0;
+  padding: var(--sp-3) var(--sp-4) var(--sp-3) 38px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line2);
+  border-radius: var(--radius);
+  background: var(--tint);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+.fb::before {
+  position: absolute;
+  left: 13px;
+  top: var(--sp-3);
+  font: 700 12px var(--mono);
+  line-height: 1.7;
+}
+.fb.ok {
+  border-color: var(--ok);
+  border-left-color: var(--ok);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+}
+.fb.ok::before {
+  content: "✓";
+  color: var(--ok);
+}
+.fb.bad {
+  border-color: var(--bad);
+  border-left-color: var(--bad);
+  background: var(--bad-bg);
+  color: var(--bad-ink);
+}
+.fb.bad::before {
+  content: "!";
+  color: var(--bad);
+}
+.fb.info {
+  border-left-color: var(--info);
+  background: var(--info-bg);
+}
+.fb.info::before {
+  content: "i";
+  color: var(--info);
+}
+.fb b {
+  font-weight: 700;
+}
+.fb:empty {
+  display: none;
+}
+/* Rótulo de estado para leitores de tela, sem repetir texto na tela. */
+.fb::after {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.fb.ok::after {
+  content: "Resposta correta.";
+}
+.fb.bad::after {
+  content: "Resposta incorreta.";
+}
+/* Em telas pequenas o retorno acompanha o tabuleiro e não empurra os controles. */
+@media (max-width: 767px) {
+  .fb {
+    margin-top: var(--sp-2);
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+}
+
+/* Em telas largas a figura e o retorno ao estudante cabem juntos na primeira dobra. */
+@media (min-width: 901px) {
+  .trail svg.v {
+    height: clamp(380px, calc(100svh - 500px), 560px);
+  }
+}
+
+/* ---------- Barra sob a figura ---------- */
+.tools .seg {
+  min-width: 200px;
+}
+.tools select {
+  min-height: 36px;
+  padding: 6px 8px;
+  font: 11px var(--mono);
+  background: transparent;
+  border-color: var(--line);
+}
+.tools .inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+}
+.tools .tool-note {
+  font: 10px var(--mono);
+  color: var(--mut);
+}
+
+/* ---------- Sobre o tabuleiro ---------- */
+svg.v .lbl {
+  font: 700 12px var(--mono);
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+svg.v .lbl.dist {
+  fill: var(--ac2);
+}
+svg.v .goal {
+  stroke-width: 1.6;
+}
+svg.v .goal.W {
+  fill: var(--piece-light);
+  stroke: var(--piece-dark);
+}
+svg.v .goal.B {
+  fill: var(--piece-dark);
+  stroke: var(--piece-light);
+}
+svg.v .goal.hit {
+  stroke: var(--ac);
+  stroke-width: 3;
+}
+
+/* ---------- Explorar: objetivo e tarefa, junto do tabuleiro ----------
+   Uma única fonte para o problema da vez, imediatamente antes da figura:
+   o estudante lê o que fazer e responde sem procurar os controles pela tela. */
+.ctask {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ac);
+  border-radius: var(--radius);
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-3);
+}
+.ctask.is-done {
+  border-left-color: var(--ok);
+}
+.ctask.is-locked {
+  border-left-color: var(--line2);
+}
+.ctask-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-2);
+  font-size: 13px;
+}
+.ctask-head .mono {
+  font-size: 10px;
+  color: var(--mut);
+}
+.ctask-head .chip {
+  margin-left: auto;
+}
+.ctask-obj {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 6px;
+  max-width: 68ch;
+}
+.ctask-todo {
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin-top: var(--sp-2);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--line);
+  max-width: 68ch;
+}
+.ctask-todo b {
+  color: var(--ac);
+}
+.ctask .ask {
+  margin-top: var(--sp-3);
+  font-size: 12.5px;
+}
+.ctask .ask-row {
+  align-items: center;
+}
+.ctask .ask input {
+  width: 92px;
+  font: 20px var(--body);
+  min-height: var(--tap);
+}
+.ctask .ask-row .btn,
+.ctask .ask-row button {
+  min-height: var(--tap);
+}
+/* Em telas pequenas a barra com a tarefa fica presa abaixo do cabeçalho enquanto o
+   estudante olha a figura: instrução e área de interação no mesmo campo de visão.
+   A definição do conceito rola junto — é leitura, não instrução de ação. */
+@media (max-width: 767px) {
+  .ctask {
+    padding: 10px 12px;
+    margin-bottom: var(--sp-2);
+  }
+  .ctask-bar {
+    position: sticky;
+    top: 104px;
+    z-index: 5;
+    margin: -10px -12px 0;
+    padding: 9px 12px 8px;
+    background: var(--surface);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .ctask-head {
+    font-size: 12.5px;
+  }
+  .ctask-head .chip {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+  .ctask-todo {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 5px;
+    padding-top: 5px;
+  }
+  .ctask-obj {
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+  .ctask .ask {
+    margin-top: var(--sp-2);
+    font-size: 12px;
+  }
+  .ctask .ask input {
+    width: 78px;
+    font-size: 18px;
+  }
+}
+
+/* ---------- Aplicações: nomes de vértices e pesos das arestas ----------
+   Os rótulos são desenhados por cima do grafo (js/redes.js) e usam o mesmo
+   sistema de coordenadas do tabuleiro. */
+svg.v text.rede-nome {
+  font: 600 9px var(--body);
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--cv);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+svg.v .rede-peso {
+  cursor: pointer;
+}
+svg.v .rede-peso circle {
+  fill: var(--surface);
+  stroke: var(--line2);
+  stroke-width: 1.2;
+}
+svg.v .rede-peso text {
+  font: 700 11px var(--mono);
+  fill: var(--ink);
+}
+svg.v .rede-peso.on circle,
+svg.v .rede-peso:hover circle,
+svg.v .rede-peso:focus-visible circle {
+  stroke: var(--ac);
+  stroke-width: 2.4;
+  fill: var(--rose);
+}
+svg.v .rede-peso:focus-visible {
+  outline: none;
+}
+.rede-acoes {
+  gap: var(--sp-2);
+}
+
+/* ---------- Peças como grafos: números do grafo da peça escolhida ----------
+   O painel usa a grade .kv de duas colunas; aqui os números são menores que os
+   do laboratório e o rótulo da peça não pode quebrar o alinhamento. */
+.pecas-kv {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 14px;
+  margin: 6px 0 14px;
+}
+.pecas-kv div {
+  padding: 7px 0 9px;
+}
+.pecas-kv dt {
+  font-size: 9px;
+  margin-bottom: 3px;
+}
+.pecas-kv .peca-nome {
+  font: 700 15px/1.2 var(--display);
+  overflow-wrap: anywhere;
+}
+.pecas-kv .peca-num {
+  font: 700 26px/1 var(--mono);
+  letter-spacing: -0.03em;
+}
+.pecas-kv .peca-num small {
+  font: 500 9px var(--mono);
+  display: block;
+  margin-top: 3px;
+}
+/* Setas de etapa dentro da área de tarefa. */
+.ctask-nav {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--line);
+  gap: var(--sp-2);
+}
+.ctask-nav .sm {
+  white-space: normal;
+  text-align: left;
+}
+@media (max-width: 767px) {
+  /* Duas colunas no celular: três deixariam os números apertados. */
+  .pecas-kv {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pecas-kv .peca-num {
+    font-size: 22px;
+  }
+}
+
+/* ---------- Explorar: conceitos em sequência ---------- */
+.concepts {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.concept {
+  border-bottom: 1px solid var(--line);
+}
+.c-head {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 12px;
+  border: 0;
+  padding: 10px 0;
+  min-height: 48px;
+  font-size: 12px;
+  text-align: left;
+  white-space: normal;
+}
+.c-no {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line2);
+  font: 10px var(--mono);
+  flex: none;
+}
+.c-no .icon {
+  width: 14px;
+  height: 14px;
+}
+.concept.done .c-no {
+  border-color: var(--ac);
+  color: var(--ac);
+}
+.concept.on .c-no {
+  background: var(--ac);
+  border-color: var(--ac);
+  color: var(--onac);
+}
+.c-body {
+  padding: 0 0 18px 38px;
+}
+.c-body p {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.c-body .task {
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 2px solid var(--ac);
+}
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--mut);
+}
+.ask-row {
+  display: flex;
+  gap: 8px;
+}
+.ask input {
+  width: 96px;
+  font: 20px var(--body);
+}
+
+/* ---------- Caminhos e níveis ---------- */
+.levels h4 {
+  margin: 18px 0 6px;
+}
+.lv {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 4px;
+  min-height: 42px;
+  font-size: 12px;
+  text-align: left;
+  white-space: normal;
+}
+.lv small {
+  font-size: 9px;
+  color: var(--mut);
+}
+.lv.on {
+  background: var(--rose);
+  color: var(--rose-ink);
+  box-shadow: inset 2px 0 var(--ac);
+}
+.lv.on small {
+  color: inherit;
+}
+#goal {
+  margin-top: 16px;
+}
+.panel .ask textarea {
+  min-height: 84px;
+  font: 12px/1.6 var(--body);
+  color: var(--ink);
+}
+.panel input[type="range"] {
+  width: 100%;
+  padding: 0;
+  min-height: 24px;
+  accent-color: var(--ac);
+}
+
+/* ---------- Troca de cavalos ---------- */
+.kv3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 12px 0 0;
+}
+.kv3 dd {
+  font-size: 26px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chips button {
+  font-size: 11px;
+}
+.tools-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 4px;
+  font-size: 11px;
+  min-height: 32px;
+}
+.panel .small {
+  font-size: 11px;
+  line-height: 1.9;
+}
+.panel .task {
+  margin-top: 12px;
+  padding-left: 10px;
+  border-left: 2px solid var(--ac);
+}
+.panel .movelog {
+  max-height: 220px;
+}
+.panel .rp {
+  margin-top: 0;
+}
+
+/* ---------- Laboratório ---------- */
+.cell.imp1 rect.lt,
+.cell.imp1 rect.dk {
+  fill: var(--rose);
+}
+.cell.imp2 rect.lt,
+.cell.imp2 rect.dk {
+  fill: var(--warn);
+  fill-opacity: 0.45;
+}
+.panel .ask-row {
+  display: flex;
+  gap: 8px;
+}
+.panel .ask-row input {
+  width: 110px;
+  font: 20px var(--body);
+}
+.qs {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--mut);
+}
+.qs li + li {
+  margin-top: 6px;
+}
+
+/* ---------- Combinatória ---------- */
+.cv-rank {
+  padding: 28px 24px 20px;
+}
+svg.rank {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 120px;
+  touch-action: manipulation;
+}
+svg.rank .cell rect {
+  stroke: var(--cv);
+  stroke-width: 2;
+}
+svg.rank .cell.ok rect {
+  stroke: var(--ac);
+  stroke-width: 5;
+}
+svg.rank .cell.pend rect {
+  stroke: var(--ac2);
+  stroke-width: 5;
+  stroke-dasharray: 8 5;
+}
+svg.rank .cell:focus-visible rect {
+  stroke: var(--ac);
+  stroke-width: 5;
+}
+svg.rank .cell .id {
+  font: 11px var(--mono);
+}
+svg.rank .glyph {
+  font: 56px var(--body);
+  fill: var(--ink);
+  pointer-events: none;
+}
+.step-help {
+  margin: 14px 0 0;
+  font-size: 13px;
+  min-height: 24px;
+}
+.formula {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 4px 8px;
+  margin: 14px 0 6px;
+}
+.formula i {
+  font-style: normal;
+  color: var(--mut);
+  padding-bottom: 6px;
+}
+.chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--line);
+  min-width: 68px;
+}
+.chip small {
+  font-size: 9px;
+  color: var(--mut);
+}
+.chip b {
+  font: 22px var(--mono);
+}
+.chip.now {
+  border-bottom-color: var(--ac);
+}
+.chip.done b {
+  color: var(--ac);
+}
+.tools input[type="number"] {
+  width: 76px;
+  min-height: 36px;
+  font: 12px var(--mono);
+  padding: 6px 8px;
+}
+.chain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chain li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.chain li div {
+  display: flex;
+  flex-direction: column;
+}
+.chain li b {
+  font-size: 12px;
+}
+.chain li .mono {
+  color: var(--mut);
+}
+.chain li strong {
+  font: 24px var(--mono);
+  color: var(--ac);
+  align-self: center;
+}
+.chain li p {
+  grid-column: 1 / -1;
+  font-size: 11px !important;
+  margin: 0;
+}
+.sample {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-size: 12px;
+}
+.sample .mono {
+  font-size: 16px;
+}
+
+/* ---------- Home: entrada da trilha ---------- */
+.trail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--ink);
+}
+.trail-list a {
+  display: grid;
+  grid-template-columns: 56px minmax(150px, 0.5fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+.trail-no {
+  color: var(--mut);
+}
+.trail-name {
+  font: 700 clamp(20px, 2.2vw, 30px) / 1.15 var(--display);
+  letter-spacing: -0.03em;
+}
+.trail-desc {
+  color: var(--mut);
+  font-size: 13px;
+  max-width: 52ch;
+}
+.trail-list a:hover .trail-name,
+.trail-list a:focus-visible .trail-name {
+  color: var(--ac);
+}
+.trail-list .icon {
+  transition: transform 0.3s var(--ease);
+}
+.trail-list a:hover .icon {
+  transform: translate(3px, -3px);
+}
+.trail-progress {
+  margin-top: 18px;
+  color: var(--mut);
+}
+@media (max-width: 767px) {
+  .trail-list a {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+  }
+  .trail-desc {
+    grid-column: 2 / 3;
+  }
+}
+
+/* Painel estreito: as quatro etapas da troca em duas linhas. */
+@media (max-width: 1200px) {
+  #steps {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  #steps button {
+    min-width: 0;
+  }
+}

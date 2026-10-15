@@ -1,0 +1,1506 @@
+/* Graphos / jornada: navegação por áreas, mapa gamificado, faixas de fase, Laboratório e Pesquisa.
+   Reutiliza os tokens de style.css (paleta, Manrope, cantos retos, filetes, rótulos monoespaçados). */
+
+/* ---------- Subnavegação (etapas, atividades, ferramentas) ---------- */
+.subnav {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.subnav-in {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4.3vw, 72px);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.sub,
+.sub-back {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 11px;
+  color: var(--mut);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.sub-back {
+  padding-right: clamp(14px, 2vw, 30px);
+  border-right: 1px solid var(--line);
+  margin-right: 0;
+}
+.sub-back .icon {
+  width: 14px;
+  height: 14px;
+}
+.sub::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ac);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
+.sub:hover,
+.sub.on,
+.sub-back:hover {
+  color: var(--ink);
+}
+.sub:hover::after,
+.sub.on::after {
+  transform: scaleX(1);
+}
+.sub.on .step-no {
+  color: var(--ac);
+}
+.top .steps .st span {
+  font-size: 12px;
+}
+/* Seletor de módulos: só aparece em telas pequenas (ver @media abaixo). */
+.sub-pick {
+  display: none;
+  position: relative;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap);
+}
+.sub-pick select {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 40px 0 12px;
+  border: 1px solid var(--line2);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  appearance: none;
+  text-overflow: ellipsis;
+}
+.sub-caret {
+  position: absolute;
+  right: 12px;
+  display: inline-flex;
+  pointer-events: none;
+  color: var(--mut);
+}
+.sub-caret .icon {
+  width: 16px;
+  height: 16px;
+  transform: rotate(90deg);
+}
+.sub-list {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  min-width: 0;
+}
+/* Em telas estreitas as abas de módulo não cabem: o seletor substitui a lista,
+   então nenhum nome de atividade fica cortado e não há rolagem lateral.
+   O seletor já diz em que atividade o estudante está, então o caminho de volta
+   se resume ao ícone com rótulo acessível. */
+@media (max-width: 900px) {
+  .subnav-in {
+    gap: 10px;
+    padding: 3px 20px 5px;
+    overflow: visible;
+  }
+  .sub-pick {
+    display: flex;
+    min-height: 40px;
+  }
+  .sub-pick select {
+    min-height: 40px;
+    font-size: 12.5px;
+  }
+  .sub-list {
+    display: none;
+  }
+  .sub-back {
+    padding-right: 10px;
+    min-height: 40px;
+  }
+  .sub-back span {
+    display: none;
+  }
+  .sub-back .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ---------- Chips de estado ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--line2);
+  font: 10px/1.6 var(--mono);
+  color: var(--mut);
+  white-space: nowrap;
+}
+.chip.is-done {
+  border-color: var(--ac);
+  background: var(--rose);
+  color: var(--rose-ink);
+}
+.chip.is-open {
+  border-color: var(--ac);
+  color: var(--ink);
+}
+.chip.is-locked {
+  border-style: dashed;
+}
+.linkish {
+  display: inline;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--ac);
+  text-align: left;
+  white-space: normal;
+}
+.linkish:hover {
+  background: none;
+  color: var(--ac);
+}
+
+/* ---------- Faixa da fase nas atividades ---------- */
+.fase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 8px 36px;
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ac);
+  background: var(--surface);
+}
+.fase.is-locked {
+  border-left-color: var(--line2);
+}
+.fase.livre {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border-left-color: var(--pur);
+}
+.fase-title {
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 4px 0 6px;
+}
+.fase-title .mono {
+  color: var(--ac);
+  font-size: 13px;
+  margin-right: 8px;
+}
+.fase-obj,
+.fase-crit,
+.fase-reward {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--mut);
+}
+.fase-crit {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 6px;
+}
+/* Dentro do bloco recolhido não há colunas: cada parte ocupa a largura inteira. */
+.fase-more .fase-crit,
+.fase-more .fase-como,
+.fase-more .fase-list {
+  grid-column: auto;
+  grid-row: auto;
+}
+.fase-more .fase-list {
+  margin-top: 12px;
+  padding-top: 10px;
+}
+/* O objetivo é a primeira coisa que o estudante lê: texto do corpo, não rodapé. */
+.fase-obj {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 62ch;
+}
+.fase-como {
+  grid-column: 1 / -1;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--mut);
+  max-width: 78ch;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.fase-crit,
+.fase-reward {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--mut);
+}
+.fase-crit b,
+.fase-reward b,
+.fase-obj b,
+.fase-como b {
+  color: var(--ink);
+}
+/* Explicação conceitual: existe sempre, mas recolhida para não competir com a tarefa. */
+.fase-more {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+}
+.fase-more summary {
+  padding: 10px 0 0;
+  min-height: 40px;
+  font-size: 12px;
+}
+.fase-dl {
+  margin: 0 0 10px;
+  display: grid;
+  gap: 8px;
+}
+.fase-dl dt {
+  font: 10px var(--mono);
+  color: var(--mut);
+}
+.fase-dl dd {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  max-width: 62ch;
+}
+.fase-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.fase-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+.fase-reward a,
+.fase-list a {
+  text-underline-offset: 3px;
+}
+.fase-list {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 12px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.fl {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  font: 10px/1.5 var(--mono);
+  color: var(--mut);
+  text-decoration: none;
+}
+.fl.is-done {
+  border-color: var(--ac);
+  color: var(--rose-ink);
+  background: var(--rose);
+}
+.fl.is-available {
+  color: var(--ink);
+  border-color: var(--line2);
+}
+.fl.on {
+  outline: 2px solid var(--ac);
+  outline-offset: 1px;
+}
+.fl.is-locked {
+  border-style: dashed;
+  opacity: 0.7;
+}
+.gate {
+  grid-column: 1 / -1;
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 28px;
+  border: 1px solid var(--line2);
+  border-left: 3px solid var(--ac);
+  background: var(--surface);
+}
+.gate h2 {
+  margin: 6px 0 12px;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+.gate ul {
+  margin: 12px 0;
+  padding-left: 18px;
+}
+.gate .row {
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.concept.locked .c-head {
+  color: var(--mut);
+  cursor: not-allowed;
+}
+.concept.locked .c-no {
+  border-style: dashed;
+}
+.c-ph {
+  margin-left: auto;
+  font-size: 9px;
+  color: var(--mut);
+}
+
+/* ---------- Página da Trilha: painel de status ---------- */
+.bar {
+  height: 4px;
+  margin-top: auto;
+  padding: 0;
+  background: var(--line);
+}
+.bar i {
+  display: block;
+  height: 100%;
+  background: var(--ac);
+}
+
+/* ---------- Mapa ---------- */
+.j-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 32px;
+  align-items: start;
+}
+.jmap {
+  position: relative;
+  min-width: 0;
+}
+.jmap-edges {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.edge {
+  fill: none;
+  stroke-width: 2;
+}
+.edge.is-done {
+  stroke: var(--ac);
+}
+.edge.is-open {
+  stroke: var(--ac);
+  stroke-dasharray: 7 6;
+}
+.edge.is-locked {
+  stroke: var(--line2);
+  stroke-dasharray: 3 6;
+  stroke-width: 1.5;
+}
+#jmap-worlds {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+.world {
+  position: relative;
+}
+.world-h {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  max-width: 62ch;
+  margin-bottom: 18px;
+  padding: 2px 14px 4px 0;
+  background: var(--bg);
+}
+.world-h h2 {
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 4px 0 6px;
+}
+.world-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 10px;
+  font-size: 10px;
+  color: var(--mut);
+}
+.world.is-locked .world-h h2 {
+  color: var(--mut);
+}
+.world-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: 26px 22px;
+}
+.node {
+  grid-column: var(--col);
+  grid-row: var(--row);
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+  min-height: 92px;
+  padding: 14px;
+  text-align: left;
+  white-space: normal;
+  background: var(--surface);
+  border: 1px solid var(--line2);
+  border-radius: 0;
+}
+.node-dot {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--line2);
+  font: 700 13px var(--mono);
+  color: var(--ink);
+  background: var(--bg);
+}
+.node-dot .icon {
+  width: 16px;
+  height: 16px;
+}
+.node-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.node-id {
+  font-size: 9px;
+  color: var(--mut);
+}
+.node b {
+  font-size: 13px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+.node small {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--mut);
+}
+.node.is-available .node-dot {
+  border-color: var(--ac);
+}
+.node.is-done {
+  border-color: var(--ac);
+}
+.node.is-done .node-dot {
+  background: var(--ac);
+  border-color: var(--ac);
+  color: var(--onac);
+}
+.node.is-locked {
+  border-style: dashed;
+  background: var(--bg);
+}
+.node.is-locked b,
+.node.is-locked .node-dot {
+  color: var(--mut);
+}
+.node.is-rec {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 3px var(--rose);
+}
+.node.is-rec .node-dot {
+  background: var(--rose);
+  color: var(--rose-ink);
+}
+.node.is-rec small {
+  color: var(--rose-ink);
+  font-weight: 700;
+}
+.node.is-sel {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+.node:hover {
+  background: var(--tint);
+  border-color: var(--ink);
+}
+.node.is-new .node-dot {
+  animation: node-pop 1.4s var(--ease) 1;
+}
+@keyframes node-pop {
+  0% {
+    box-shadow: 0 0 0 0 var(--ac);
+  }
+  100% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
+:root[data-motion="reduce"] .node.is-new .node-dot {
+  animation: none;
+}
+
+/* ---------- Painel de detalhes ---------- */
+.j-panel {
+  position: sticky;
+  top: 130px;
+  max-height: calc(100dvh - 150px);
+  overflow: auto;
+  padding: 22px;
+  border: 1px solid var(--line2);
+  background: var(--surface);
+}
+.j-panel h2 {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 6px 0 10px;
+}
+.j-panel h2 .mono {
+  color: var(--ac);
+  font-size: 14px;
+  margin-right: 6px;
+}
+.pd {
+  margin: 16px 0;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.pd dt {
+  margin-top: 12px;
+  font: 9px/1.6 var(--mono);
+  color: var(--mut);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.pd dd {
+  margin: 2px 0 0;
+}
+.reqs {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+}
+.reqs li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.reqs .icon {
+  width: 14px;
+  height: 14px;
+}
+.reqs li.ok .icon {
+  color: var(--ac);
+}
+.pd-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding-top: 8px;
+}
+.gate-note {
+  font-size: 12px;
+  color: var(--warn);
+}
+.pd-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Conquistas e notas ---------- */
+.j-ach,
+.j-notes {
+  margin-top: 64px;
+  max-width: 1000px;
+}
+.j-ach h2,
+.j-notes h2 {
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.ach-grid {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.ach {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border: 1px dashed var(--line2);
+  color: var(--mut);
+}
+.ach.got {
+  border: 1px solid var(--ac);
+  background: var(--rose);
+  color: var(--ink);
+}
+.ach-ic .icon {
+  width: 22px;
+  height: 22px;
+}
+.ach.got .ach-ic {
+  color: var(--ac);
+}
+.ach b {
+  font-size: 13px;
+}
+.ach p {
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 2px;
+}
+.j-notes ul {
+  margin: 14px 0 20px;
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--mut);
+}
+.j-notes li b {
+  color: var(--ink);
+}
+.j-notes .row {
+  gap: 10px;
+}
+
+/* ---------- Home: áreas, destaque e jornada ---------- */
+.areas {
+  padding-top: 70px;
+}
+.areas-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.areas-head h2 {
+  font-size: clamp(32px, 4.2vw, 60px);
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+.areas-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap: 18px;
+}
+.area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 24px 22px;
+  border: 1px solid var(--line2);
+  background: var(--surface);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.area:hover {
+  background: var(--tint);
+  border-color: var(--ink);
+}
+.area.rec {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 3px var(--rose);
+}
+.area-tag {
+  font: 10px/1.6 var(--mono);
+  color: var(--mut);
+}
+.area.rec .area-tag {
+  color: var(--rose-ink);
+  font-weight: 700;
+}
+.area h3 {
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+.area p {
+  font-size: 13px;
+  color: var(--mut);
+}
+.area svg.area-fig {
+  width: 100%;
+  height: 74px;
+  margin: 4px 0;
+}
+.area .mode-link,
+.area-go {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.area-go .icon {
+  width: 16px;
+  height: 16px;
+}
+.area-fig .v {
+  fill: var(--surface);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.area-fig .v.on {
+  fill: var(--ac);
+  stroke: var(--ac);
+}
+.area-fig .e {
+  stroke: var(--line2);
+  stroke-width: 2;
+  fill: none;
+}
+.area-fig .e.on {
+  stroke: var(--ac);
+}
+.area-fig .sq {
+  fill: var(--lt);
+}
+.area-fig .sq.d {
+  fill: var(--dk);
+}
+.home-progress {
+  margin-top: 14px;
+  font: 11px/1.6 var(--mono);
+  color: var(--mut);
+}
+.spot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 80px);
+  align-items: center;
+  margin-top: 90px;
+  padding: 36px 0;
+  border-top: 2px solid var(--ink);
+}
+.spot h2 {
+  font-size: clamp(30px, 3.6vw, 52px);
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  margin: 8px 0 14px;
+}
+.spot p {
+  font-size: 14px;
+  color: var(--mut);
+  max-width: 46ch;
+}
+.spot .row {
+  gap: 12px 22px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.spot-fig svg {
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+}
+.home-research {
+  margin-top: 90px;
+}
+
+/* ---------- Laboratório (hub) e Pesquisa ---------- */
+.tool-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+.tool-group h2 {
+  font-size: 24px;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+.tool-group > p {
+  font-size: 12px;
+  color: var(--mut);
+  max-width: 62ch;
+}
+.tool-grid {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  /* auto-fit (e não auto-fill): quando o grupo tem uma ferramenta só, o cartão
+     ainda ocupa a largura útil sem deixar uma coluna vazia ao lado. */
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.tool {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  max-width: 720px;
+  padding: 20px;
+  border: 1px solid var(--line2);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+/* As partes internas do cartão se separam por espaço, não por linhas extras. */
+.tool > * + * {
+  margin-top: 2px;
+}
+.tool h3 {
+  font-size: 19px;
+  letter-spacing: -0.02em;
+}
+.tool p {
+  font-size: 12px;
+  color: var(--mut);
+  line-height: 1.7;
+}
+.tool dl {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.tool dt {
+  display: inline;
+  font: 9px var(--mono);
+  color: var(--mut);
+  text-transform: uppercase;
+  margin-right: 6px;
+}
+.tool dd {
+  display: inline;
+  margin: 0;
+}
+.tool-actions {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.tool-trail {
+  font-size: 11px;
+  color: var(--mut);
+}
+.res-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: start;
+}
+.res-toc {
+  position: sticky;
+  top: 130px;
+  font-size: 12px;
+}
+.res-toc ol {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.res-toc a {
+  display: block;
+  padding: 7px 0 7px 12px;
+  border-left: 2px solid var(--line);
+  color: var(--mut);
+  text-decoration: none;
+}
+.res-toc a:hover {
+  color: var(--ink);
+  border-left-color: var(--ac);
+}
+.res {
+  min-width: 0;
+  max-width: 74ch;
+}
+.res section {
+  padding: 8px 0 36px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.res h2 {
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 4px 0 14px;
+}
+.res p,
+.res li {
+  font-size: 14px;
+  line-height: 1.85;
+}
+.res p + p {
+  margin-top: 12px;
+}
+.res ul,
+.res ol.plain {
+  padding-left: 20px;
+}
+.res .formula {
+  display: block;
+  margin: 14px 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--ac);
+  background: var(--tint);
+  font: 13px/1.7 var(--mono);
+  overflow-x: auto;
+}
+.res .pending {
+  padding: 16px 18px;
+  border: 1px dashed var(--line2);
+  color: var(--mut);
+  font-size: 13px;
+}
+.res .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin-top: 14px;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 18px 0 8px;
+  font-size: 12px;
+  color: var(--mut);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 1100px) {
+  .j-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .j-panel {
+    position: static;
+    max-height: none;
+  }
+  .areas-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .areas-grid .area:first-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 760px) {
+  .fase,
+  .fase.livre {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+    padding: 11px 13px;
+  }
+  /* O "Como fazer" completo fica no bloco recolhido: na tela pequena o que
+     importa é o objetivo e o critério, que cabem em poucas linhas. */
+  .fase-como {
+    display: none;
+  }
+  .fase-crit {
+    margin-top: 0;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .fase-title {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0 7px;
+    font-size: 19px;
+    line-height: 1.2;
+    margin: 2px 0 5px;
+  }
+  .fase-title .mono {
+    margin: 0;
+    font-size: 12px;
+  }
+  /* O rótulo do mundo é contexto secundário: o painel da atividade já diz em que
+     mundo o estudante está, e na tela pequena cada linha custa espaço do tabuleiro. */
+  .fase .eyebrow {
+    display: none;
+  }
+  .fase-obj {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .fase-como,
+  .fase-crit {
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+  /* A situação-problema e o conceito já aparecem na explicação do conceito:
+     na tela pequena a justificativa longa sai do caminho. */
+  .fase-side {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  } 
+  .fase-reward {
+    font-size: 12px;
+  }
+  /* A lista de fases da atividade é a própria navegação: linha única com rolagem. */
+  .fase-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 10px 0 0;
+    margin-top: 4px;
+  }
+  .fase-list::-webkit-scrollbar {
+    display: none;
+  }
+  .fl {
+    flex: none;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .fase-more {
+    margin-top: 6px;
+  }
+  .fase-more summary {
+    padding: 8px 0;
+    min-height: 38px;
+  }
+  .world-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px 6px;
+  }
+  .node {
+    grid-column: var(--col);
+    grid-row: var(--row);
+    min-height: 0;
+    align-items: center;
+    text-align: center;
+  }
+  .world-h h2 {
+    font-size: 23px;
+  }
+  .areas-grid,
+  .spot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .res-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .res-toc {
+    position: static;
+  }
+  .res-toc ol {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+  }
+  .res-toc a {
+    border-left: 0;
+    border-bottom: 2px solid var(--line);
+    padding: 4px 0;
+  }
+  .j-panel {
+    padding: 18px;
+  }
+}
+
+/* ---------- v2: a trilha como tela inicial (jogo, menos texto) ---------- */
+.jornada-page .wrap {
+  padding-top: clamp(24px, 4vw, 48px);
+}
+.j-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 24px clamp(24px, 5vw, 80px);
+  align-items: end;
+  margin-bottom: 44px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.j-hero h1 {
+  font-size: clamp(38px, 5.4vw, 80px);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin: 6px 0 12px;
+}
+.j-hero p:not(.eyebrow) {
+  max-width: 44ch;
+  font-size: 15px;
+  color: var(--mut);
+}
+.j-go {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 20px 22px;
+  border: 1px solid var(--ac);
+  box-shadow: 0 0 0 3px var(--rose);
+  background: var(--surface);
+}
+.j-go .lbl {
+  font: 10px/1.6 var(--mono);
+  color: var(--rose-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.j-go .go-name {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.j-go .go-name .mono {
+  color: var(--ac);
+  font-size: 14px;
+  margin-right: 4px;
+}
+.j-go .go-prog {
+  font-size: 11px;
+  color: var(--mut);
+}
+.j-go .bar {
+  align-self: stretch;
+  margin-top: 0;
+}
+.j-layout {
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+#jmap-worlds {
+  gap: 44px;
+}
+.world-h {
+  margin-bottom: 10px;
+  padding: 2px 14px 2px 0;
+}
+.world-h h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.world-h h2 .mono {
+  font-size: 12px;
+  color: var(--ac);
+}
+.world-meta {
+  margin-top: 4px;
+}
+.world-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 8px;
+  padding-bottom: 28px;
+}
+.node {
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: center;
+}
+.node:nth-child(even) {
+  margin-top: 34px;
+  margin-bottom: -34px;
+}
+.node:hover {
+  background: none;
+  border: 0;
+}
+.node-dot {
+  position: relative;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  font-size: 15px;
+  border-width: 3px;
+  background: var(--surface);
+}
+.node-dot .icon {
+  width: 22px;
+  height: 22px;
+}
+.node:hover .node-dot {
+  border-color: var(--ink);
+}
+.node.is-locked {
+  background: none;
+}
+.node.is-locked .node-dot {
+  border-style: dashed;
+  background: var(--bg);
+}
+.node.is-rec {
+  box-shadow: none;
+}
+.node.is-rec .node-dot {
+  box-shadow: 0 0 0 5px var(--rose);
+  border-color: var(--ac);
+  background: var(--ac);
+  color: var(--onac);
+}
+.node.is-sel {
+  outline: 0;
+}
+.node.is-sel .node-dot {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+.node-name {
+  max-width: 14ch;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.node.is-locked .node-name {
+  color: var(--mut);
+  font-weight: 500;
+}
+.node-tag {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 8px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 9px/1.6 var(--mono);
+  white-space: nowrap;
+}
+.edge {
+  stroke-width: 3;
+}
+.j-panel {
+  top: 100px;
+  padding: 20px;
+}
+.j-panel h2 {
+  font-size: 21px;
+}
+.pd-cta {
+  padding: 4px 0 6px;
+}
+.pd {
+  margin: 8px 0;
+}
+.pd-more {
+  margin-top: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  font-size: 12px;
+}
+.pd-more summary,
+.j-foot summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+}
+.j-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 760px;
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.j-foot details {
+  padding: 4px 0;
+}
+.j-foot .ach-grid {
+  margin-top: 14px;
+}
+.j-foot .j-notes ul {
+  margin-bottom: 14px;
+}
+.j-links {
+  font-size: 12px;
+  color: var(--mut);
+}
+@media (max-width: 1100px) {
+  .j-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  /* No celular o mapa vira uma grade compacta de etapas: o caminho continua legível,
+     as concluídas ficam marcadas e a próxima fase se destaca. Uma fase por linha
+     ocuparia mais de uma tela por mundo. */
+  .j-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+  }
+  .j-hero .eyebrow {
+    font-size: 9px;
+  }
+  .j-hero h1 {
+    font-size: clamp(30px, 8.6vw, 42px);
+    line-height: 1.05;
+    margin: 2px 0 6px;
+  }
+  .j-hero p:not(.eyebrow) {
+    font-size: 13px;
+    max-width: 34ch;
+  }
+  /* O bloco "comece aqui" vira uma faixa: menos moldura, mesma ação e mesmo progresso. */
+  .j-go {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 4px 12px;
+    padding: 12px 14px;
+    box-shadow: none;
+  }
+  .j-go .go-name {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  .j-go .btn {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    min-height: var(--tap);
+    padding: 0 16px;
+  }
+  .j-go .go-prog {
+    font-size: 10.5px;
+  }
+  .j-go .bar {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+  }
+  #jmap-worlds {
+    gap: 24px;
+  }
+  /* Cabeçalho do mundo: título e chip empilhados. Lado a lado o título quebrava
+     em duas linhas e a grade perdia uma coluna de largura útil. */
+  .world-h {
+    display: block;
+    width: auto;
+    margin-bottom: 10px;
+  }
+  .world-h h2 {
+    font-size: 19px;
+    display: block;
+  }
+  .world-meta {
+    margin-top: 3px;
+    justify-content: flex-start;
+  }
+  .world-h {
+    margin-bottom: 12px;
+  }
+  .world-h h2 {
+    font-size: 20px;
+  }
+  .world-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px 6px;
+    padding-bottom: 14px;
+  }
+  .node {
+    grid-column: var(--col);
+    grid-row: var(--row);
+    min-height: 0;
+    align-items: center;
+    text-align: center;
+  }
+  .node-dot {
+    width: 46px;
+    height: 46px;
+    font-size: 13px;
+    /* O alvo de toque cresce sem aumentar o ponto desenhado. */
+    position: relative;
+  }
+  .node-dot::after {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    border-radius: 50%;
+  }
+  /* Só a fase recomendada e a selecionada mostram o nome: o resto precisa ser
+     reconhecido pelo ponto, pelo número e pelo estado. */
+  .node-name {
+    display: none;
+    font-size: 10px;
+    line-height: 1.25;
+    max-width: 12ch;
+  }
+  .node.is-rec .node-name,
+  .node.is-sel .node-name {
+    display: block;
+  }
+  .node-tag {
+    top: -18px;
+    font-size: 8px;
+  }
+}
+
+.tool-how {
+  font-size: 12px;
+}
+.tool-how summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.tool-how p {
+  margin-top: 6px;
+}
+.world-h {
+  margin-bottom: 34px;
+}
+.node-name {
+  position: relative;
+  z-index: 1;
+  padding: 1px 4px;
+  background: var(--bg);
+}
+.node-tag {
+  z-index: 2;
+}

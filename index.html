@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos: um jogo educativo de matemática. Avance por fases, resolva desafios de xadrez e teoria dos grafos e descubra como o xadrez vira matemática."
+    />
+    <title>Graphos - Trilha de Aprendizagem</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body class="jornada-page" data-page="trilha">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <section class="j-hero" aria-labelledby="j-title">
+        <div>
+          <p class="eyebrow">Graphos · xadrez e teoria dos grafos</p>
+          <h1 id="j-title">Sua jornada pelos grafos</h1>
+          <p>Resolva desafios, libere novas fases e descubra a matemática escondida no xadrez.</p>
+        </div>
+        <div class="j-go" id="j-go" aria-live="polite"></div>
+      </section>
+
+      <div class="j-layout">
+        <section class="jmap" id="jmap" aria-label="Mapa da trilha">
+          <svg class="jmap-edges" id="jmap-edges" aria-hidden="true"></svg>
+          <div id="jmap-worlds"></div>
+        </section>
+        <aside class="j-panel" id="j-panel" aria-label="Detalhes da fase" aria-live="polite" tabindex="-1"></aside>
+      </div>
+
+      <footer class="j-foot">
+        <details class="j-ach">
+          <summary>Conquistas <span class="mono" id="ach-count"></span></summary>
+          <ul class="ach-grid" id="ach-grid"></ul>
+        </details>
+        <details class="j-notes">
+          <summary>Como funciona</summary>
+          <ul>
+            <li>Cada fase libera as próximas. Errar não tem punição: tente de novo ou revise quando quiser.</li>
+            <li>O XP marca seu percurso e vale uma vez por fase. Ele não mede inteligência.</li>
+            <li>Prefere explorar sem ordem? Use o <a href="lab.html">Laboratório</a>, sem XP.</li>
+            <li>O progresso fica salvo só neste navegador e dispositivo (sem conta). <span id="storage-note"></span></li>
+          </ul>
+          <button type="button" class="sm d" id="j-reset">Apagar progresso neste navegador</button>
+        </details>
+        <p class="j-links"><a href="sobre.html">Sobre o Graphos</a> · <a href="pesquisa.html">Pesquisa</a></p>
+      </footer>
+    </main>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/trilha-mapa.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>
