@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f3f7" />
+    <meta
+      name="description"
+      content="Graphos / Progresso: XP, fases concluídas, conquistas e histórico da sua jornada pelos grafos."
+    />
+    <title>Progresso - Graphos</title>
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/trilha.css" />
+    <link rel="stylesheet" href="css/jornada.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+
+  <body class="jornada-page" data-page="progresso">
+    <div id="chrome"></div>
+    <main class="wrap" id="conteudo">
+      <header class="p-head">
+        <div>
+          <h1>Progresso</h1>
+          <p id="p-lead"></p>
+        </div>
+      </header>
+
+      <section class="p-summary" aria-labelledby="p-sum-t" id="p-summary">
+        <h2 class="sr-only" id="p-sum-t">Resumo</h2>
+      </section>
+
+      <section class="p-block" aria-labelledby="p-ach-t">
+        <div class="p-block-h">
+          <h2 id="p-ach-t">Conquistas</h2>
+          <span class="mono" id="ach-count"></span>
+        </div>
+        <ul class="ach-grid" id="ach-grid"></ul>
+      </section>
+
+      <section class="p-block" aria-labelledby="p-hist-t">
+        <div class="p-block-h">
+          <h2 id="p-hist-t">Fases concluídas</h2>
+          <span class="mono" id="p-hist-count"></span>
+        </div>
+        <div id="p-history"></div>
+      </section>
+
+      <footer class="p-foot">
+        <details class="p-notes">
+          <summary>Como o progresso funciona</summary>
+          <ul>
+            <li>Cada fase libera as próximas. Errar não tem punição: tente de novo ou revise quando quiser.</li>
+            <li>O XP marca seu percurso e vale uma vez por fase. Ele não mede inteligência.</li>
+            <li>Revisar uma fase já concluída não concede XP de novo; só registra a revisão.</li>
+            <li>Prefere explorar sem ordem? Use o <a href="lab.html">Laboratório</a>, sem XP.</li>
+            <li>O progresso fica salvo só neste navegador e dispositivo (sem conta). <span id="storage-note"></span></li>
+          </ul>
+          <button type="button" class="sm d" id="p-reset">Apagar progresso neste navegador</button>
+        </details>
+        <p class="p-links"><a href="sobre.html">Sobre o Graphos</a></p>
+      </footer>
+    </main>
+    <script src="js/icons.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jornada.js"></script>
+    <script src="js/progresso.js"></script>
+    <script src="js/motion.js"></script>
+  </body>
+</html>

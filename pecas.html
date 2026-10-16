@@ -92,8 +92,8 @@
         </div>
         <aside class="panel" aria-label="O que observar">
           <h4>A mesma casa, grafos diferentes</h4>
-          <dl class="kv pecas-kv" id="pinfo"></dl>
           <p class="mut" id="pnota"></p>
+          <p class="caminho-info" id="caminho-info"></p>
           <div class="row">
             <button type="button" class="sm p" data-check-graus>
               Comparar graus
@@ -102,7 +102,12 @@
               Conferir caminho
             </button>
           </div>
-          <p class="mut" id="caminho-info"></p>
+          <!-- Os seis números do grafo são dado de consulta: ficam sob demanda para o
+               painel não competir com a tarefa. -->
+          <details class="pd-more">
+            <summary>Números do grafo desta peça</summary>
+            <dl class="kv pecas-kv" id="pinfo"></dl>
+          </details>
           <p class="gl">
             <b>Por que isto é Teoria dos Grafos</b>O tabuleiro é o mesmo; o que
             muda é a <i>regra</i> que diz quem se liga a quem. Cada peça produz

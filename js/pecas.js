@@ -293,9 +293,13 @@
     const b = e.target.closest("[data-peca]");
     if (!b) return;
     peca = b.dataset.peca;
-    sel = null;
-    pair = [];
+    /* O estado da etapa vive em `etapas[c]` — o mesmo lugar que o desenho lê.
+       (Antes esta limpeza escrevia em variáveis inexistentes e a troca de peça
+       interrompia a atualização do painel.) */
+    etapas[c] = { sel: null, pair: [] };
     syncPeca();
+    renderPainel(monta().g, componentes(monta().g));
+    renderTarefa();
     fb("info", `${G.rules[peca].nome}. ${G.rules[peca].descricao} Toque numa casa para ver o grau dela.`);
     draw();
   });
@@ -324,8 +328,7 @@
   });
   $("#size").addEventListener("change", (e) => {
     ord = SIZES[e.target.value];
-    sel = null;
-    pair = [];
+    etapas[c] = { sel: null, pair: [] };
     vp.fit();
     fb("info", `Tabuleiro ${e.target.value.replace("x", " × ")}. ${ETAPAS[c].tarefa}`);
     draw();

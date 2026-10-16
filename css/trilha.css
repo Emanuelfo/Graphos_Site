@@ -95,10 +95,12 @@
   }
 }
 
-/* Em telas largas a figura e o retorno ao estudante cabem juntos na primeira dobra. */
+/* Em telas largas a figura e o retorno ao estudante cabem juntos na primeira dobra.
+   A altura acompanha o espaço disponível: o tabuleiro nunca é comprimido por
+   painéis, nem deixa um vazio grande quando há tela sobrando. */
 @media (min-width: 901px) {
   .trail svg.v {
-    height: clamp(380px, calc(100svh - 500px), 560px);
+    height: clamp(320px, calc(100svh - 470px), 520px);
   }
 }
 
@@ -174,24 +176,21 @@ svg.v .goal.hit {
   align-items: center;
   flex-wrap: wrap;
   gap: var(--sp-1) var(--sp-2);
-  font-size: 13px;
+  font-size: var(--fs-small);
 }
 .ctask-head .mono {
-  font-size: 10px;
+  font-size: var(--fs-mono);
   color: var(--mut);
 }
-.ctask-head .chip {
-  margin-left: auto;
-}
 .ctask-obj {
-  font-size: 13px;
+  font-size: var(--fs-small);
   line-height: 1.6;
   margin-top: 6px;
   max-width: 68ch;
 }
 .ctask-todo {
-  font-size: 13.5px;
-  line-height: 1.6;
+  font-size: var(--fs-body);
+  line-height: 1.55;
   margin-top: var(--sp-2);
   padding-top: var(--sp-2);
   border-top: 1px solid var(--line);
@@ -200,22 +199,74 @@ svg.v .goal.hit {
 .ctask-todo b {
   color: var(--ac);
 }
-.ctask .ask {
+
+/* ---------- Controles de resposta dentro do cartão do tabuleiro ----------
+   A resposta fica imediatamente abaixo da figura: nenhuma rolagem entre ver o
+   tabuleiro e responder. Vale para as atividades que usam `.answer`. */
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
   margin-top: var(--sp-3);
-  font-size: 12.5px;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--line);
 }
-.ctask .ask-row {
+.answer:empty,
+.answer[hidden] {
+  display: none;
+}
+.answer .ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  font-size: var(--fs-small);
+  color: var(--ink);
+}
+.answer .ask .mono {
+  color: var(--ok);
+}
+.ask-row {
+  display: flex;
+  gap: var(--sp-2);
   align-items: center;
+  flex-wrap: wrap;
 }
-.ctask .ask input {
-  width: 92px;
+.answer input[type="number"] {
+  width: 96px;
   font: 20px var(--body);
   min-height: var(--tap);
 }
-.ctask .ask-row .btn,
-.ctask .ask-row button {
-  min-height: var(--tap);
+/* Escolha múltipla: um alvo de toque por opção, sem digitação. */
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
 }
+.choice {
+  min-width: 64px;
+  min-height: var(--tap);
+  font: 700 17px var(--mono);
+  border-radius: var(--radius);
+}
+.choice.on,
+.choice[aria-pressed="true"] {
+  background: var(--ok-bg);
+  border-color: var(--ok);
+  color: var(--ok-ink);
+}
+.answer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  align-items: flex-end;
+}
+.answer-row .ask {
+  flex: 1 1 220px;
+}
+.answer.is-done {
+  opacity: 0.72;
+}
+
 /* Em telas pequenas a barra com a tarefa fica presa abaixo do cabeçalho enquanto o
    estudante olha a figura: instrução e área de interação no mesmo campo de visão.
    A definição do conceito rola junto — é leitura, não instrução de ação. */
@@ -226,7 +277,7 @@ svg.v .goal.hit {
   }
   .ctask-bar {
     position: sticky;
-    top: 104px;
+    top: 100px;
     z-index: 5;
     margin: -10px -12px 0;
     padding: 9px 12px 8px;
@@ -234,28 +285,31 @@ svg.v .goal.hit {
     border-radius: var(--radius) var(--radius) 0 0;
   }
   .ctask-head {
-    font-size: 12.5px;
-  }
-  .ctask-head .chip {
-    font-size: 9px;
-    padding: 2px 7px;
+    font-size: var(--fs-small);
   }
   .ctask-todo {
-    font-size: 13px;
+    font-size: var(--fs-small);
     line-height: 1.5;
     margin-top: 5px;
     padding-top: 5px;
   }
   .ctask-obj {
-    font-size: 12.5px;
+    font-size: var(--fs-mono);
     line-height: 1.5;
     margin-top: 8px;
   }
-  .ctask .ask {
-    margin-top: var(--sp-2);
-    font-size: 12px;
+  .answer-row {
+    flex-direction: column;
+    align-items: stretch;
   }
-  .ctask .ask input {
+  .answer-row .btn,
+  .answer-row button {
+    width: 100%;
+  }
+  .answer .ask-row {
+    flex-wrap: nowrap;
+  }
+  .answer input[type="number"] {
     width: 78px;
     font-size: 18px;
   }
@@ -325,6 +379,16 @@ svg.v .rede-peso:focus-visible {
   font: 500 9px var(--mono);
   display: block;
   margin-top: 3px;
+}
+/* Orientação da etapa no painel: uma linha, sem virar parágrafo solto. */
+.caminho-info {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-small);
+  line-height: 1.65;
+  color: var(--mut);
+}
+.caminho-info b {
+  color: var(--ink);
 }
 /* Setas de etapa dentro da área de tarefa. */
 .ctask-nav {

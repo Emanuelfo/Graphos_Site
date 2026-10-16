@@ -1,0 +1,396 @@
+[
+  {
+    "page": "index",
+    "width": 390,
+    "height": 844,
+    "url": "/index.html",
+    "vw": 390,
+    "vh": 844,
+    "docHeight": 2203,
+    "scrollW": 390,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 103,
+        "w": 390
+      },
+      "#jmap-worlds": {
+        "top": 401,
+        "h": 859,
+        "w": 346
+      },
+      ".j-hero": {
+        "top": 127,
+        "h": 256,
+        "w": 346
+      },
+      "#j-go": {
+        "top": 255,
+        "h": 109,
+        "w": 346
+      },
+      ".j-panel": {
+        "top": 1292,
+        "h": 466,
+        "w": 346
+      }
+    },
+    "svgBox": null,
+    "boardContent": null,
+    "firstNodeTop": 477,
+    "controlsBelowFold": 13,
+    "controlsTotal": 24
+  },
+  {
+    "page": "index",
+    "width": 1440,
+    "height": 844,
+    "url": "/index.html",
+    "vw": 1440,
+    "vh": 844,
+    "docHeight": 2104,
+    "scrollW": 1425,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 79,
+        "w": 1425
+      },
+      "#jmap-worlds": {
+        "top": 443,
+        "h": 1255,
+        "w": 929
+      },
+      ".j-hero": {
+        "top": 127,
+        "h": 272,
+        "w": 1301
+      },
+      "#j-go": {
+        "top": 167,
+        "h": 199,
+        "w": 512
+      },
+      ".j-panel": {
+        "top": 443,
+        "h": 486,
+        "w": 340
+      }
+    },
+    "svgBox": null,
+    "boardContent": null,
+    "firstNodeTop": 520,
+    "controlsBelowFold": 12,
+    "controlsTotal": 24
+  },
+  {
+    "page": "explorar",
+    "width": 390,
+    "height": 844,
+    "url": "/explorar.html",
+    "vw": 390,
+    "vh": 844,
+    "docHeight": 1911,
+    "scrollW": 390,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 152,
+        "w": 390
+      },
+      ".shead": {
+        "top": 152,
+        "h": 21,
+        "w": 346
+      },
+      "#fase-banner": {
+        "top": 173,
+        "h": 266,
+        "w": 346
+      },
+      "#ctask": {
+        "top": 449,
+        "h": 145,
+        "w": 346
+      },
+      ".ctask-bar": {
+        "top": 450,
+        "h": 88,
+        "w": 342
+      },
+      "#fase-banner .fase-title": {
+        "top": 187,
+        "h": 23,
+        "w": 316
+      },
+      "svg.v": {
+        "top": 654,
+        "h": 360,
+        "w": 344
+      },
+      ".tools": {
+        "top": 1015,
+        "h": 101,
+        "w": 346
+      },
+      "#fb": {
+        "top": 1124,
+        "h": 67,
+        "w": 346
+      },
+      "#concepts": {
+        "top": 1270,
+        "h": 326,
+        "w": 346
+      },
+      ".panel": {
+        "top": 1216,
+        "h": 533,
+        "w": 346
+      },
+      ".pager": {
+        "top": 775,
+        "h": 69,
+        "w": 346
+      }
+    },
+    "svgBox": {
+      "top": 654,
+      "h": 360,
+      "w": 344
+    },
+    "boardContent": {
+      "w": 295,
+      "h": 295,
+      "clippedTop": 33,
+      "clippedBottom": 33,
+      "pieces": 59
+    },
+    "firstNodeTop": null,
+    "controlsBelowFold": 12,
+    "controlsTotal": 17
+  },
+  {
+    "page": "explorar",
+    "width": 1440,
+    "height": 844,
+    "url": "/explorar.html",
+    "vw": 1440,
+    "vh": 844,
+    "docHeight": 1391,
+    "scrollW": 1425,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 124,
+        "w": 1425
+      },
+      ".shead": {
+        "top": 124,
+        "h": 164,
+        "w": 1301
+      },
+      "#fase-banner": {
+        "top": 312,
+        "h": 227,
+        "w": 1301
+      },
+      "#ctask": {
+        "top": 563,
+        "h": 137,
+        "w": 975
+      },
+      ".ctask-bar": {
+        "top": 576,
+        "h": 84,
+        "w": 939
+      },
+      "#fase-banner .fase-title": {
+        "top": 351,
+        "h": 26,
+        "w": 733
+      },
+      "svg.v": {
+        "top": 769,
+        "h": 380,
+        "w": 973
+      },
+      ".tools": {
+        "top": 1150,
+        "h": 59,
+        "w": 975
+      },
+      "#fb": {
+        "top": 1221,
+        "h": 47,
+        "w": 975
+      },
+      "#concepts": {
+        "top": 593,
+        "h": 326,
+        "w": 271
+      },
+      ".panel": {
+        "top": 563,
+        "h": 497,
+        "w": 300
+      },
+      ".pager": {
+        "top": 1292,
+        "h": 63,
+        "w": 1301
+      }
+    },
+    "svgBox": {
+      "top": 769,
+      "h": 380,
+      "w": 973
+    },
+    "boardContent": {
+      "w": 314,
+      "h": 314,
+      "clippedTop": 33,
+      "clippedBottom": 33,
+      "pieces": 63
+    },
+    "firstNodeTop": null,
+    "controlsBelowFold": 9,
+    "controlsTotal": 17
+  },
+  {
+    "page": "lab",
+    "width": 390,
+    "height": 844,
+    "url": "/lab.html",
+    "vw": 390,
+    "vh": 844,
+    "docHeight": 4561,
+    "scrollW": 390,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 103,
+        "w": 390
+      },
+      ".shead": {
+        "top": 103,
+        "h": 150,
+        "w": 346
+      },
+      ".tool-grid": {
+        "top": 356,
+        "h": 600,
+        "w": 346
+      }
+    },
+    "svgBox": null,
+    "boardContent": null,
+    "firstNodeTop": null,
+    "controlsBelowFold": 12,
+    "controlsTotal": 16
+  },
+  {
+    "page": "caminhos",
+    "width": 390,
+    "height": 844,
+    "url": "/caminhos.html",
+    "vw": 390,
+    "vh": 844,
+    "docHeight": 1120,
+    "scrollW": 390,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 152,
+        "w": 390
+      },
+      ".shead": {
+        "top": 152,
+        "h": 172,
+        "w": 346
+      },
+      ".pager": {
+        "top": 775,
+        "h": 69,
+        "w": 346
+      }
+    },
+    "svgBox": null,
+    "boardContent": null,
+    "firstNodeTop": null,
+    "controlsBelowFold": 0,
+    "controlsTotal": 8
+  },
+  {
+    "page": "troca",
+    "width": 390,
+    "height": 844,
+    "url": "/troca.html",
+    "vw": 390,
+    "vh": 844,
+    "docHeight": 1142,
+    "scrollW": 390,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 152,
+        "w": 390
+      },
+      ".shead": {
+        "top": 152,
+        "h": 193,
+        "w": 346
+      },
+      ".pager": {
+        "top": 775,
+        "h": 69,
+        "w": 346
+      }
+    },
+    "svgBox": null,
+    "boardContent": null,
+    "firstNodeTop": null,
+    "controlsBelowFold": 1,
+    "controlsTotal": 8
+  },
+  {
+    "page": "redes",
+    "width": 390,
+    "height": 844,
+    "url": "/redes.html",
+    "vw": 390,
+    "vh": 844,
+    "docHeight": 1179,
+    "scrollW": 390,
+    "horizontalOverflow": false,
+    "blocks": {
+      "chrome": {
+        "top": 0,
+        "h": 152,
+        "w": 390
+      },
+      ".shead": {
+        "top": 152,
+        "h": 231,
+        "w": 346
+      },
+      ".pager": {
+        "top": 775,
+        "h": 69,
+        "w": 346
+      }
+    },
+    "svgBox": null,
+    "boardContent": null,
+    "firstNodeTop": null,
+    "controlsBelowFold": 1,
+    "controlsTotal": 8
+  }
+]

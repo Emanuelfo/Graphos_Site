@@ -1,44 +1,52 @@
-/* Graphos / explorar: vértice, aresta, adjacência, caminho e distância sobre o tabuleiro do cavalo. */
+/* Graphos / explorar: vértice, aresta, adjacência, caminho e distância sobre o tabuleiro do cavalo.
+   Cada conceito tem a sua forma de responder — descobrir tocando, escolher entre valores, testar
+   um par, montar um caminho, apostar uma distância — para a atividade não repetir o mesmo gesto
+   cinco vezes (ver `resp` em CONCEPTS). Toda validação continua vindo do motor de grafos. */
 (function (G) {
   if (document.body.dataset.page !== "explorar" || (G.fase && G.fase.blocked)) return;
   const J = G.jogo,
     $ = G.$,
     svg = $("#bsvg");
   const SIZES = { "4x3": [4, 3], "5x5": [5, 5], "6x6": [6, 6], "8x8": [8, 8] };
+  /* resp: como o estudante responde.
+     { tipo: "tocar" }                  → conclui explorando o tabuleiro;
+     { tipo: "escolha", opcoes: [...] } → escolhe um valor (mesma validação de antes);
+     { tipo: "distancia", max: n }      → aposta um número ou marca "não existe". */
   const CONCEPTS = [
     {
       nome: "Vértice",
       texto: "Cada casa do tabuleiro é um <b>vértice</b>: um ponto do grafo.",
-      tarefa:
-        "Toque num canto e numa casa do centro. Compare quantas arestas saem de cada uma.",
+      tarefa: "Toque num canto e numa casa do centro. Compare quantas arestas saem de cada uma.",
+      resp: { tipo: "tocar" },
     },
     {
       nome: "Aresta",
-      texto:
-        "Cada salto em L possível liga duas casas. Essa ligação é uma <b>aresta</b>.",
-      tarefa:
-        "Toque em B3 e conte as arestas que saem dela. Depois, faça uma previsão para o canto A1.",
+      texto: "Cada salto em L possível liga duas casas. Essa ligação é uma <b>aresta</b>.",
+      tarefa: "Toque em B3 e conte as arestas que saem dela. Depois escolha quantas arestas saem do canto A1.",
+      resp: {
+        tipo: "escolha",
+        pergunta: "Quantas arestas saem do canto A1?",
+        opcoes: [1, 2, 4, 8],
+        certo: 2,
+      },
     },
     {
       nome: "Adjacência",
-      texto:
-        "Duas casas são <b>adjacentes</b> quando há uma aresta entre elas.",
-      tarefa:
-        "Toque em duas casas. Teste um par adjacente e um par que não é.",
+      texto: "Duas casas são <b>adjacentes</b> quando há uma aresta entre elas.",
+      tarefa: "Toque em duas casas. Teste um par adjacente e um par que não é.",
+      resp: { tipo: "tocar" },
     },
     {
       nome: "Caminho",
-      texto:
-        "Um <b>caminho</b> é uma sequência de casas em que cada casa é adjacente à seguinte.",
-      tarefa:
-        "Toque numa casa e continue pelos saltos do cavalo, até formar um caminho de pelo menos 3 arestas.",
+      texto: "Um <b>caminho</b> é uma sequência de casas em que cada casa é adjacente à seguinte.",
+      tarefa: "Toque numa casa e continue pelos saltos do cavalo, até formar um caminho de pelo menos 3 arestas.",
+      resp: { tipo: "tocar" },
     },
     {
       nome: "Distância",
-      texto:
-        "A <b>distância</b> entre duas casas é o menor número de arestas de um caminho entre elas.",
-      tarefa:
-        "Escolha duas casas, aposte a distância e confira com a busca em largura.",
+      texto: "A <b>distância</b> entre duas casas é o menor número de arestas de um caminho entre elas.",
+      tarefa: "Escolha duas casas, aposte a distância (ou marque que não existe caminho) e confira com a busca em largura.",
+      resp: { tipo: "distancia", max: 8 },
     },
   ];
 
@@ -59,6 +67,7 @@
   const sent = new Set(); // evidência enviada uma vez por conceito nesta visita
   const degrees = new Set(); // graus observados no conceito 0
   const revealed = new Set(); // pares cuja distância já foi revelada (conceito 4)
+  const solvedPairs = new Set(); // pares em que o estudante já acertou a distância
   const askedIdx = G.fase && G.fase.focus ? PH.indexOf(G.fase.focus.id) : -1;
   c = askedIdx >= 0 ? askedIdx : Math.max(0, done.findIndex((d) => !d));
   if (locked(c)) c = Math.max(0, done.findIndex((d, i) => !d && !locked(i)));
@@ -207,7 +216,8 @@
         if (id === last) return;
         if (!g.adj[last].includes(id))
           return fb("bad", J.explainIllegal(p.structure, last, id, {}));
-        path.push(id);        const n = path.length - 1;
+        path.push(id);
+        const n = path.length - 1;
         fb(
           n >= 3 ? "ok" : "info",
           `Caminho com ${J.plural(n, "aresta", "arestas")}: ${path.join(" → ")}.` +
@@ -227,19 +237,17 @@
       } else
         fb(
           "info",
-          `De <b>${pair[0]}</b> a <b>${pair[1]}</b>. Quantos saltos você acha que são necessários, no mínimo?`,
+          `De <b>${pair[0]}</b> a <b>${pair[1]}</b>. Quantos saltos você acha que são necessários, no mínimo? Se achar que não existe caminho, marque a opção.`,
         );
-      renderExtra();
+      renderAnswer();
     }
     draw();
   }
 
-  /* ---------- Objetivo e tarefa, junto do tabuleiro ----------
-     O estudante precisa ver o problema e responder sem procurar os controles pela tela.
-     Por isso o conceito, a definição e a tarefa ficam num único lugar, imediatamente
-     antes do tabuleiro. A explicação longa e as setas ficam no painel de etapas.
-     `ctask-bar` (nome + tarefa) permanece visível em telas pequenas enquanto o
-     estudante olha a figura; a definição rola junto porque não é instrução de ação. */
+  /* ---------- Tarefa e resposta, no mesmo cartão do tabuleiro ----------
+     O conceito e a tarefa ficam acima da figura; a resposta fica logo abaixo dela.
+     Os controles que exigem decisão (escolha, aposta) só aparecem quando o conceito
+     pede, para não acumular botões onde a tarefa é tocar no tabuleiro. */
   function renderTask() {
     const host = $("#ctask");
     if (!host) return;
@@ -247,11 +255,123 @@
       st = locked(c) ? "locked" : done[c] ? "done" : "open";
     host.className = `ctask is-${st}`;
     host.innerHTML =
-      `<div class="ctask-bar"><p class="ctask-head"><span class="mono">${c + 1} / ${CONCEPTS.length}</span> <b>${k.nome}</b>` +
-      `<span class="chip is-${st === "open" ? "open" : st}">${st === "done" ? "Concluída" : st === "locked" ? "Bloqueada" : `Fase ${PH[c] || ""}`}</span></p>` +
+      `<div class="ctask-bar"><p class="ctask-head"><span class="mono">${c + 1} / ${CONCEPTS.length}</span> <b>${k.nome}</b></p>` +
       `<p class="ctask-todo"><b>Tarefa:</b> ${k.tarefa}</p></div>` +
-      `<p class="ctask-obj">${k.texto}</p><div id="c-extra"></div>`;
-    renderExtra();
+      `<p class="ctask-obj">${k.texto}</p>`;
+    renderAnswer();
+  }
+
+  /* Controles de resposta dentro do cartão do tabuleiro. Depois de concluir, o
+     controle continua disponível (a fase aceita revisão); só fica marcado. */
+  function renderAnswer() {
+    const host = $("#c-answer");
+    if (!host) return;
+    const k = CONCEPTS[c],
+      pronto = done[c];
+    host.classList.toggle("is-done", pronto);
+    if (k.resp.tipo === "tocar") {
+      host.hidden = true;
+      host.innerHTML = "";
+      return;
+    }
+    if (k.resp.tipo === "escolha") {
+      host.hidden = false;
+      /* A fase aceita revisão: o controle continua clicável depois de concluída,
+         apenas marcado (nada de `disabled`, que também bloquearia a nova tentativa). */
+      host.innerHTML =
+        `<p class="ask"><b>${k.resp.pergunta}</b>${pronto ? ' <span class="mono">concluída</span>' : ""}</p>` +
+        `<div class="choices" role="group" aria-label="${k.resp.pergunta}">${k.resp.opcoes
+          .map((v) => `<button type="button" class="choice${pronto && v === k.resp.certo ? " on" : ""}" data-choose="${v}" aria-pressed="${pronto && v === k.resp.certo}">${v}</button>`)
+          .join("")}</div>`;
+      return;
+    }
+    if (k.resp.tipo === "distancia") {
+      const ready = pair.length === 2;
+      /* Sem o par escolhido não há pergunta a responder: o controle só aparece
+         depois que o estudante marca origem e destino no tabuleiro. */
+      host.hidden = !ready;
+      if (!ready) {
+        host.innerHTML = "";
+        return;
+      }
+      host.innerHTML =
+        `<div class="answer-row">` +
+        `<label class="ask">Quantos saltos, no mínimo?${pronto ? ' <span class="mono">concluída</span>' : ""}<span class="ask-row"><input id="guess" type="number" min="0" max="${k.resp.max}" inputmode="numeric" autocomplete="off"><button type="button" class="sm p" data-check>Conferir</button></span></label>` +
+        `<button type="button" class="sm g" data-check-none>Não existe caminho entre elas</button>` +
+        `</div>`;
+      if (guess.c === c && $("#guess")) $("#guess").value = guess.v;
+      return;
+    }
+    host.hidden = false;
+    host.innerHTML = "";
+  }
+  function check(value, kind) {
+    if (c === 1) {
+      const real = g.adj.A1.length;
+      sel = "A1";
+      if (value === real) {
+        fb(
+          "ok",
+          `Isso mesmo: <b>${real}</b>. No canto, só dois saltos em L cabem no tabuleiro (${J.list(g.adj.A1)}). Casas do centro têm mais arestas.`,
+        );
+        complete(1);
+      } else
+        fb(
+          "bad",
+          `Ainda não. Toque em A1 e veja quais saltos em L terminam dentro do tabuleiro. Tente de novo.`,
+        );
+      draw();
+      return;
+    }
+    if (c === 4) {
+      const [a, b] = pair,
+        pth = G.graph.path(g, a, b),
+        real = pth ? pth.length - 1 : null;
+      const pairKey = [a, b].sort().join("-"),
+        /* Já acertou este par? Então não há evidência nova a registrar. Revelar a
+           distância (mesmo com um palpite errado) não impede a próxima tentativa. */
+        repetido = solvedPairs.has(pairKey);
+      revealed.add(pairKey);
+      reveal = { dist: real, path: pth || [], layers: J.layers(g, a) };
+      if (real === null) {
+        fb(
+          value === null ? "info" : "bad",
+          `<b>${a}</b> e <b>${b}</b> estão em componentes diferentes: <b>não existe caminho</b> entre elas com o salto do cavalo. ` +
+            `As casas que ${a} alcança aparecem numeradas nas camadas da busca.`,
+        );
+        draw();
+        return;
+      }
+      const where = reveal.layers.findIndex((ids) => ids.includes(b));
+      const acertou = value === real;
+      if (value === null)
+        fb(
+          "bad",
+          `Existe caminho: a distância é <b>${real}</b>. Os números nas casas mostram a camada da busca em largura.`,
+        );
+      else
+        fb(
+          acertou ? "ok" : "info",
+          (acertou
+            ? `Acertou: d(${a}, ${b}) = <b>${real}</b>. `
+            : `A distância é <b>${real}</b>, não ${value}. Sem problema: veja por quê. `) +
+            `Os números nas casas mostram a camada da busca em largura: ${b} só aparece na camada ${where}, depois de esgotar as casas mais próximas. Um caminho mínimo: ${pth.join(" → ")}.`,
+        );
+      if (acertou && !repetido) {
+        solvedPairs.add(pairKey);
+        complete(4);
+      } else if (acertou)
+        fb("info", `Acertou de novo este par. Escolha outro par e aposte antes de conferir para registrar uma leitura nova.`);
+      draw();
+    }
+  }
+  /* Valor digitado no campo numérico. */
+  function checkInput() {
+    const input = $("#guess"),
+      raw = input?.value.trim() ?? "";
+    if (raw === "" || !Number.isInteger(Number(raw)) || Number(raw) < 0)
+      return fb("bad", "Digite um número inteiro, 0 ou maior — ou marque que não existe caminho.");
+    check(Number(raw), "numero");
   }
 
   /* ---------- Painel de conceitos: só as etapas, para não repetir o que está
@@ -270,68 +390,15 @@
     }).join("");
     renderTask();
   }
-  function renderExtra() {
-    const el = $("#c-extra");
-    if (!el) return;
-    if (c === 1)
-      el.innerHTML = `<label class="ask">Quantas arestas saem do canto A1?<span class="ask-row"><input id="guess" type="number" min="0" inputmode="numeric" autocomplete="off"><button type="button" class="sm p" data-check>Conferir</button></span></label>`;
-    else if (c === 4)
-      el.innerHTML =
-        pair.length === 2
-          ? `<label class="ask">Distância de ${pair[0]} a ${pair[1]}, em arestas<span class="ask-row"><input id="guess" type="number" min="0" inputmode="numeric" autocomplete="off"><button type="button" class="sm p" data-check>Conferir</button></span></label>`
-          : "";
-    else el.innerHTML = "";
-    if (guess.c === c && $("#guess")) $("#guess").value = guess.v; // sobrevive ao redesenho
-  }
-  function check() {
-    const input = $("#guess"),
-      v = Number(input?.value);
-    if (!input || input.value.trim() === "" || !Number.isInteger(v) || v < 0)
-      return fb("bad", "Digite um número inteiro, 0 ou maior.");
-    if (c === 1) {
-      const real = g.adj.A1.length;
-      sel = "A1";
-      if (v === real) {
-        fb(
-          "ok",
-          `Isso mesmo: <b>${real}</b>. No canto, só dois saltos em L cabem no tabuleiro (${J.list(g.adj.A1)}). Casas do centro têm mais arestas.`,
-        );
-        complete(1);
-      } else
-        fb(
-          "bad",
-          `Ainda não. Toque em A1 e veja quais saltos em L terminam dentro do tabuleiro. Tente de novo.`,
-        );
-      draw();
-    } else if (c === 4) {
-      const [a, b] = pair,
-        pth = G.graph.path(g, a, b),
-        real = pth.length - 1;
-      const pairKey = [a, b].sort().join("-"),
-        fresh = !revealed.has(pairKey);
-      revealed.add(pairKey);
-      reveal = { dist: real, path: pth, layers: J.layers(g, a) };
-      const where = reveal.layers.findIndex((ids) => ids.includes(b));
-      fb(
-        v === real ? "ok" : "info",
-        (v === real
-          ? `Acertou: d(${a}, ${b}) = <b>${real}</b>. `
-          : `A distância é <b>${real}</b>, não ${v}. Sem problema: veja por quê. `) +
-          `Os números nas casas mostram a camada da busca em largura: ${b} só aparece na camada ${where}, depois de esgotar as casas mais próximas. Um caminho mínimo: ${pth.join(" → ")}.`,
-      );
-      if (v === real && fresh) complete(4);
-      else if (v === real)
-        fb("info", `Acertou, mas a distância desse par já tinha sido revelada. Escolha outro par e aposte antes de conferir.`);
-      draw();
-    }
-  }
-  /* Os controles de resposta vivem na área de tarefa (junto do tabuleiro) e o
-     restante no painel de conceitos. A delegação no documento cobre os dois,
-     mesmo depois de qualquer redesenho. */
+  /* Os controles de resposta vivem no cartão do tabuleiro; o restante no painel de
+     conceitos. A delegação no documento cobre os dois, mesmo depois de qualquer redesenho. */
   document.addEventListener("click", (e) => {
     const head = e.target.closest("[data-c]"),
-      go = e.target.closest("[data-go]");
-    if (e.target.closest("[data-check]")) return check();
+      go = e.target.closest("[data-go]"),
+      choose = e.target.closest("[data-choose]");
+    if (e.target.closest("[data-check]")) return checkInput();
+    if (e.target.closest("[data-check-none]")) return check(null, "sem-caminho");
+    if (choose) return check(Number(choose.dataset.choose), "escolha");
     if (head || go) {
       const to = head ? +head.dataset.c : Math.max(0, Math.min(CONCEPTS.length - 1, c + +go.dataset.go));
       if (locked(to)) {
@@ -352,7 +419,7 @@
   document.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && e.target.id === "guess") {
       e.preventDefault();
-      check();
+      checkInput();
     }
   });
   $("#view").addEventListener("click", (e) => {

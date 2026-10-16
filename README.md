@@ -25,11 +25,21 @@ npm test
 
 `vendor` atualiza as cópias locais das dependências e os ícones selecionados. `check` verifica a sintaxe dos scripts, referências locais e IDs duplicados. Os testes verificam regras de movimento, topologia, caminhos mínimos, disposições, persistência, a solução do problema original, dicas, limite inferior, paridade, a contagem do Xadrez de Fischer por enumeração e o motor de progressão.
 
-## Três áreas
+## Quatro áreas
 
-- **Trilha de Aprendizagem** (`index.html`, a página inicial; `trilha.html` apenas redireciona): mapa gamificado de 5 mundos e 18 fases. Cada fase é um vértice e cada pré-requisito uma aresta.
+- **Aprender** (`index.html`, a página inicial; `trilha.html` apenas redireciona): mapa gamificado de 5 mundos e 18 fases. Cada fase é um vértice e cada pré-requisito uma aresta.
 - **Laboratório** (`lab.html`): ferramentas livres, sem XP e sem sequência. As sete atividades da trilha abrem em modo livre com `?livre=1`; a bancada de seis etapas (`estrutura` a `solucao`) segue como era.
+- **Progresso** (`progresso.html`): XP, fases concluídas, conquistas e histórico. Só lê `js/jornada.js`; a lista de conquistas e o apagar progresso saíram do rodapé da trilha e vivem aqui.
 - **Pesquisa** (`pesquisa.html`): problema, fundamentação, metodologia, demonstrações, resultados computacionais, limitações. Referências ainda pendentes (marcadas como tal).
+
+## Navegação
+
+A casca da interface é montada por `js/main.js` a partir de `G.AREAS` (as quatro áreas), `G.TRILHA` (atividades) e `G.STEPS` (etapas da bancada):
+
+- **Até 900px**: uma **barra inferior fixa** com as quatro áreas (ícone + rótulo), o indicador de seção atual, `aria-current="page"` e respeito à área segura do aparelho. O menu do cabeçalho desaparece nessa largura, para não haver duas navegações. A casca reserva espaço (`--nav-b`) para a barra não encobrir conteúdo.
+- **Acima de 900px**: as áreas ficam no cabeçalho e a barra inferior não existe.
+- **Menu "Mais"**: a mesma folha em qualquer largura, com tema, animações, exemplo pronto e páginas institucionais (`sobre.html`). Reúne o que era secundário no cabeçalho.
+- Em atividades com mais de uma fase/etapa, o seletor de módulo (celular) e a lista de abas (desktop) continuam trocando de página; o rodapé `.pager` virou navegação anterior/próximo **no fluxo** (não é mais uma barra fixa).
 
 ## Jornada gamificada
 
@@ -47,14 +57,15 @@ npm test
 
 ## Organização
 
-- `js/main.js`: estado persistido, navegação, preferências visuais, gestos e exportação.
+- `js/main.js`: estado persistido, navegação (cabeçalho, subnavegação, barra inferior, menu "Mais", tema e movimento), viewport SVG e exportação.
 - `js/estrutura.js`, `regras.js`, `grafo.js`, `geometria.js`, `analise.js`: ferramentas e algoritmos. `regras.js` traz as cinco regras de peça (cavalo, torre, bispo, dama, rei).
 - `js/pecas.js`: a fase 1.5. Só compõe a tela: o grafo de cada peça vem de `regras.js` + `grafo.js`.
 - `js/redes.js`: as três redes do mundo 5. As arestas são **declaradas** (nome de origem e destino), não deduzidas da posição no desenho; os dados ficam em `G.redesData` para conferência fora do navegador.
 - `js/solucao.js`: busca exata; `js/player.js`: reprodução sincronizada e linha do tempo.
+- `js/progresso.js`: a página Progresso. Só lê o motor (`G.jornada`): conquistas, XP e histórico.
 - `js/home.js`: cenas em perspectiva, grafo e caminho geradas pelas mesmas regras do laboratório.
 - `js/motion.js`: entrada tipográfica, narrativa de rolagem com ScrollTrigger e continuidade entre representações geométricas.
-- `css/style.css`: temas, figuras e controles (tokens de espaçamento `--sp-1..--sp-8`, raios e cores de estado); `css/jornada.css`: navegação, mapa, faixas de fase, Laboratório e Pesquisa; `css/trilha.css`: atividades; `css/responsive.css`: adaptações de layout.
+- `css/style.css`: tokens (tipografia `--fs-*`, raios, espaçamento `--sp-1..--sp-8`, cores de estado, `--nav-b`/`--safe-b`), componentes base **e a casca do site** (cabeçalho, subnavegação, barra inferior, folha "Mais"); `css/jornada.css`: mapa, faixas de fase, página Progresso, Laboratório e Pesquisa; `css/trilha.css`: atividades; `css/responsive.css`: adaptações de layout.
 - `assets/licenses`: créditos e condições das dependências.
 
 ## Verificação
@@ -64,14 +75,20 @@ npm run check   # sintaxe, referências locais, IDs duplicados
 npm test        # 50 testes: algoritmos, peças como grafos, jornada e conteúdos
 ```
 
-Com o servidor no ar (`npm start`), há quatro verificações que usam o Chrome instalado:
+Com o servidor no ar (`npm start`), há cinco verificações que usam o Chrome instalado:
 
 ```sh
 node qa/layout-check.mjs   # transbordamento horizontal em 6 larguras × 18 páginas
-node qa/flow-check.mjs     # fluxo real: responder, concluir, navegar, bloqueio
+node qa/nav-check.mjs      # barra inferior: fixa, ativa, alvos ≥ 44px, nada encoberto
+node qa/trail-check.mjs    # página Aprender: nós, rótulos, uma ação, folha de detalhes
+node qa/flow-check.mjs     # fluxo real: responder, concluir, navegar, bloqueio, barra e menu
 node qa/pecas-check.mjs    # a fase 1.5: painel, etapas, evidências e desbloqueio
 node qa/redes-check.mjs    # dados e gabaritos das aplicações (roda sem navegador)
 ```
+
+`qa/nav-check.mjs` cobre as 18 páginas em 360, 390 e 414px e confere, além da barra, o
+cabeçalho no desktop. `qa/measure.mjs`, `qa/probe-gap.mjs`, `qa/probe-cover.mjs` e
+`qa/probe-trail.mjs` são sondas pontuais de medição usadas nas etapas 1 a 3.
 
 O projeto continua usando `graphos.projeto` no localStorage. As preferências visuais usam chaves separadas: `graphos.theme` e `graphos.motion`. Todas as rotas originais foram mantidas.
 
@@ -90,4 +107,22 @@ Consulte [a avaliação visual e a validação](docs/visual-review.md).
 
 ## Interface simplificada (v2)
 
-A página inicial é o próprio mapa: título curto, um botão "Começar/Continuar" para a fase recomendada, nós circulares conectados e painel lateral enxuto (detalhes pedagógicos em "Mais sobre esta fase"). Conquistas e "Como funciona" ficam recolhidos no rodapé. A antiga página inicial de apresentação virou `sobre.html`. No Laboratório, instruções de uso ficam em "Como usar" (recolhido).
+A página inicial é o próprio mapa: título curto, um botão "Começar/Continuar" para a fase recomendada, nós circulares conectados e painel lateral enxuto (detalhes pedagógicos em "Mais sobre esta fase").
+
+## Reformulação da experiência (etapas)
+
+Trabalho em etapas, com diagnóstico e aprovação a cada uma. Documentos:
+
+- `docs/etapa-1-analise-e-plano.md`: diagnóstico medido (blocos de interface, poluição, experiência móvel) e plano das etapas 2 a 7.
+- **Etapa 2 (concluída)**: sistema visual (escala tipográfica, raios, cores de estado, contraste do secundário) e navegação — barra inferior fixa no celular com quatro áreas, menu "Mais", `.pager` de volta ao fluxo e a página **Progresso** (conquistas, XP e histórico fora do rodapé da trilha). A casca vive em `css/style.css` e `js/main.js`.
+- **Etapa 3 (concluída)**: página **Aprender** refeita — trilha contínua em nós posicionados por `TRAIL` (`js/trilha-mapa.js`), estado por ícone, nome abaixo do ponto, XP só na fase recomendada, painel de detalhes que vira folha no celular, e a identidade da fase em um lugar só. Conquistas e "Como funciona" ficam na página Progresso; nenhuma regra de XP, desbloqueio ou conclusão foi tocada.
+
+## Mapa da trilha (manutenção)
+
+Cada fase precisa de dados em `js/jornada.js` (`PHASES`) e de uma posição em `TRAIL`
+(`js/trilha-mapa.js`): `x` em fração da largura (0,2 a 0,8 mantém nó e rótulo dentro do
+quadro) e a linha, que é contada junto com o cabeçalho do mundo. A altura do desenho é
+`--rows × --trail-h` (96px→76px no desktop, 72px no celular), então uma fase nova
+empurra as seguintes automaticamente. O rótulo escolhe o alinhamento por `alignOf(x)`.
+
+Conquistas e "Como funciona" ficam na página Progresso. No Laboratório, instruções de uso ficam em "Como usar" (recolhido).

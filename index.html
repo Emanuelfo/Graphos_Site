@@ -28,35 +28,25 @@
         <div>
           <p class="eyebrow">Graphos · xadrez e teoria dos grafos</p>
           <h1 id="j-title">Sua jornada pelos grafos</h1>
-          <p>Resolva desafios, libere novas fases e descubra a matemática escondida no xadrez.</p>
         </div>
         <div class="j-go" id="j-go" aria-live="polite"></div>
       </section>
 
       <div class="j-layout">
-        <section class="jmap" id="jmap" aria-label="Mapa da trilha">
+        <section class="jmap" id="jmap" aria-label="Trilha de aprendizagem">
           <svg class="jmap-edges" id="jmap-edges" aria-hidden="true"></svg>
-          <div id="jmap-worlds"></div>
+          <div class="jmap-rows" id="jmap-worlds"></div>
         </section>
-        <aside class="j-panel" id="j-panel" aria-label="Detalhes da fase" aria-live="polite" tabindex="-1"></aside>
+        <aside class="j-panel" id="j-panel" aria-labelledby="j-panel-title" aria-live="polite" tabindex="-1"></aside>
       </div>
 
       <footer class="j-foot">
-        <details class="j-ach">
-          <summary>Conquistas <span class="mono" id="ach-count"></span></summary>
-          <ul class="ach-grid" id="ach-grid"></ul>
-        </details>
-        <details class="j-notes">
-          <summary>Como funciona</summary>
-          <ul>
-            <li>Cada fase libera as próximas. Errar não tem punição: tente de novo ou revise quando quiser.</li>
-            <li>O XP marca seu percurso e vale uma vez por fase. Ele não mede inteligência.</li>
-            <li>Prefere explorar sem ordem? Use o <a href="lab.html">Laboratório</a>, sem XP.</li>
-            <li>O progresso fica salvo só neste navegador e dispositivo (sem conta). <span id="storage-note"></span></li>
-          </ul>
-          <button type="button" class="sm d" id="j-reset">Apagar progresso neste navegador</button>
-        </details>
-        <p class="j-links"><a href="sobre.html">Sobre o Graphos</a> · <a href="pesquisa.html">Pesquisa</a></p>
+        <p class="j-links">
+          <a href="progresso.html">Progresso, conquistas e histórico</a> ·
+          <a href="lab.html">Laboratório</a> ·
+          <a href="sobre.html">Sobre o Graphos</a>
+        </p>
+        <p class="j-storage mono">O progresso fica salvo só neste navegador e dispositivo (sem conta). <span id="storage-note"></span></p>
       </footer>
     </main>
     <script src="js/icons.js"></script>

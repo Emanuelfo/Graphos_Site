@@ -58,6 +58,11 @@ const names = [
   "compass",
   "star",
   "path",
+  /* Barra de navegação inferior e menu "Mais". */
+  "house",
+  "graduation-cap",
+  "dots-three",
+  "arrows-clockwise",
 ];
 const icons = {};
 for (const name of names)

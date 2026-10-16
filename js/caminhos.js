@@ -15,6 +15,7 @@
   const J = G.jogo,
     $ = G.$,
     svg = $("#bsvg");
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const SIZES = { "4x3": [4, 3], "5x5": [5, 5], "6x6": [6, 6], "8x8": [8, 8] };
   let mode = "levels",
     level = LEVELS[0],
@@ -80,11 +81,20 @@
     $("#bcap").textContent = `${p.structure.rows}×${p.structure.cols} · ${p.structure.active.length} casas`;
     const d = dist(),
       fin = finished();
-    $("#goal").innerHTML = origin && dest
-      ? `Origem <b>${origin}</b> (casa ${J.shadeName(origin)}) → destino <b>${dest}</b> (casa ${J.shadeName(dest)}).`
-      : origin
-        ? `Origem <b>${origin}</b>. Falta escolher o destino.`
-        : "Escolha origem e destino no tabuleiro.";
+    /* O objetivo fica acima do tabuleiro (`.ctask`): uma linha com o nível e o
+       trajeto, para o estudante não precisar procurar o alvo no painel. */
+    $("#ctask").innerHTML =
+      `<div class="ctask-bar"><p class="ctask-head"><span class="mono">${mode === "levels" ? level.nivel : "Livre"}</span> <b>${mode === "levels" ? esc(level.nome) : "Tabuleiro livre"}</b></p>` +
+      `<p class="ctask-todo">${
+        origin && dest
+          ? `Leve o cavalo de <b>${origin}</b> até <b>${dest}</b> com o menor número de saltos.`
+          : origin
+            ? `Origem <b>${origin}</b>. Toque na casa de destino.`
+            : "Toque na casa de origem e depois na de destino."
+      }</p></div>` +
+      (origin && dest
+        ? `<p class="ctask-obj">Origem ${origin} (${J.shadeName(origin)}) → destino ${dest} (${J.shadeName(dest)})${d === undefined ? ": nenhum caminho entre elas." : ` · ${fin || hint >= 2 ? `${d} ${d === 1 ? "salto" : "saltos"} no mínimo` : "quantos saltos você acha que são necessários?"}`}</p>`
+        : "");
     $("#score").innerHTML =
       `<div><dt>Saltos</dt><dd class="ac">${Math.max(0, path.length - 1)}</dd></div><div><dt>Mínimo</dt><dd>${fin || hint >= 2 ? (d === undefined ? "∞" : d) : "?"}</dd></div>`;
     $("#undo").disabled = path.length < 2;

@@ -26,6 +26,7 @@
 
   const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const label = (p) => `Fase ${p.id} · ${p.nome}`;
+  const stLabel = { done: "Concluída", available: "Em andamento", locked: "Bloqueada" };
   const link = (p, text) => `<a href="${p.href}">${esc(text || label(p))}</a>`;
 
   /* ---------- Bloqueio ---------- */
@@ -39,9 +40,13 @@
       work.innerHTML = `<section class="gate" role="status"><p class="eyebrow">Fase bloqueada</p><h2>${esc(label(target))}</h2><p>Esta atividade só conta para a trilha depois de concluir ${miss.length === 1 ? "a fase" : "as fases"}:</p><ul>${miss.map((m) => `<li>${link(m)}${Jor.status(m.id) === "locked" ? ' <span class="mut">(também bloqueada)</span>' : ""}</li>`).join("")}</ul><p class="mut">O bloqueio é aplicado pelo progresso salvo, não apenas pelo cadeado do mapa. A ferramenta continua disponível no Laboratório, sem XP.</p><div class="row"><a class="btn p" href="index.html">Ver o mapa da trilha</a>${nx && nx.id !== target.id ? `<a class="btn" href="${nx.href}">Ir para a fase recomendada ${esc(nx.id)}</a>` : ""}<a class="btn g" href="${G.href(page + ".html") + (free ? "" : "?livre=1")}">Usar no Laboratório (sem XP)</a></div></section>`;
   }
 
-  /* ---------- Faixa da fase ---------- */
-  const chip = (st) =>
-    ({ done: '<span class="chip is-done">Concluída</span>', available: '<span class="chip is-open">Em andamento</span>', locked: '<span class="chip is-locked">Bloqueada</span>' })[st];
+  /* ---------- Faixa da missão ----------
+     Um único lugar com a identidade da fase: nome, estado e objetivo. O critério fica
+     logo abaixo, em uma linha. Situação-problema, conceito, outras fases e links saem
+     da primeira dobra (bloco recolhido e rodapé), para o cartão da atividade ser a
+     única outra superfície da tela. */
+  const chip = (st, text) =>
+    `<span class="chip is-${st === "available" ? "open" : st}">${G.icon(st === "done" ? "check" : st === "locked" ? "lock" : "flag")}${text}</span>`;
   function nextHtml(p) {
     const ready = p.proximas.map(Jor.phase).filter((q) => Jor.status(q.id) === "available");
     if (ready.length) return `Próximo passo: ${ready.map((q) => link(q)).join(" ou ")}.`;
@@ -62,18 +67,42 @@
           : `<a class="btn sm p" href="${p.href}">${st === "done" ? "Revisar na trilha" : "Fazer como fase da trilha"}: ${esc(p.id)} ${G.icon("arrow-right")}</a>`
       }</div>`;
       G.icons(host);
+      renderNotes();
       return;
     }
     const p = focus,
       st = Jor.status(p.id),
       w = Jor.world(p.world),
       rev = Jor.reviews(p.id);
+    const have = Jor.have(p.id);
+    /* Progresso da fase só existe quando a fase pede mais de uma evidência. */
+    const prog = p.needs.length > 1 ? ` <span class="mono">${have.length}/${p.needs.length}</span>` : "";
     const reward =
       st === "done"
-        ? `<p class="fase-reward" role="status"><b>Fase concluída.</b> Recompensa registrada: ${p.xp} XP${Jor.worldDone(p.world) ? ` e conclusão de ${esc(w.nome)}` : ""}. Revisar esta fase não concede XP de novo${rev ? ` (revisões: ${rev})` : ""}. ${nextHtml(p)}</p>`
+        ? `<p class="fase-reward" role="status"><b>Fase concluída.</b> Recompensa registrada: ${p.xp} XP${Jor.worldDone(p.world) ? ` e conclusão de ${esc(w.nome)}` : ""}. Revisar não concede XP de novo${rev ? ` (revisões: ${rev})` : ""}. ${nextHtml(p)}</p>`
         : "";
-    const have = Jor.have(p.id);
-    const prog = p.needs.length > 1 ? ` <span class="mono">${have.length}/${p.needs.length}</span>` : "";
+    host.className = `fase is-${st}`;
+    host.innerHTML =
+      `<p class="eyebrow">Mundo ${w.n} · ${esc(w.nome)}</p>` +
+      `<div class="fase-head"><h2 class="fase-title"><span class="mono">${esc(p.id)}</span> ${esc(p.nome)}</h2>${chip(st, stLabel[st] || "Em andamento")}</div>` +
+      `<p class="fase-obj">${esc(p.objetivo)}</p>` +
+      `<p class="fase-crit"><b>Para concluir:</b> ${esc(p.criterio)}${prog}</p>` +
+      reward;
+    renderNotes();
+    G.icons(host);
+  }
+
+  /* ---------- Bloco recolhido e rodapé da faixa ---------- */
+  function renderNotes() {
+    const slot = $("#fase-notes");
+    if (!slot) return;
+    const p = focus,
+      w = Jor.world(p.world),
+      st = Jor.status(p.id);
+    if (free) {
+      slot.innerHTML = "";
+      return;
+    }
     const list =
       phases.length > 1
         ? `<ol class="fase-list" aria-label="Fases desta atividade">${phases
@@ -83,18 +112,22 @@
             })
             .join("")}</ol>`
         : "";
-    const ctx = [p.lab && `<a class="text-link" href="${p.lab.href}${/\?/.test(p.lab.href) ? "" : ""}">${esc(p.lab.label)} <span data-icon="arrow-up-right"></span></a>`, p.pesquisa && `<a class="text-link" href="${p.pesquisa.href}">${esc(p.pesquisa.label)} <span data-icon="arrow-up-right"></span></a>`].filter(Boolean).join("");
-    host.className = `fase is-${st}`;
-    /* Na tela: onde estou, o que vou aprender e o que preciso fazer. A explicação
-       conceitual fica logo abaixo, mas recolhida, para não competir com a tarefa. */
-    host.innerHTML =
-      `<div class="fase-main"><p class="eyebrow">Mundo ${w.n} · ${esc(w.nome)}</p><h2 class="fase-title"><span class="mono">Fase ${esc(p.id)}</span> ${esc(p.nome)}</h2><p class="fase-obj">${esc(p.objetivo)}</p></div><div class="fase-side">${chip(st)}${reward}<div class="fase-links">${ctx}</div></div><p class="fase-crit"><b>Para concluir:</b> ${esc(p.criterio)}${prog}</p><details class="fase-more"><summary>Como fazer, conceito e outras fases</summary><p class="fase-como"><b>Como fazer:</b> ${esc(p.atividade)}</p><dl class="fase-dl"><dt>Situação-problema</dt><dd>${esc(p.contexto)}</dd><dt>Conceito</dt><dd>${esc(p.conceito)}</dd></dl>${list}</details>`;
-    G.icons(host);
+    const ctx = [
+      p.lab && `<a class="text-link" href="${p.lab.href}">${esc(p.lab.label)} <span data-icon="arrow-up-right"></span></a>`,
+      p.pesquisa && `<a class="text-link" href="${p.pesquisa.href}">${esc(p.pesquisa.label)} <span data-icon="arrow-up-right"></span></a>`,
+    ]
+      .filter(Boolean)
+      .join("");
+    slot.innerHTML =
+      `<details class="fase-more"><summary>Situação-problema e conceito</summary><dl class="fase-dl"><dt>Situação-problema</dt><dd>${esc(p.contexto)}</dd><dt>Conceito</dt><dd>${esc(p.conceito)}</dd><dt>Objetivo do mundo</dt><dd>${esc(w.objetivo)}</dd><dt>Recompensa</dt><dd>${p.xp} XP, uma vez${st === "done" ? " (já recebida)" : ""}</dd></dl></details>` +
+      (ctx ? `<div class="fase-links">${ctx}</div>` : "") +
+      list;
+    G.icons(slot);
   }
   const work = $(".work");
   if (work && !G.fase.blocked) {
     const shead = $(".shead");
-    (shead || work).insertAdjacentHTML(shead ? "afterend" : "beforebegin", '<aside class="fase" id="fase-banner" aria-label="Fase da trilha"></aside>');
+    (shead || work).insertAdjacentHTML(shead ? "afterend" : "beforebegin", '<aside class="fase" id="fase-banner" aria-label="Fase da trilha"></aside><div class="fase-notes" id="fase-notes"></div>');
     /* Marca a página para o CSS: onde existe faixa de fase, o título genérico da
        atividade é redundante e pode sair do caminho em telas pequenas. */
     document.body.classList.add("has-phase");

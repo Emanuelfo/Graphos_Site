@@ -1,4 +1,11 @@
-/* Graphos - núcleo compartilhado: projeto, cabeçalho/etapas, viewport SVG, exportação */
+/* Graphos - núcleo compartilhado: projeto, casca da interface (cabeçalho,
+   subnavegação, menu "Mais" e barra de navegação inferior), viewport SVG e exportação.
+   Regras desta casca:
+   - UMA navegação por tamanho de tela: no desktop as áreas ficam no cabeçalho; até
+     900px são a barra inferior fixa (ver css/style.css, tokens --nav-b/--safe-b).
+   - Elementos secundários (tema, animações, páginas institucionais) ficam no "Mais",
+     que é a mesma folha nas duas larguras.
+   - O progresso (XP, fases) nunca é calculado aqui: vem de G.jornada. */
 window.Graphos = window.Graphos || {};
 (function (G) {
   const $ = (s, r = document) => r.querySelector(s);
@@ -28,11 +35,12 @@ window.Graphos = window.Graphos || {};
     { key: "combinatoria", nome: "Combinatória", href: "combinatoria.html" },
     { key: "redes", nome: "Aplicações", href: "redes.html" },
   ];
-  /* Três áreas do site (navegação principal). */
+  /* Quatro destinos. Ícone e rótulo curto aparecem na barra inferior e no menu "Mais". */
   G.AREAS = [
-    { key: "trilha", nome: "Trilha de Aprendizagem", curto: "Trilha", href: "index.html" },
-    { key: "lab", nome: "Laboratório", curto: "Laboratório", href: "lab.html" },
-    { key: "pesquisa", nome: "Pesquisa", curto: "Pesquisa", href: "pesquisa.html" },
+    { key: "trilha", nome: "Aprender", curto: "Aprender", href: "index.html", icon: "house" },
+    { key: "lab", nome: "Laboratório", curto: "Laboratório", href: "lab.html", icon: "flask" },
+    { key: "progresso", nome: "Progresso", curto: "Progresso", href: "progresso.html", icon: "graduation-cap" },
+    { key: "pesquisa", nome: "Pesquisa", curto: "Pesquisa", href: "pesquisa.html", icon: "book-open" },
   ];
   /* Modo livre: as telas da trilha abertas como ferramenta, sem XP e sem alterar o progresso. */
   G.free = (() => {
@@ -46,7 +54,10 @@ window.Graphos = window.Graphos || {};
   G.areaOf = (page) => {
     if (G.STEPS.some((s) => s.key === page) || page === "lab") return "lab";
     if (G.TRILHA.some((s) => s.key === page)) return G.free ? "lab" : "trilha";
-    return page === "trilha" || page === "pesquisa" ? page : null;
+    if (page === "trilha" || page === "progresso" || page === "pesquisa") return page;
+    /* Páginas sem área própria (sobre.html) mantêm o destaque em Aprender:
+       o estudante nunca fica sem referência de onde está. */
+    return "trilha";
   };
 
   /* ---------- Estrutura: casas de um tabuleiro ---------- */
@@ -154,9 +165,16 @@ window.Graphos = window.Graphos || {};
     return false;
   };
 
-  /* ---------- Cabeçalho e navegação ---------- */
+  /* ---------- Casca da interface ---------- */
   const KN =
     '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="kn" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M25 82C25 70 29 62 37 55C41 52 44 49 43 46C38 48 32 52 25 54C19 55 14 52 14 47C14 43 17 40 20 36C24 31 28 26 31 20L31 9L40 15C45 12 52 12 58 14C71 19 81 33 80 54C79 66 76 74 76 82Z M36 29a2.6 2.6 0 1 0 5.2 0a2.6 2.6 0 1 0-5.2 0Z"/><rect x="19" y="82" width="62" height="11" rx="3.5"/></symbol></defs></svg>';
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+  /* Folha "Mais": tema, animações, exemplo e páginas institucionais.
+     É também o destino dos itens secundários no celular. */
+  function moreSheet() {
+    return `<div class="sheet" id="mais" hidden><button type="button" class="sheet-veil" data-close aria-label="Fechar menu"></button><div class="sheet-card" role="dialog" aria-modal="true" aria-label="Mais opções" tabindex="-1"><div class="sheet-head"><b>Mais</b><button type="button" class="icon-button" data-close aria-label="Fechar menu">${G.icon("x")}</button></div><ul class="sheet-list"><li><button type="button" id="sheet-motion">${G.icon("pause")}<span>Reduzir animações</span></button></li><li><button type="button" id="sheet-theme">${G.icon("moon")}<span>Ativar tema escuro</span></button></li></ul><p class="sheet-sep">Páginas</p><ul class="sheet-list" id="sheet-pages"><li><a href="sobre.html">${G.icon("info")}<span>Sobre o Graphos</span></a></li><li><a href="pesquisa.html">${G.icon("book-open")}<span>Pesquisa: a fundamentação matemática</span></a></li><li><a href="lab.html">${G.icon("flask")}<span>Laboratório: todas as ferramentas</span></a></li></ul><p class="sheet-note">O progresso fica salvo só neste navegador e dispositivo, sem conta.</p></div></div>`;
+  }
 
   function buildChrome() {
     const page = document.body.dataset.page,
@@ -165,11 +183,13 @@ window.Graphos = window.Graphos || {};
     const idx = G.STEPS.findIndex((s) => s.key === page);
     const tIdx = G.TRILHA.findIndex((s) => s.key === page);
     const area = G.areaOf(page);
+    /* Áreas no cabeçalho (desktop). O ponto antes do rótulo repete o estado ativo
+       sem depender de cor. */
     const nav = G.AREAS.map(
       (a) =>
-        `<a class="st${a.key === area ? " on" : ""}" href="${a.href}"${a.key === area ? ' aria-current="page"' : ""}><span>${a.curto}</span></a>`,
+        `<a class="st${a.key === area ? " on" : ""}" href="${a.href}"${a.key === area ? ' aria-current="page"' : ""}>${a.curto}</a>`,
     ).join("");
-    /* Subnavegação: etapas do Laboratório, módulos da trilha ou ferramentas livres. */
+    /* Subnavegação: etapas do Laboratório, módulos da trilha. */
     const subItems = idx >= 0 ? G.STEPS : tIdx >= 0 ? G.TRILHA : null;
     const subAt = idx >= 0 ? idx : tIdx;
     const back = idx >= 0 || G.free ? ["lab.html", "Todas as ferramentas"] : ["index.html", "Mapa da trilha"];
@@ -188,8 +208,25 @@ window.Graphos = window.Graphos || {};
           )
           .join("")}</div></div></nav>`
       : "";
-    const example = area === "lab" || page === "home" ? `<button type="button" class="sm" id="load-example">Abrir exemplo ${G.icon("arrow-up-right")}</button>` : "";
-    host.innerHTML = `<a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="top"><a class="brand" href="index.html" aria-label="Graphos, início"><img src="assets/logo.png" width="40" height="40" alt=""><b>Graphos</b></a><span class="brand-note">Teoria dos grafos<br>Math en Jeans</span><nav class="steps" id="main-nav" aria-label="Áreas do site">${nav}</nav><div class="acts"><button type="button" class="icon-button" id="motion-toggle" aria-label="Alternar animações"></button><button type="button" class="icon-button" id="theme-toggle" aria-label="Alternar tema"></button>${example}</div></header>${sub}`;
+    const mainNav = `<nav class="steps" id="main-nav" aria-label="Áreas do site">${nav}</nav>`;
+    const brand = `<a class="brand" href="index.html" aria-label="Graphos, início"><img src="assets/logo.png" width="40" height="40" alt=""><b>Graphos</b></a>`;
+    const subNote = `<span class="brand-note" aria-hidden="true">Teoria dos grafos<br>Math en Jeans</span>`;
+    const acts = `<div class="acts"><button type="button" class="icon-button" id="theme-toggle" aria-label="Alternar tema"></button><button type="button" class="more-btn" id="more-open" aria-haspopup="dialog" aria-expanded="false" aria-controls="mais">${G.icon("dots-three")}<span>Mais</span></button></div>`;
+    host.innerHTML =
+      `<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>` +
+      `<header class="top">${brand}${subNote}${mainNav}${acts}</header>${sub}` +
+      moreSheet() +
+      `<nav class="nav-bar" id="nav-bar" aria-label="Navegação principal"><div class="nav-bar-in">${G.AREAS.map(
+        (a) =>
+          `<a class="nav-item${a.key === area ? " on" : ""}" href="${a.href}"${a.key === area ? ' aria-current="page"' : ""}><span data-icon="${a.icon}"></span><span>${a.curto}</span></a>`,
+      ).join("")}</div></nav>`;
+    /* Exemplo pronto, quando a página oferece o carregador (js/exemplos.js).
+       A folha é global, então o botão usa delegação em vez de um id fixo. */
+    if (G.examples)
+      $("#sheet-pages", $("#mais")).insertAdjacentHTML(
+        "afterbegin",
+        `<li><button type="button" id="load-example"><span data-icon="squares-four"></span><span>Abrir o exemplo dos quatro cavalos</span></button></li>`,
+      );
     host.classList.add("lab-chrome");
     G.reducedMotion = {
       get matches() {
@@ -200,20 +237,12 @@ window.Graphos = window.Graphos || {};
           document.addEventListener("graphos:motion", handler);
       },
     };
-    const motionButton = $("#motion-toggle");
+    /* Tema e animações: o mesmo estado alimenta o cabeçalho e a folha "Mais". */
+    const motionButton = $("#sheet-motion");
     const syncMotion = () => {
-      const label = G.reducedMotion.matches
-        ? "Ativar animações"
-        : "Reduzir animações";
-      motionButton.innerHTML = G.icon(
-        G.reducedMotion.matches ? "play" : "pause",
-      );
-      motionButton.setAttribute("aria-label", label);
-      motionButton.setAttribute("title", label);
-      motionButton.setAttribute(
-        "aria-pressed",
-        String(!G.reducedMotion.matches),
-      );
+      const label = G.reducedMotion.matches ? "Ativar animações" : "Reduzir animações";
+      motionButton.innerHTML = `${G.icon(G.reducedMotion.matches ? "play" : "pause")}<span>${label}</span>`;
+      motionButton.setAttribute("aria-pressed", String(G.reducedMotion.matches));
     };
     motionButton.addEventListener("click", () => {
       const motion = G.reducedMotion.matches ? "full" : "reduce";
@@ -236,9 +265,7 @@ window.Graphos = window.Graphos || {};
           /* private browsing */
         }
         if (!saved) {
-          document.documentElement.dataset.motion = event.matches
-            ? "reduce"
-            : "full";
+          document.documentElement.dataset.motion = event.matches ? "reduce" : "full";
           syncMotion();
           document.dispatchEvent(new Event("graphos:motion"));
         }
@@ -246,30 +273,25 @@ window.Graphos = window.Graphos || {};
     );
     syncMotion();
     document.body.insertAdjacentHTML("afterbegin", KN);
+    /* Exemplo pronto: só nas páginas que carregam js/exemplos.js. */
     if ($("#load-example"))
-      $("#load-example").addEventListener("click", () =>
-        G.loadExample(G.examples[0].id),
-      );
-    const toggle = $("#theme-toggle");
+      $("#load-example").addEventListener("click", () => {
+        G.loadExample(G.examples[0].id);
+      });
+    const toggle = $("#sheet-theme");
     const syncTheme = () => {
       const dark = document.documentElement.dataset.theme === "dark";
-      toggle.innerHTML = G.icon(dark ? "sun" : "moon");
-      toggle.setAttribute(
-        "aria-label",
-        dark ? "Ativar tema claro" : "Ativar tema escuro",
-      );
+      toggle.innerHTML = `${G.icon(dark ? "sun" : "moon")}<span>${dark ? "Ativar tema claro" : "Ativar tema escuro"}</span>`;
+      toggle.setAttribute("aria-pressed", String(dark));
       document
         .querySelector('meta[name="theme-color"]')
         ?.setAttribute(
           "content",
-          getComputedStyle(document.documentElement)
-            .getPropertyValue("--bg")
-            .trim(),
+          getComputedStyle(document.documentElement).getPropertyValue("--bg").trim(),
         );
     };
     toggle.addEventListener("click", () => {
-      const theme =
-        document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
       document.documentElement.dataset.theme = theme;
       try {
         localStorage.setItem("graphos.theme", theme);
@@ -278,24 +300,45 @@ window.Graphos = window.Graphos || {};
       }
       syncTheme();
     });
-    matchMedia("(prefers-color-scheme: dark)").addEventListener(
-      "change",
-      (event) => {
-        let saved;
-        try {
-          saved = localStorage.getItem("graphos.theme");
-        } catch {
-          /* private browsing */
-        }
-        if (!saved) {
-          document.documentElement.dataset.theme = event.matches
-            ? "dark"
-            : "light";
-          syncTheme();
-        }
-      },
-    );
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+      let saved;
+      try {
+        saved = localStorage.getItem("graphos.theme");
+      } catch {
+        /* private browsing */
+      }
+      if (!saved) {
+        document.documentElement.dataset.theme = event.matches ? "dark" : "light";
+        syncTheme();
+      }
+    });
     syncTheme();
+
+    /* ---------- Folha "Mais": abrir, fechar e devolver o foco ---------- */
+    const sheet = $("#mais"),
+      opener = $("#more-open");
+    const setSheet = (open) => {
+      sheet.hidden = !open;
+      opener.setAttribute("aria-expanded", String(open));
+      document.body.classList.toggle("sheet-open", open);
+      if (open) $(".sheet-card", sheet).focus?.();
+      else opener.focus();
+    };
+    opener.addEventListener("click", () => setSheet(sheet.hidden));
+    sheet.addEventListener("click", (e) => {
+      if (e.target.closest("[data-close]")) setSheet(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !sheet.hidden) {
+        e.preventDefault();
+        setSheet(false);
+      }
+    });
+    /* Em telas grandes a folha não existe: o cabeçalho já mostra as áreas. */
+    matchMedia("(min-width: 901px)").addEventListener("change", (e) => {
+      if (e.matches && !sheet.hidden) setSheet(false);
+    });
+
     document.addEventListener("click", (e) => {
       const a = e.target.closest('a[href^="#"]');
       if (
@@ -374,6 +417,7 @@ window.Graphos = window.Graphos || {};
       const prev = seq[at - 1],
         next = seq[at + 1];
       const home = idx >= 0 || G.free ? ["lab.html", "Laboratório"] : ["index.html", "Mapa"];
+      /* Setas horizontais de verdade: a navegação anterior/próxima é horizontal. */
       pager.innerHTML =
         `<a class="btn g" href="${prev ? G.href(prev.href) : home[0]}">${G.icon("arrow-left")} ${prev ? prev.nome : home[1]}</a><span class="pager-note">${at + 1} de ${seq.length} ${idx >= 0 ? "etapas" : G.free ? "ferramentas" : "atividades"}</span>` +
         (next
@@ -385,9 +429,7 @@ window.Graphos = window.Graphos || {};
               : `<a class="btn p" href="index.html">Voltar ao mapa ${G.icon("arrow-up-right")}</a>`);
     }
     document.querySelectorAll("[data-zoom]").forEach((b) => {
-      b.innerHTML = G.icon(
-        { in: "plus", out: "minus", fit: "corners-out" }[b.dataset.zoom],
-      );
+      b.innerHTML = G.icon({ in: "plus", out: "minus", fit: "corners-out" }[b.dataset.zoom]);
     });
     document.querySelectorAll(".card").forEach((card) => {
       const zoom = card.querySelector(".zb");

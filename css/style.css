@@ -54,10 +54,25 @@
   --sp-6: 32px;
   --sp-7: 48px;
   --sp-8: 64px;
-  --radius: 8px;
-  --radius-lg: 12px;
+  /* Escala tipográfica: 3 tamanhos de título, 2 de corpo, 1 de dado.
+     A mono nunca desce de 11px (rótulos de 9px eram o limite antigo). */
+  --fs-t1: clamp(26px, 3vw, 34px);
+  --fs-t2: 21px;
+  --fs-t3: 16px;
+  --fs-body: 14px;
+  --fs-small: 12.5px;
+  --fs-mono: 11px;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
   --focus-ring: 0 0 0 4px color-mix(in srgb, var(--ac) 22%, transparent);
   --tap: 44px;
+  /* Barra de navegação inferior (mobile) e medida da folha "Mais".
+     --nav-b prevalece no desktop, onde a barra não existe. */
+  --nav-b: 0px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
   color-scheme: light;
 }
 :root[data-theme="dark"] {
@@ -66,7 +81,6 @@
   --surface: #170e15;
   --cv: #0a060c;
   --ink: #f5eef2;
-  --mut: #a495a0;
   --line: #2e2029;
   --line2: #4a3644;
   --ac: #e847ab;
@@ -77,6 +91,8 @@
   --pur: #a794e0;
   --pur2: #6853ad;
   --warn: #f28b7d;
+  /* Secundário no escuro: 6,26:1 sobre --bg e 6,84:1 sobre --surface. */
+  --mut: #b4a6b1;
   --lt: #2b1b27;
   --dk: #1a1018;
   --tint: #170e15;
@@ -205,7 +221,7 @@ button.on:hover {
   min-height: var(--tap);
   padding: 11px;
   border-color: transparent;
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
 }
 .icon-button:hover {
   background: var(--tint);
@@ -216,12 +232,13 @@ button.on:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--fs-small);
   font-weight: 600;
   color: var(--ink);
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--ac) 60%, transparent);
   text-underline-offset: 3px;
+  min-height: var(--tap);
 }
 .text-link:hover {
   color: var(--ac);
@@ -245,13 +262,6 @@ button.on:hover {
   display: inline-flex;
   align-items: center;
 }
-.icon-button {
-  width: var(--tap);
-  height: var(--tap);
-  min-height: var(--tap);
-  padding: 11px;
-  border-color: transparent;
-}
 :focus-visible {
   outline: 2px solid var(--ac);
   outline-offset: 2px;
@@ -266,14 +276,14 @@ button.on:hover {
 }
 .mono,
 .figure-number {
-  font: 10px var(--mono);
+  font: var(--fs-mono) var(--mono);
 }
 .figure-number {
   color: var(--mut);
   white-space: nowrap;
 }
 .eyebrow {
-  font: 10px/1.6 var(--mono);
+  font: var(--fs-mono) / 1.6 var(--mono);
   color: var(--mut);
 }
 .eyebrow .mono {
@@ -291,17 +301,26 @@ button.on:hover {
   padding-bottom: 36px;
 }
 .skip-link {
-  position: fixed;
+  position: absolute;
   top: 8px;
   left: 12px;
-  padding: 10px 18px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
   background: var(--ink);
   color: var(--bg);
   z-index: 40;
-  transform: translateY(-150%);
+  transform: none;
 }
 .skip-link:focus {
-  transform: none;
+  width: auto;
+  height: auto;
+  padding: 10px 18px;
+  overflow: visible;
+  clip: auto;
 }
 #chrome {
   position: sticky;
@@ -565,11 +584,12 @@ svg.v:active {
   background: transparent;
 }
 .zb button {
-  width: 34px;
-  height: 34px;
-  min-height: 34px;
+  width: var(--tap);
+  height: var(--tap);
+  min-height: var(--tap);
   border: 0;
-  padding: 8px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
 }
 .zb .icon {
   width: 17px;
@@ -655,7 +675,7 @@ textarea {
   background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--line2);
-  border-radius: 0;
+  border-radius: var(--radius-sm);
   min-height: 43px;
   max-width: 100%;
   padding: 9px 11px;
@@ -752,10 +772,10 @@ summary {
   gap: 12px;
   margin-top: 24px;
   padding: 18px 0 0;
-  border-top: 1px solid var(--ink);
+  border-top: 1px solid var(--line);
 }
 .pager-note {
-  font: 10px var(--mono);
+  font: var(--fs-mono) var(--mono);
   color: var(--mut);
 }
 .pager .p {
@@ -767,9 +787,10 @@ summary {
   background: var(--ink);
   color: var(--bg);
 }
+/* Aviso curto (toast). Sobe acima da barra de navegação inferior quando ela existe. */
 #msg {
   position: fixed;
-  bottom: 24px;
+  bottom: calc(var(--nav-b) + 24px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 40;
@@ -777,9 +798,10 @@ summary {
   max-width: min(90vw, 520px);
   padding: 14px 20px;
   border: 1px solid var(--line2);
+  border-radius: var(--radius);
   background: var(--ink);
   color: var(--bg);
-  font-size: 12px;
+  font-size: var(--fs-small);
 }
 .kv {
   display: grid;
@@ -1243,4 +1265,386 @@ body[data-page="solucao"] #sol-title {
 :root[data-motion="reduce"]::view-transition-old(*),
 :root[data-motion="reduce"]::view-transition-new(*) {
   animation: none !important;
+}
+
+/* ============================================================
+   Casca do site: cabeçalho, subnavegação, menu "Mais" e barra
+   de navegação inferior. Vivem aqui porque valem em todas as
+   páginas (style.css é a primeira folha carregada em todas).
+   ============================================================ */
+
+/* Áreas do site. No desktop ficam no cabeçalho; até 900px são
+   substituídas pela barra inferior (uma navegação por vez). */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+.st {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  color: var(--mut);
+  font-size: var(--fs-small);
+  font-weight: 620;
+  white-space: nowrap;
+}
+.st:hover {
+  color: var(--ink);
+  background: var(--tint);
+}
+.st.on {
+  color: var(--ac);
+  background: var(--rose);
+  font-weight: 750;
+}
+/* O estado atual nunca depende só da cor: um ponto marca a área ativa. */
+.st.on::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: 7px;
+}
+.st.on:hover {
+  color: var(--ac);
+}
+
+/* Botão do menu "Mais": só existe em telas pequenas. */
+.more-btn {
+  display: none;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: var(--tap);
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: 650;
+}
+
+/* ---------- Subnavegação (etapas, atividades, ferramentas) ---------- */
+.subnav {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.subnav-in {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4.3vw, 72px);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.sub,
+.sub-back {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--tap);
+  font-size: var(--fs-small);
+  color: var(--mut);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.sub-back {
+  padding-right: clamp(14px, 2vw, 30px);
+  border-right: 1px solid var(--line);
+}
+.sub-back .icon {
+  width: 16px;
+  height: 16px;
+}
+.sub::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ac);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
+.sub:hover,
+.sub.on,
+.sub-back:hover {
+  color: var(--ink);
+}
+.sub:hover::after,
+.sub.on::after {
+  transform: scaleX(1);
+}
+.sub.on {
+  font-weight: 700;
+}
+.sub.on .step-no {
+  color: var(--ac);
+}
+.sub-list {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  min-width: 0;
+}
+/* Seletor de módulos: só aparece em telas pequenas. */
+.sub-pick {
+  display: none;
+  position: relative;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap);
+}
+.sub-pick select {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 40px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--fs-small);
+  font-weight: 650;
+  appearance: none;
+  text-overflow: ellipsis;
+}
+.sub-caret {
+  position: absolute;
+  right: 12px;
+  display: inline-flex;
+  pointer-events: none;
+  color: var(--mut);
+}
+.sub-caret .icon {
+  width: 16px;
+  height: 16px;
+  transform: rotate(90deg);
+}
+
+/* ---------- Barra de navegação inferior (celular) ----------
+   Fixa, com fundo opaco, respeitando a área segura do aparelho.
+   O indicador do item ativo é uma barra no topo do item: um sinal
+   que não depende de cor. */
+.nav-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: none;
+  padding-bottom: var(--safe-b);
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 94%, var(--ink));
+  backdrop-filter: blur(12px);
+}
+.nav-bar-in {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 560px;
+  margin: 0 auto;
+}
+.nav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 58px;
+  padding: 7px 2px 6px;
+  color: var(--mut);
+  text-decoration: none;
+  font-size: var(--fs-mono);
+  font-weight: 620;
+  border-radius: var(--radius-sm);
+}
+.nav-item .icon {
+  width: 23px;
+  height: 23px;
+}
+.nav-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 34px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--ac);
+  transform: translateX(-50%) scaleX(0);
+  transition: transform 0.2s var(--ease);
+}
+.nav-item.on {
+  color: var(--ac);
+  font-weight: 750;
+}
+.nav-item.on::before {
+  transform: translateX(-50%) scaleX(1);
+}
+.nav-item:active {
+  background: var(--tint);
+}
+
+/* ---------- Folha "Mais" (mesma superfície para tema, movimento e páginas) ---------- */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.sheet[hidden] {
+  display: none;
+}
+.sheet-veil {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: color-mix(in srgb, #000 58%, transparent);
+  cursor: pointer;
+}
+.sheet-card {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: 82svh;
+  overflow-y: auto;
+  padding: var(--sp-4) var(--sp-5) calc(var(--sp-5) + var(--safe-b));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  background: var(--surface);
+  box-shadow: 0 -18px 40px color-mix(in srgb, #000 45%, transparent);
+  animation: sheet-in 0.22s var(--ease);
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.sheet-head b {
+  font-size: var(--fs-t3);
+}
+.sheet-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sheet-list a,
+.sheet-list button {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--sp-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--ink);
+  font-size: var(--fs-body);
+  font-weight: 620;
+  text-align: left;
+  text-decoration: none;
+  white-space: normal;
+  justify-content: flex-start;
+}
+.sheet-list a:hover,
+.sheet-list button:hover {
+  background: var(--tint);
+}
+.sheet-list .icon {
+  width: 20px;
+  height: 20px;
+  color: var(--mut);
+}
+.sheet-sep {
+  margin: var(--sp-3) 0 var(--sp-2);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--line);
+  font: var(--fs-mono) var(--mono);
+  color: var(--mut);
+}
+.sheet-note {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-small);
+  color: var(--mut);
+}
+body.sheet-open {
+  overflow: hidden;
+}
+
+/* ---------- Espaço para a barra inferior ----------
+   O conteúdo termina antes da barra; nada de controles, retorno ou
+   tabuleiro por baixo dela. Vale para todas as páginas. */
+@media (max-width: 900px) {
+  :root {
+    --nav-b: calc(58px + var(--safe-b));
+  }
+  body {
+    padding-bottom: var(--nav-b);
+  }
+  .nav-bar {
+    display: block;
+  }
+  /* Uma única navegação: a barra inferior substitui o menu do cabeçalho. */
+  .steps {
+    display: none;
+  }
+  .more-btn {
+    display: inline-flex;
+  }
+  .sub-pick {
+    display: flex;
+  }
+  .sub-list {
+    display: none;
+  }
+  .sub-back span {
+    display: none;
+  }
+  .sub-back {
+    padding-right: 10px;
+    border-right: 0;
+  }
+  .sub-back .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .subnav-in {
+    gap: 10px;
+    padding: 3px 20px 5px;
+    overflow: visible;
+  }
+  .pager {
+    position: static;
+    border-top: 1px solid var(--line);
+    padding: 16px 0 0;
+  }
+}
+@media (min-width: 901px) {
+  .nav-bar,
+  .sheet {
+    display: none;
+  }
 }

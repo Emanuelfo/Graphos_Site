@@ -35,6 +35,7 @@
       </header>
       <div class="work">
         <div class="viz one">
+          <section class="ctask" id="ctask" aria-label="Objetivo e nível atual"></section>
           <section class="card">
             <div class="ph">
               <h2>Tabuleiro</h2>
@@ -77,6 +78,22 @@
                 </select></label
               >
             </div>
+            <!-- Placar e ações ficam com o tabuleiro: o estudante move e decide sem
+                 procurar o painel. O painel guarda os níveis e a explicação. -->
+            <div class="answer" id="c-answer">
+              <dl class="kv kv3" id="score"></dl>
+              <div class="row">
+                <button type="button" class="sm" id="undo">Desfazer</button
+                ><button type="button" class="sm" id="restart">Reiniciar</button
+                ><button type="button" class="sm" id="hint">Dica</button>
+              </div>
+              <div class="row">
+                <button type="button" class="g sm" id="reach">
+                  Casas alcançáveis
+                </button>
+              </div>
+              <div id="result"></div>
+            </div>
             <p class="fb info" id="fb" role="status" aria-live="polite"></p>
           </section>
         </div>
@@ -89,19 +106,6 @@
             </button>
           </div>
           <div id="levels" class="levels"></div>
-          <p class="mut" id="goal"></p>
-          <dl class="kv" id="score"></dl>
-          <div class="row">
-            <button type="button" class="sm" id="undo">Desfazer</button
-            ><button type="button" class="sm" id="restart">Reiniciar</button
-            ><button type="button" class="sm" id="hint">Dica</button>
-          </div>
-          <div class="row">
-            <button type="button" class="g sm" id="reach">
-              Casas alcançáveis
-            </button>
-          </div>
-          <div id="result"></div>
           <p class="gl">
             <b>Menor caminho</b>Num grafo sem pesos, a busca em largura visita
             as casas por camadas: primeiro a 1 salto, depois a 2, e assim por

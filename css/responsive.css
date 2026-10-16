@@ -62,18 +62,16 @@
   html {
     scroll-padding-top: 76px;
   }
-  /* Cabeçalho de celular: duas faixas compactas.
-     Marca + ações na primeira; as três áreas do site na segunda, sempre visíveis.
-     Nada de menu escondido: nenhuma seção exige dois toques para ser alcançada. */
+  /* Cabeçalho de celular: uma única faixa compacta. A marca, a ação secundária
+     ("Mais") e nada mais — as áreas do site vivem na barra inferior fixa. */
   .top,
   .lab-chrome .top {
     grid-template-columns: auto 1fr;
-    grid-template-areas: "brand acts" "nav nav";
+    grid-template-areas: "brand acts";
     align-items: center;
-    row-gap: 0;
-    column-gap: 12px;
+    gap: 10px;
     min-height: 0;
-    padding: 6px 20px 8px;
+    padding: 7px 16px;
   }
   .brand {
     grid-area: brand;
@@ -89,47 +87,7 @@
   .acts,
   .lab-chrome .acts {
     grid-area: acts;
-    grid-column: auto;
-    grid-row: auto;
     gap: 2px;
-  }
-  .acts #load-example {
-    display: none;
-  }
-  .steps,
-  .lab-chrome .steps {
-    grid-area: nav;
-    position: static;
-    display: flex;
-    justify-content: flex-start;
-    gap: 22px;
-    padding: 0;
-    border-bottom: 0;
-    max-height: none;
-    overflow: visible;
-    /* Rótulos curtos (Trilha, Laboratório, Pesquisa) cabem sem rolagem até 320px. */
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .steps::-webkit-scrollbar {
-    display: none;
-  }
-  .st,
-  .lab-chrome .st {
-    min-height: var(--tap);
-    font-size: 13.5px;
-    font-weight: 600;
-    padding: 0;
-    flex: none;
-  }
-  /* A seção atual é marcada por peso, cor e sublinhado — não só por cor. */
-  .st.on {
-    font-weight: 750;
-  }
-  .st.on::after {
-    transform: scaleX(1);
-    height: 3px;
   }
   .menu-toggle {
     display: none;
@@ -251,6 +209,9 @@
   .wrap {
     padding-left: 22px;
     padding-right: 22px;
+    /* Folga extra: o último controle de páginas longas não pode terminar sob a
+       barra de navegação inferior. */
+    padding-bottom: 40px;
   }
   .brand b {
     font-size: 26px;
@@ -492,10 +453,15 @@
   .viz:not(.one) {
     grid-template-columns: 1fr;
   }
+  /* O tabuleiro acompanha o espaço que sobra na tela. Em telas curtas ele encolhe
+     até o mínimo legível e o zoom continua disponível para o resto. */
   svg.v,
   .viz:not(.one) svg.v {
-    height: 360px;
-    padding: 20px;
+    height: clamp(280px, calc(100svh - 400px), 440px);
+    padding: 18px;
+  }
+  .trail svg.v {
+    height: clamp(280px, calc(100svh - 430px), 440px);
   }
   .panel {
     border-left: 0;
@@ -524,11 +490,6 @@
     font-size: 12px !important;
   }
   .pager {
-    position: sticky;
-    bottom: 0;
-    z-index: 10;
-    background: var(--bg);
-    padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px));
     margin-top: 18px;
     /* Rótulos longos ("Troca de cavalos") não podem forçar a página a ficar mais
        larga que a tela: a linha quebra e o botão encolhe até caber. */
@@ -539,7 +500,7 @@
      para não ficar por baixo dela quando a página é curta. */
   body[data-page] .wrap,
   body[data-page] .shell {
-    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(132px + var(--safe-b));
   }
   .pager .btn {
     font-size: 11px;
@@ -581,9 +542,6 @@
   }
   body[data-page="solucao"] .shead h1 {
     font-size: 42px;
-  }
-  body[data-page="solucao"] .pager {
-    position: static;
   }
   .player-deck {
     grid-template-columns: 1fr;
@@ -688,16 +646,35 @@
   }
 }
 @media (pointer: coarse) {
+  /* Alvos confortáveis para o dedo: vale para todo controle que ainda não tinha
+     44px, inclusive os botões compactos e os de zoom do cartão. */
+  .zb button,
+  .seg button,
+  button,
+  .btn,
+  .choice,
+  .lv,
+  .c-head,
+  input,
+  select {
+    min-height: 44px;
+  }
   .zb button {
     width: 44px;
     height: 44px;
   }
-  .seg button,
-  button,
-  .btn,
-  input,
-  select {
+  .brand {
     min-height: 44px;
+    align-items: center;
+  }
+  .linkish {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+  }
+  input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
   }
 }
 @media (max-height: 560px) and (orientation: landscape) {
