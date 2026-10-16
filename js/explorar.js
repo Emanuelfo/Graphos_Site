@@ -409,7 +409,7 @@
       reset();
       guess = { c: -1, v: "" };
       renderConcepts();
-      fb("info", CONCEPTS[c].tarefa);
+      J.idle($("#fb"));
       draw();
     }
   });
@@ -438,13 +438,13 @@
     setSize(e.target.value);
     vp.fit();
     renderConcepts();
-    fb("info", `Tabuleiro ${e.target.value.replace("x", " × ")}. ${CONCEPTS[c].tarefa}`);
+    J.idle($("#fb"), `Tabuleiro ${e.target.value.replace("x", " × ")}. O resultado da sua ação aparece aqui.`);
     draw();
   });
 
   setSize("5x5");
   const vp = G.viewport(svg, { fit: () => G.board.fit(p.structure), tap });
   renderConcepts();
-  fb("info", CONCEPTS[c].tarefa);
+  J.idle($("#fb"));
   draw();
 })(window.Graphos);

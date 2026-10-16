@@ -262,6 +262,9 @@
     el.className = `fb ${kind}`;
     el.innerHTML = html;
   };
+  /* Estado de espera do retorno: o enunciado já está na área de tarefa, então o
+     retorno não o repete; só diz onde o resultado vai aparecer. */
+  J.idle = (el, html) => J.say(el, "idle", html || "O resultado da sua ação aparece aqui.");
   /* Números (ou textos curtos) no centro das casas, por cima do tabuleiro já desenhado. */
   J.labels = (svg, structure, map, cls = "") => {
     let h = "";

@@ -108,9 +108,44 @@
 }
 /* Bloco recolhido e links: mesma largura da faixa, fora da primeira dobra. */
 .fase-notes {
-  margin: calc(var(--sp-4) * -1 + 2px) 0 var(--sp-4);
+  margin: var(--sp-5) 0 var(--sp-4);
 }
-.fase-notes:empty {
+.fase-notes:empty,
+.fase-pills:empty {
+  display: none;
+}
+.fase-pills {
+  margin: calc(var(--sp-2) * -1) 0 var(--sp-3);
+}
+.fase-pills .fase-list {
+  padding-top: 0;
+}
+/* Cabeçalho genérico da área ("Explorar"): em páginas com faixa de fase ele vira uma
+   linha de contexto. O nome do exercício, na faixa, é quem manda na hierarquia. */
+.has-phase .shead {
+  align-items: center;
+  padding: var(--sp-3) 0;
+  margin-bottom: var(--sp-3);
+}
+.has-phase .shead .eyebrow,
+.has-phase .shead > div > p:not(.eyebrow) {
+  display: none;
+}
+.has-phase .shead h1 {
+  margin: 0;
+  font-size: var(--fs-t3);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--mut);
+}
+.has-phase .shead .project-meta {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: 0;
+}
+.has-phase .shead .project-meta .inv {
   display: none;
 }
 .fase-more {
@@ -154,6 +189,9 @@
 .fase-list a {
   text-underline-offset: 3px;
 }
+.fase-list li {
+  flex: none;
+}
 .fase-list {
   display: flex;
   flex-wrap: wrap;
@@ -163,7 +201,9 @@
   list-style: none;
 }
 .fl {
+  position: relative;
   display: inline-block;
+  white-space: nowrap;
   padding: 6px 10px;
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
@@ -181,8 +221,10 @@
   border-color: var(--line2);
 }
 .fl.on {
-  outline: 2px solid var(--ac);
-  outline-offset: 1px;
+  border-color: var(--ac);
+  box-shadow: inset 0 0 0 1px var(--ac);
+  color: var(--ink);
+  font-weight: 700;
 }
 .fl.is-locked {
   border-style: dashed;
@@ -806,13 +848,6 @@
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 1100px) {
-  .j-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .j-panel {
-    position: static;
-    max-height: none;
-  }
   .areas-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -860,10 +895,28 @@
     display: none;
   }
   .fl {
-    flex: none;
     min-height: 34px;
     display: inline-flex;
     align-items: center;
+  }
+  /* Área de toque de 44px sem engordar a pílula. */
+  .fl::before {
+    content: "";
+    position: absolute;
+    inset: -5px -3px;
+  }
+  /* Só o número da fase fica visível; o nome completo está na faixa da fase
+     e continua disponível para leitores de tela. */
+  .fl-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .fase-list {
+    scroll-padding-inline: var(--sp-4);
   }
   .areas-grid,
   .spot {
@@ -903,7 +956,6 @@
   align-items: center;
   margin-bottom: var(--sp-5);
   padding-bottom: var(--sp-4);
-  border-bottom: 1px solid var(--line);
 }
 .j-hero h1 {
   font-size: var(--fs-t1);
@@ -959,8 +1011,12 @@
 }
 
 /* ---------- A trilha ---------- */
+/* Duas colunas (mapa + detalhes). O `display: grid` é indispensável: sem ele o
+   `grid-template-columns` não tem efeito e o painel cai abaixo do mapa. */
 .j-layout {
+  display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--sp-6);
   align-items: start;
 }
 .jmap {
@@ -999,7 +1055,7 @@
   position: relative;
   display: block;
   min-height: 320px;
-  --trail-h: 76px;
+  --trail-h: 88px;
   margin-top: var(--pull, 0px);
   height: calc(var(--rows, 8) * var(--trail-h));
 }
@@ -1019,7 +1075,13 @@
   align-items: baseline;
   gap: var(--sp-1) var(--sp-3);
   padding: var(--sp-2) 0;
-  background: var(--bg);
+  pointer-events: none;
+}
+.w-head h2,
+.w-head .w-meta {
+  padding: 2px 6px 2px 0;
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
 }
 .w-head h2 {
   display: flex;
@@ -1063,6 +1125,19 @@
   transform: translateY(-50%);
   white-space: normal;
   text-align: left;
+  pointer-events: none;
+}
+.node-dot,
+.node-side,
+.node-tag {
+  pointer-events: auto;
+}
+.node:focus-visible {
+  outline: none;
+}
+.node:focus-visible .node-dot {
+  outline: 3px solid var(--ac);
+  outline-offset: 3px;
 }
 .node:hover {
   background: none;
@@ -1125,7 +1200,7 @@
    passar da borda do quadro. */
 .node-side {
   position: absolute;
-  top: calc(50% + 20px);
+  top: calc(50% + 22px);
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -1155,6 +1230,12 @@
   letter-spacing: -0.01em;
   color: var(--ink);
   text-wrap: balance;
+  /* Halo: o conector passa por trás do texto sem atrapalhar a leitura. */
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 .node.is-locked .node-name {
   color: var(--mut);
@@ -1165,9 +1246,9 @@
 }
 .node-tag {
   position: absolute;
-  top: calc(50% - 46px);
-  left: var(--x);
-  transform: translateX(-50%);
+  top: calc(50% - 12px);
+  left: calc(var(--x) + 36px);
+  transform: translateY(-50%);
   z-index: 2;
   padding: 2px 8px;
   border-radius: var(--radius-pill);
@@ -1175,6 +1256,10 @@
   color: var(--bg);
   font: 700 10px/1.6 var(--mono);
   white-space: nowrap;
+}
+.node.align-r .node-tag {
+  left: auto;
+  right: calc(100% - var(--x) + 36px);
 }
 .node.is-new .node-dot {
   animation: node-pop 1.4s var(--ease) 1;
@@ -1316,85 +1401,21 @@
   color: var(--mut);
 }
 
-/* ---------- Tablet: painel perde a coluna ---------- */
+/* ---------- Telas médias: coluna de detalhes mais estreita ---------- */
 @media (max-width: 1100px) {
   .j-layout {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: var(--sp-5);
   }
 }
 
-/* ---------- Celular: trilha compacta e detalhes como folha ---------- */
-@media (max-width: 760px) {
-  .jornada-page .wrap {
-    padding-top: var(--sp-3);
-  }
-  .j-hero {
+/* ---------- Até 900px (a barra inferior assume a navegação): uma coluna, detalhes
+   como folha presa ao rodapé. O mesmo limite vale em js/trilha-mapa.js (select). ---------- */
+@media (max-width: 900px) {
+  .j-layout {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--sp-3);
-    margin-bottom: var(--sp-3);
-    padding-bottom: var(--sp-3);
+    gap: 0;
   }
-  .j-hero h1 {
-    font-size: 27px;
-    line-height: 1.1;
-  }
-  .j-hero .eyebrow {
-    font-size: var(--fs-mono);
-  }
-  .j-go {
-    gap: 4px var(--sp-3);
-    padding: var(--sp-3);
-  }
-  .j-go .go-name {
-    font-size: 15px;
-  }
-  .jmap-rows {
-    --trail-h: 72px;
-  }
-  .node-dot {
-    width: 50px;
-    height: 50px;
-    font-size: 12.5px;
-  }
-  .node-dot .icon {
-    width: 19px;
-    height: 19px;
-  }
-  .node-side {
-    top: calc(50% + 18px);
-    max-width: 18ch;
-  }
-  .node.align-l .node-side {
-    left: calc(var(--x) - 24px);
-  }
-  .node.align-r .node-side {
-    right: calc(100% - var(--x) - 24px);
-  }
-  .node-name {
-    font-size: var(--fs-mono);
-  }
-  .node-tag {
-    top: calc(50% - 42px);
-    font-size: 9px;
-  }
-  .w-head {
-    padding: var(--sp-1) 0;
-  }
-  .w-head h2 {
-    font-size: 15px;
-    gap: var(--sp-1);
-  }
-  .w-head .w-name {
-    max-width: 60vw;
-  }
-  .w-meta {
-    font-size: 9px;
-  }
-  .w-meta .chip {
-    padding: 1px 6px;
-    font-size: 9px;
-  }
-  /* Folha de detalhes: sobe do rodapé quando uma fase é escolhida. */
   .j-panel {
     position: fixed;
     left: 0;
@@ -1439,5 +1460,81 @@
   }
   .j-panel .pd:first-of-type {
     margin-top: 4px;
+  }
+}
+
+/* ---------- Celular: trilha compacta e detalhes como folha ---------- */
+@media (max-width: 760px) {
+  .jornada-page .wrap {
+    padding-top: var(--sp-3);
+  }
+  .j-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-3);
+    padding-bottom: var(--sp-3);
+  }
+  .j-hero h1 {
+    font-size: 27px;
+    line-height: 1.1;
+  }
+  .j-hero .eyebrow {
+    font-size: var(--fs-mono);
+  }
+  .j-go {
+    gap: 4px var(--sp-3);
+    padding: var(--sp-3);
+  }
+  .j-go .go-name {
+    font-size: 15px;
+  }
+  .jmap-rows {
+    --trail-h: 86px;
+  }
+  .node-dot {
+    width: 50px;
+    height: 50px;
+    font-size: 12.5px;
+  }
+  .node-dot .icon {
+    width: 19px;
+    height: 19px;
+  }
+  .node-side {
+    top: calc(50% + 20px);
+    max-width: 18ch;
+  }
+  .node.align-l .node-side {
+    left: calc(var(--x) - 24px);
+  }
+  .node.align-r .node-side {
+    right: calc(100% - var(--x) - 24px);
+  }
+  .node-name {
+    font-size: var(--fs-mono);
+  }
+  .node-tag {
+    left: calc(var(--x) + 31px);
+    font-size: 10px;
+  }
+  .node.align-r .node-tag {
+    right: calc(100% - var(--x) + 31px);
+  }
+  .w-head {
+    padding: var(--sp-1) 0;
+  }
+  .w-head h2 {
+    font-size: 15px;
+    gap: var(--sp-1);
+  }
+  .w-head .w-name {
+    max-width: 60vw;
+  }
+  .w-meta {
+    font-size: 9px;
+  }
+  .w-meta .chip {
+    padding: 1px 6px;
+    font-size: 9px;
   }
 }

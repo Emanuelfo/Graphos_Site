@@ -79,14 +79,14 @@
     const prog = p.needs.length > 1 ? ` <span class="mono">${have.length}/${p.needs.length}</span>` : "";
     const reward =
       st === "done"
-        ? `<p class="fase-reward" role="status"><b>Fase concluída.</b> Recompensa registrada: ${p.xp} XP${Jor.worldDone(p.world) ? ` e conclusão de ${esc(w.nome)}` : ""}. Revisar não concede XP de novo${rev ? ` (revisões: ${rev})` : ""}. ${nextHtml(p)}</p>`
+        ? `<p class="fase-reward" role="status"><b>Concluída.</b> ${p.xp} XP já recebidos${Jor.worldDone(p.world) ? ` · ${esc(w.nome)} completo` : ""}${rev ? ` · ${rev} ${rev === 1 ? "revisão" : "revisões"}` : ""}. ${nextHtml(p)}</p>`
         : "";
     host.className = `fase is-${st}`;
     host.innerHTML =
       `<p class="eyebrow">Mundo ${w.n} · ${esc(w.nome)}</p>` +
       `<div class="fase-head"><h2 class="fase-title"><span class="mono">${esc(p.id)}</span> ${esc(p.nome)}</h2>${chip(st, stLabel[st] || "Em andamento")}</div>` +
       `<p class="fase-obj">${esc(p.objetivo)}</p>` +
-      `<p class="fase-crit"><b>Para concluir:</b> ${esc(p.criterio)}${prog}</p>` +
+      (st === "done" ? "" : `<p class="fase-crit"><b>Para concluir:</b> ${esc(p.criterio)}${prog}</p>`) +
       reward;
     renderNotes();
     G.icons(host);
@@ -94,13 +94,15 @@
 
   /* ---------- Bloco recolhido e rodapé da faixa ---------- */
   function renderNotes() {
-    const slot = $("#fase-notes");
+    const slot = $("#fase-notes"),
+      pills = $("#fase-pills");
     if (!slot) return;
     const p = focus,
       w = Jor.world(p.world),
       st = Jor.status(p.id);
     if (free) {
       slot.innerHTML = "";
+      if (pills) pills.innerHTML = "";
       return;
     }
     const list =
@@ -108,7 +110,7 @@
         ? `<ol class="fase-list" aria-label="Fases desta atividade">${phases
             .map((q) => {
               const s2 = Jor.status(q.id);
-              return `<li>${s2 === "locked" ? `<span class="fl is-locked" title="Bloqueada: conclua ${Jor.missing(q.id).map((m) => m.id).join(", ")}">${esc(q.id)} · ${esc(q.nome)}</span>` : `<a class="fl is-${s2}${q === focus ? " on" : ""}" href="${q.href}"${q === focus ? ' aria-current="true"' : ""}>${esc(q.id)} · ${esc(q.nome)}</a>`}</li>`;
+              return `<li>${s2 === "locked" ? `<span class="fl is-locked" title="Bloqueada: conclua ${Jor.missing(q.id).map((m) => m.id).join(", ")}"><span>${esc(q.id)}</span><span class="fl-name"> · ${esc(q.nome)}</span></span>` : `<a class="fl is-${s2}${q === focus ? " on" : ""}" href="${q.href}" title="${esc(label(q))}"${q === focus ? ' aria-current="true"' : ""}><span>${esc(q.id)}</span><span class="fl-name"> · ${esc(q.nome)}</span></a>`}</li>`;
             })
             .join("")}</ol>`
         : "";
@@ -119,15 +121,20 @@
       .filter(Boolean)
       .join("");
     slot.innerHTML =
-      `<details class="fase-more"><summary>Situação-problema e conceito</summary><dl class="fase-dl"><dt>Situação-problema</dt><dd>${esc(p.contexto)}</dd><dt>Conceito</dt><dd>${esc(p.conceito)}</dd><dt>Objetivo do mundo</dt><dd>${esc(w.objetivo)}</dd><dt>Recompensa</dt><dd>${p.xp} XP, uma vez${st === "done" ? " (já recebida)" : ""}</dd></dl></details>` +
-      (ctx ? `<div class="fase-links">${ctx}</div>` : "") +
-      list;
+      `<details class="fase-more"><summary>Situação-problema e conceito</summary><dl class="fase-dl">${st === "done" ? `<dt>Para concluir</dt><dd>${esc(p.criterio)}</dd>` : ""}<dt>Situação-problema</dt><dd>${esc(p.contexto)}</dd><dt>Conceito</dt><dd>${esc(p.conceito)}</dd><dt>Objetivo do mundo</dt><dd>${esc(w.objetivo)}</dd><dt>Recompensa</dt><dd>${p.xp} XP, uma vez${st === "done" ? " (já recebida; revisar não concede XP de novo)" : ""}</dd></dl></details>` +
+      (ctx ? `<div class="fase-links">${ctx}</div>` : "");
+    if (pills) pills.innerHTML = list;
     G.icons(slot);
+    const ol = slot.querySelector(".fase-list"),
+      on = ol && ol.querySelector(".fl.on");
+    if (ol && on && ol.scrollWidth > ol.clientWidth) ol.scrollLeft = on.offsetLeft - (ol.clientWidth - on.offsetWidth) / 2;
   }
   const work = $(".work");
   if (work && !G.fase.blocked) {
     const shead = $(".shead");
-    (shead || work).insertAdjacentHTML(shead ? "afterend" : "beforebegin", '<aside class="fase" id="fase-banner" aria-label="Fase da trilha"></aside><div class="fase-notes" id="fase-notes"></div>');
+    (shead || work).insertAdjacentHTML(shead ? "afterend" : "beforebegin", '<aside class="fase" id="fase-banner" aria-label="Fase da trilha"></aside><div class="fase-pills" id="fase-pills"></div>');
+    /* O conteúdo complementar vem depois da atividade: antes dela só ficam a faixa, as fases e a tarefa. */
+    if (work) work.insertAdjacentHTML("afterend", '<div class="fase-notes" id="fase-notes"></div>');
     /* Marca a página para o CSS: onde existe faixa de fase, o título genérico da
        atividade é redundante e pode sair do caminho em telas pequenas. */
     document.body.classList.add("has-phase");

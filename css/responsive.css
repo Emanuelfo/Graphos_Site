@@ -182,9 +182,16 @@
     border-bottom: 0;
   }
   .has-phase .shead .eyebrow,
-  .has-phase .shead > div > h1,
   .has-phase .shead > div > p:not(.eyebrow) {
     display: none;
+  }
+  .has-phase .shead > div > h1 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
   .has-phase .shead .project-meta {
     display: flex;

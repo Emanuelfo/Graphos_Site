@@ -65,6 +65,14 @@
   content: "i";
   color: var(--info);
 }
+.fb.idle {
+  background: transparent;
+  color: var(--mut);
+}
+.fb.idle::before {
+  content: "…";
+  color: var(--mut);
+}
 .fb b {
   font-weight: 700;
 }
@@ -650,7 +658,7 @@ svg.rank .glyph {
   color: var(--mut);
   padding-bottom: 6px;
 }
-.chip {
+.formula .chip {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -658,17 +666,17 @@ svg.rank .glyph {
   border-bottom: 2px solid var(--line);
   min-width: 68px;
 }
-.chip small {
+.formula .chip small {
   font-size: 9px;
   color: var(--mut);
 }
-.chip b {
+.formula .chip b {
   font: 22px var(--mono);
 }
-.chip.now {
+.formula .chip.now {
   border-bottom-color: var(--ac);
 }
-.chip.done b {
+.formula .chip.done b {
   color: var(--ac);
 }
 .tools input[type="number"] {

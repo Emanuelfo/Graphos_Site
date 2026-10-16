@@ -361,7 +361,7 @@
     host.className = `ctask is-${st}`;
     host.innerHTML =
       `<div class="ctask-bar"><p class="ctask-head"><span class="mono">${c + 1} / ${REDES.length}</span> <b>${rede.nome}</b>` +
-      `<span class="chip is-${st === "open" ? "open" : st}">${st === "done" ? "Resolvida" : st === "locked" ? "Bloqueada" : `Fase ${PH[c] || ""}`}</span></p>` +
+      `${st === "open" ? "" : `<span class="chip is-${st}">${st === "done" ? "Resolvida" : "Bloqueada"}</span>`}</p>` +
       `<p class="ctask-todo"><b>Tarefa:</b> ${rede.pergunta}</p></div>` +
       `<p class="ctask-obj">${rede.conceito}</p>` +
       `<div class="row" id="ctask-acoes"></div>`;
@@ -576,7 +576,7 @@
       }
       c = to;
       estado[c] = estado[c] || {};
-      fb("info", REDES[c].pergunta);
+      J.idle($("#fb"));
       vp.fit();
       renderPainel();
       renderTarefa();
@@ -587,7 +587,7 @@
     if (e.target.closest("[data-restaurar]")) {
       estado[c].remover = null;
       estado[c].ok = false;
-      fb("info", REDES[c].pergunta);
+      J.idle($("#fb"));
       draw();
       renderTarefa();
       return;
@@ -595,7 +595,7 @@
     if (e.target.closest("[data-limpar]")) {
       estado[c].caminho = [];
       estado[c].revelado = null;
-      fb("info", REDES[c].pergunta);
+      J.idle($("#fb"));
       draw();
       renderTarefa();
       return;
@@ -632,7 +632,7 @@
     estado[c].caminho = [];
     estado[c].revelado = null;
     if (estado[c].remover) estado[c].remover = null;
-    fb("info", REDES[c].pergunta);
+    J.idle($("#fb"));
     draw();
     renderTarefa();
   });
@@ -646,6 +646,6 @@
   REDES.forEach((_, i) => (estado[i] = estado[i] || {}));
   renderPainel();
   renderTarefa();
-  fb("info", REDES[c].pergunta);
+  J.idle($("#fb"));
   draw();
 })(window.Graphos);

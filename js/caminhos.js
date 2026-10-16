@@ -55,7 +55,7 @@
     $("#result").innerHTML = "";
     if (vp) vp.fit();
     if (mode === "levels")
-      fb("info", `Leve o cavalo de <b>${origin}</b> até <b>${dest}</b> com o menor número de saltos. Pense antes de tocar.`);
+      J.idle($("#fb"), "Pense antes de tocar: o resultado aparece aqui.");
     else fb("info", "Toque na casa de <b>origem</b> e depois na de <b>destino</b>.");
     draw();
   }

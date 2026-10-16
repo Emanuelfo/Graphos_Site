@@ -88,7 +88,7 @@
     etapas[c] = { sel: null, pair: [] };
     renderPainel(monta().g, componentes(monta().g));
     renderTarefa();
-    fb("info", aviso || `Etapa ${c + 1} de ${ETAPAS.length}: ${ETAPAS[c].tarefa}`);
+    aviso ? fb("info", aviso) : J.idle($("#fb"));
     draw();
   }
 
@@ -178,7 +178,7 @@
           })()
         : pair.length === 1
           ? `Origem: <b>${pair[0]}</b> (grau ${grau(g, pair[0])}). Toque na casa de destino.`
-          : `Etapa ${c + 1} de ${ETAPAS.length}: ${etapa.tarefa}`;
+          : "";
   }
 
   /* ---------- Área de tarefa ---------- */
@@ -330,7 +330,7 @@
     ord = SIZES[e.target.value];
     etapas[c] = { sel: null, pair: [] };
     vp.fit();
-    fb("info", `Tabuleiro ${e.target.value.replace("x", " × ")}. ${ETAPAS[c].tarefa}`);
+    J.idle($("#fb"), `Tabuleiro ${e.target.value.replace("x", " × ")}. O resultado da sua ação aparece aqui.`);
     draw();
   });
 
@@ -345,6 +345,6 @@
   const vp = G.viewport(svg, { fit: () => G.board.fit({ rows: ord, cols: ord }), tap });
   buildPecaBar();
   renderTarefa();
-  fb("info", ETAPAS[c].tarefa);
+  J.idle($("#fb"));
   draw();
 })(window.Graphos);

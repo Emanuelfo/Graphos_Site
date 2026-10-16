@@ -182,7 +182,7 @@
     renderPanel();
     if (scroll) {
       const panel = $("#j-panel");
-      if (matchMedia("(max-width: 1100px)").matches) {
+      if (matchMedia("(max-width: 900px)").matches) {
         document.body.classList.add("pd-open");
         panel.scrollIntoView({ block: "nearest", behavior: G.reducedMotion.matches ? "auto" : "smooth" });
       }

@@ -360,7 +360,9 @@
     if (n <= 2) view = "board";
     renderPanel();
     draw();
-    fb("info", ["", "Toque num cavalo e depois numa casa destacada.", "Registre, compare e peça dicas aos poucos.", "Calcule o mínimo e veja por que a soma dos caminhos individuais não basta.", "Remova casas e veja como o grafo e o mínimo mudam."][n]);
+    const dica = ["", "", "Registre, compare e peça dicas aos poucos.", "Calcule o mínimo e veja por que a soma dos caminhos individuais não basta.", "Remova casas e veja como o grafo e o mínimo mudam."][n];
+    if (dica) fb("info", dica);
+    else J.idle($("#fb"));
   }
   $("#steps").addEventListener("click", (e) => {
     const b = e.target.closest("button");
@@ -393,7 +395,7 @@
   setConfig(PRESETS[0]);
   vp = G.viewport(svg, { fit: () => G.board.fit(p.structure), tap });
   renderPanel();
-  fb("info", "Toque num cavalo e depois numa casa destacada.");
+  J.idle($("#fb"));
   /* ?fase= abre a etapa correspondente (3.1 → regras, 3.2 → investigar, 3.3 → matemática, 3.4 → irregulares). */
   const STEP_OF = { "3.1": 1, "3.2": 2, "3.3": 3, "3.4": 4 };
   if (G.fase && G.fase.asked && STEP_OF[G.fase.focus.id] > 1) setStep(STEP_OF[G.fase.focus.id]);
